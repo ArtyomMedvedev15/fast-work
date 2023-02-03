@@ -1,19 +1,24 @@
 package io.project.fastwork.domains;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.sql.Timestamp;
 
 @Data
 @EqualsAndHashCode
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
+@Entity
 public class WorkApplication {
+    @Id
+    @GeneratedValue
     private Long id;
-    private User worker;
+    @OneToOne(fetch = FetchType.EAGER)
+    private Users worker;
+    @OneToOne(fetch = FetchType.EAGER)
     private Work work;
     private Timestamp dateApplicaton;
 }

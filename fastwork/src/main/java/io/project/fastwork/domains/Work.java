@@ -1,9 +1,7 @@
 package io.project.fastwork.domains;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -12,15 +10,23 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
 public class Work {
+    @Id
+    @GeneratedValue
     private Long id;
     private String workName;
     private String workDescribe;
     private Integer workCountPerson;
     private Float workPrice;
+    @OneToOne
     private Location workLocation;
     private Timestamp workDateCreate;
     private StatusWork workStatus;
-    private User workHirer;
-    private List<User>workWorkers;
+    @OneToOne(fetch = FetchType.EAGER)
+    private Users workHirer;
+    @ManyToMany(mappedBy = "userWorks",fetch = FetchType.LAZY)
+    private List<Users>workWorkers;
 }
