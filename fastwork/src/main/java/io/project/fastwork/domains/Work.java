@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode
@@ -21,4 +22,5 @@ public class Work {
     private Timestamp workDateCreate;
     private StatusWork workStatus;
     private User workHirer;
+    private List<User>workWorkers;
 }
