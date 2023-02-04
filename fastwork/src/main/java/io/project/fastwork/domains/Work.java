@@ -23,6 +23,8 @@ public class Work {
     private Float workPrice;
     @OneToOne
     private Location workLocation;
+    @OneToOne
+    private TypeWork workType;
     private Timestamp workDateCreate;
     @Enumerated(EnumType.STRING)
     private StatusWork workStatus;
