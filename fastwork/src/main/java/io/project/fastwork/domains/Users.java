@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -21,12 +24,18 @@ public class Users {
     private String userSoname;
     private String userEmail;
     private String userPassword;
+    @Enumerated(EnumType.STRING)
     private Role userRole;
+    @Enumerated(EnumType.STRING)
     private StatusUser userStatus;
     private Timestamp userDateCreate;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_works",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "work_id"))
-    private Set<Work>userWorks;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<Work> userWorks=new ArrayList<>();
+
+    public void addWork(Work work){
+        this.userWorks.add(work);
+    }
+    public void removeWork(Work work){
+        this.userWorks.remove(work);
+    }
 }

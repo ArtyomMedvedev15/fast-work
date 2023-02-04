@@ -24,9 +24,8 @@ public class Work {
     @OneToOne
     private Location workLocation;
     private Timestamp workDateCreate;
+    @Enumerated(EnumType.STRING)
     private StatusWork workStatus;
     @OneToOne(fetch = FetchType.EAGER)
     private Users workHirer;
-    @ManyToMany(mappedBy = "userWorks",fetch = FetchType.LAZY)
-    private List<Users>workWorkers;
 }
