@@ -22,8 +22,6 @@ public class Work {
     private Integer workCountPerson;
     private Float workPrice;
     @OneToOne
-    private Location workLocation;
-    @OneToOne
     private TypeWork workType;
     private Timestamp workDateCreate;
     @Enumerated(EnumType.STRING)

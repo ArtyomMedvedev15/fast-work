@@ -23,4 +23,6 @@ public class Location {
     @Embedded
     private Points locationPoints;
     private Timestamp locationDateCreate;
+    @OneToOne
+    private Work locationWork;
 }
