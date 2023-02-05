@@ -12,7 +12,7 @@ public class LocationValidator {
         if ((Pattern.matches("^[a-zA-Z]{4,30}+$", location.getLocationCity()) &&
                 Pattern.matches("^[a-zA-Z]{4,30}+$", location.getLocationCountry()) &&
                 Pattern.matches("^[a-zA-Z]{4,45}+$", location.getLocationRegion()) &&
-                Pattern.matches("^[a-zA-Z]{3,45}+$", location.getLocationStreet())) && (
+                Pattern.matches("^[a-zA-Z]{4,45}+$", location.getLocationStreet())) && (
                 (map_coordinate_x >= 0 && map_coordinate_x <= 180) && (map_coordinate_y >= 0 && map_coordinate_y <= 90)
         )){
            return true;
