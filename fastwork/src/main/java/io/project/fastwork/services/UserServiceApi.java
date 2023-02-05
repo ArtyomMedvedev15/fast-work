@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public interface UserService {
+public interface UserServiceApi {
     Users saveUser(Users savedUser);
     Users updateUser(Users updatedUser);
     Users deleteUser(Users deletedUser);
