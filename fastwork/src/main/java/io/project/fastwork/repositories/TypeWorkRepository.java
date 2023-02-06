@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TypeWorkRepository extends JpaRepository<TypeWork,Long> {
+    TypeWork findByTypeWorkName(String type_work_name);
 }
