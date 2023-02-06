@@ -68,6 +68,7 @@ public class TypeWorkServiceImpl implements TypeWorkServiceApi {
 
     @Override
     public List<TypeWork> findAll() {
-        return null;
+        log.info("Get all type work in {}",new Date());
+        return typeWorkRepository.findAll();
     }
 }
