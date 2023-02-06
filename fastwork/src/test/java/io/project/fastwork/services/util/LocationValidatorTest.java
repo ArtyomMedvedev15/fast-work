@@ -2,7 +2,7 @@ package io.project.fastwork.services.util;
 
 import io.project.fastwork.domains.Location;
 import io.project.fastwork.domains.Points;
-import io.project.fastwork.services.exception.LocationWithInvalidArguments;
+import io.project.fastwork.services.exception.LocationWithInvalidArgumentsException;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LocationValidatorTest {
     @Test
-    void LocationTest_WithValidParaments_ReturnTrue() throws LocationWithInvalidArguments {
+    void LocationTest_WithValidParaments_ReturnTrue() throws LocationWithInvalidArgumentsException {
         Points points_test_parameter = Points.builder()
                 .x(BigDecimal.valueOf(123L))
                 .y(BigDecimal.valueOf(87L))
@@ -46,12 +46,12 @@ class LocationValidatorTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> LocationValidator.LocationValidDataValues(location_with_invalid_city)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -69,12 +69,12 @@ class LocationValidatorTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> LocationValidator.LocationValidDataValues(location_with_invalid_city)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -92,12 +92,12 @@ class LocationValidatorTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> LocationValidator.LocationValidDataValues(location_with_invalid_city)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -115,12 +115,12 @@ class LocationValidatorTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> LocationValidator.LocationValidDataValues(location_with_invalid_country)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
     void LocationTest_WithInvalidCountryLess4Length_ReturnTrue() {
@@ -137,12 +137,12 @@ class LocationValidatorTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> LocationValidator.LocationValidDataValues(location_with_invalid_country)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
     void LocationTest_WithInvalidCountryMoreThan30Length_ReturnTrue() {
@@ -159,12 +159,12 @@ class LocationValidatorTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> LocationValidator.LocationValidDataValues(location_with_invalid_country)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -182,12 +182,12 @@ class LocationValidatorTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> LocationValidator.LocationValidDataValues(location_with_invalid_region)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -205,12 +205,12 @@ class LocationValidatorTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> LocationValidator.LocationValidDataValues(location_with_invalid_region)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
     void LocationTest_WithInvalidRegionMoreThan45Lentgh_ReturnTrue() {
@@ -227,12 +227,12 @@ class LocationValidatorTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> LocationValidator.LocationValidDataValues(location_with_invalid_region)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
     void LocationTest_WithInvalidStreet_ReturnTrue() {
@@ -249,12 +249,12 @@ class LocationValidatorTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> LocationValidator.LocationValidDataValues(location_with_invalid_city)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
     void LocationTest_WithInvalidStreetLess4Length_ReturnTrue() {
@@ -271,11 +271,11 @@ class LocationValidatorTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> LocationValidator.LocationValidDataValues(location_with_invalid_city)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
     void LocationTest_WithInvalidStreetMoreThan45Length_ReturnTrue() {
@@ -292,11 +292,11 @@ class LocationValidatorTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> LocationValidator.LocationValidDataValues(location_with_invalid_city)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
     void LocationTest_WithInvalidMapCordXLess0_ReturnTrue() {
@@ -313,12 +313,12 @@ class LocationValidatorTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> LocationValidator.LocationValidDataValues(location_with_invalid_city)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -336,12 +336,12 @@ class LocationValidatorTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> LocationValidator.LocationValidDataValues(location_with_invalid_city)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -359,12 +359,12 @@ class LocationValidatorTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> LocationValidator.LocationValidDataValues(location_with_invalid_city)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -382,11 +382,11 @@ class LocationValidatorTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> LocationValidator.LocationValidDataValues(location_with_invalid_city)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 }

@@ -5,8 +5,8 @@ import io.project.fastwork.domains.Points;
 import io.project.fastwork.domains.Work;
 import io.project.fastwork.repositories.LocationRepository;
 import io.project.fastwork.services.api.LocationServiceApi;
-import io.project.fastwork.services.exception.LocationNotFound;
-import io.project.fastwork.services.exception.LocationWithInvalidArguments;
+import io.project.fastwork.services.exception.LocationNotFoundException;
+import io.project.fastwork.services.exception.LocationWithInvalidArgumentsException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -52,7 +52,7 @@ class LocationServiceImplTest {
     }
 
     @Test
-    void SaveLocation_WithWorkId777_ReturnTrue() throws LocationWithInvalidArguments, LocationNotFound {
+    void SaveLocation_WithWorkId777_ReturnTrue() throws LocationWithInvalidArgumentsException, LocationNotFoundException {
         Points points_test_parameter = Points.builder()
                 .x(BigDecimal.valueOf(123L))
                 .y(BigDecimal.valueOf(87L))
@@ -84,12 +84,12 @@ class LocationServiceImplTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Invalid data for location, or try to save second location for work, throw exception"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Invalid data for location, or try to save second location for work, throw exception"));
     }
 
     @Test
@@ -107,12 +107,12 @@ class LocationServiceImplTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -130,12 +130,12 @@ class LocationServiceImplTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -153,12 +153,12 @@ class LocationServiceImplTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -176,12 +176,12 @@ class LocationServiceImplTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
 
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -199,11 +199,11 @@ class LocationServiceImplTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -221,11 +221,11 @@ class LocationServiceImplTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -243,11 +243,11 @@ class LocationServiceImplTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -265,11 +265,11 @@ class LocationServiceImplTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -287,11 +287,11 @@ class LocationServiceImplTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -309,11 +309,11 @@ class LocationServiceImplTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -331,11 +331,11 @@ class LocationServiceImplTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
@@ -353,104 +353,104 @@ class LocationServiceImplTest {
                 .locationPoints(points_test_parameter)
                 .build();
 
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
-    void UpdateLocation_WithCorrectCity_ReturnTrue() throws LocationNotFound, LocationWithInvalidArguments {
+    void UpdateLocation_WithCorrectCity_ReturnTrue() throws LocationNotFoundException, LocationWithInvalidArgumentsException {
         Location location_valid = locationService.getByWork(778L);
         location_valid.setLocationCity("Minsk");
         locationService.updateLocation(location_valid);
         assertEquals("Minsk", locationService.getByWork(778L).getLocationCity());
     }
     @Test
-    void UpdateLocation_WithInCorrectCityLengthLess4_ThrowException() throws LocationNotFound {
+    void UpdateLocation_WithInCorrectCityLengthLess4_ThrowException() throws LocationNotFoundException {
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationCity("Min");
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
      }
 
     @Test
-    void UpdateLocation_WithInCorrectCityLengthMore30_ThrowException() throws LocationNotFound {
+    void UpdateLocation_WithInCorrectCityLengthMore30_ThrowException() throws LocationNotFoundException {
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationCity("MinskMinskMinskMinskMinskMinskMinsk");
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
-    void UpdateLocation_WithInCorrectCountryLengthLess4_ThrowException() throws LocationNotFound {
+    void UpdateLocation_WithInCorrectCountryLengthLess4_ThrowException() throws LocationNotFoundException {
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationCountry("Bel");
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
-    void UpdateLocation_WithInCorrectCountryLengthMore30_ThrowException() throws LocationNotFound {
+    void UpdateLocation_WithInCorrectCountryLengthMore30_ThrowException() throws LocationNotFoundException {
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationCountry("MinskMinskMinskMinskMinskMinskMinsk");
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
-    void UpdateLocation_WithInCorrectRegionLengthLess4_ThrowException() throws LocationNotFound {
+    void UpdateLocation_WithInCorrectRegionLengthLess4_ThrowException() throws LocationNotFoundException {
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationRegion("Bel");
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
-    void UpdateLocation_WithInCorrectRegionLengthMore40_ThrowException() throws LocationNotFound {
+    void UpdateLocation_WithInCorrectRegionLengthMore40_ThrowException() throws LocationNotFoundException {
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationCountry("MinskMinskMinskMinskMinskMinskMinskMinskMinsk");
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
-    void UpdateLocation_WithInCorrectStreetLengthLess4_ThrowException() throws LocationNotFound {
+    void UpdateLocation_WithInCorrectStreetLengthLess4_ThrowException() throws LocationNotFoundException {
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationStreet("Bel");
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
-    void UpdateLocation_WithInCorrectStreetLengthMore40_ThrowException() throws LocationNotFound {
+    void UpdateLocation_WithInCorrectStreetLengthMore40_ThrowException() throws LocationNotFoundException {
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationStreet("MinskMinskMinskMinskMinskMinskMinskMinskMinskMinsk");
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
-    void UpdateLocation_WithIncorrectMapCordXLess0_ThrowException() throws LocationNotFound {
+    void UpdateLocation_WithIncorrectMapCordXLess0_ThrowException() throws LocationNotFoundException {
         Points points_test_parameter = Points.builder()
                 .x(BigDecimal.valueOf(-123L))
                 .y(BigDecimal.valueOf(91L))
@@ -458,14 +458,14 @@ class LocationServiceImplTest {
 
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationPoints(points_test_parameter);
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
-    void UpdateLocation_WithIncorrectMapCordXMoreThan180_ThrowException() throws LocationNotFound {
+    void UpdateLocation_WithIncorrectMapCordXMoreThan180_ThrowException() throws LocationNotFoundException {
         Points points_test_parameter = Points.builder()
                 .x(BigDecimal.valueOf(1223L))
                 .y(BigDecimal.valueOf(91L))
@@ -473,14 +473,14 @@ class LocationServiceImplTest {
 
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationPoints(points_test_parameter);
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
-    void UpdateLocation_WithIncorrectMapCordYLess0_ThrowException() throws LocationNotFound {
+    void UpdateLocation_WithIncorrectMapCordYLess0_ThrowException() throws LocationNotFoundException {
         Points points_test_parameter = Points.builder()
                 .x(BigDecimal.valueOf(123L))
                 .y(BigDecimal.valueOf(-91L))
@@ -488,14 +488,14 @@ class LocationServiceImplTest {
 
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationPoints(points_test_parameter);
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
-    void UpdateLocation_WithIncorrectMapCordYMoreThan90_ThrowException() throws LocationNotFound {
+    void UpdateLocation_WithIncorrectMapCordYMoreThan90_ThrowException() throws LocationNotFoundException {
         Points points_test_parameter = Points.builder()
                 .x(BigDecimal.valueOf(123L))
                 .y(BigDecimal.valueOf(91L))
@@ -503,37 +503,37 @@ class LocationServiceImplTest {
 
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationPoints(points_test_parameter);
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
-    void DeleteLocation_WithExsitsLocation_ReturnNull() throws LocationNotFound {
+    void DeleteLocation_WithExsitsLocation_ReturnNull() throws LocationNotFoundException {
         Location location_delete = locationService.getByWork(778L);
         locationService.deleteLocation(location_delete);
         assertNull(locationRepository.findById(location_delete.getId()).orElse(null));
     }
 
     @Test
-    void DeleteLocation_WithNonExsitsLocation_ThrowException() throws LocationNotFound {
-        LocationNotFound locationNotFoundException = assertThrows(
-                LocationNotFound.class,
+    void DeleteLocation_WithNonExsitsLocation_ThrowException() throws LocationNotFoundException {
+        LocationNotFoundException locationNotFoundException = assertThrows(
+                LocationNotFoundException.class,
                 () -> locationService.deleteLocation(Location.builder().id(8292L).build())
         );
         assertTrue(locationNotFoundException.getMessage().contentEquals("Location with id - 8292 not found"));
     }
 
     @Test
-    void GetWork_WIthExistsLocation_ReturnTrue() throws LocationNotFound {
+    void GetWork_WIthExistsLocation_ReturnTrue() throws LocationNotFoundException {
         Location location_get_by_id = locationService.getByWork(778L);
         assertNotNull(location_get_by_id);
     }
     @Test
-    void GetWork_WIthNonExistsLocation_ThrowException() throws LocationNotFound {
-        LocationNotFound locationNotFoundException = assertThrows(
-                LocationNotFound.class,
+    void GetWork_WIthNonExistsLocation_ThrowException() throws LocationNotFoundException {
+        LocationNotFoundException locationNotFoundException = assertThrows(
+                LocationNotFoundException.class,
                 () -> locationService.getByWork(7782L)
         );
         assertTrue(locationNotFoundException.getMessage().contentEquals("Location with work id - 7782 not found"));
@@ -552,44 +552,44 @@ class LocationServiceImplTest {
     }
 
     @Test
-    void FindLocationByNearby_WithMapCordsCorrect_ReturnTrue() throws LocationWithInvalidArguments {
+    void FindLocationByNearby_WithMapCordsCorrect_ReturnTrue() throws LocationWithInvalidArgumentsException {
         List<Location>location_nerby = locationService.findLocationByNearby(80,60);
         System.out.println(location_nerby);
     }
 
     @Test
-    void FindLocationByNearby_WithMapCordsXLess0_ThrowException() throws LocationWithInvalidArguments {
-         LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                 LocationWithInvalidArguments.class,
+    void FindLocationByNearby_WithMapCordsXLess0_ThrowException() throws LocationWithInvalidArgumentsException {
+         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.findLocationByNearby(-80,70)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Map сoordinates isn't correct!"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Map сoordinates isn't correct!"));
     }
 
     @Test
-    void FindLocationByNearby_WithMapCordsXMoreThan180_ThrowException() throws LocationWithInvalidArguments {
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+    void FindLocationByNearby_WithMapCordsXMoreThan180_ThrowException() throws LocationWithInvalidArgumentsException {
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.findLocationByNearby(800,70)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Map сoordinates isn't correct!"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Map сoordinates isn't correct!"));
     }
 
     @Test
-    void FindLocationByNearby_WithMapCordsYLess0_ThrowException() throws LocationWithInvalidArguments {
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+    void FindLocationByNearby_WithMapCordsYLess0_ThrowException() throws LocationWithInvalidArgumentsException {
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.findLocationByNearby(80,-70)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Map сoordinates isn't correct!"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Map сoordinates isn't correct!"));
     }
 
     @Test
-    void FindLocationByNearby_WithMapCordsXMoreThan90_ThrowException() throws LocationWithInvalidArguments {
-        LocationWithInvalidArguments locationWithInvalidArguments = assertThrows(
-                LocationWithInvalidArguments.class,
+    void FindLocationByNearby_WithMapCordsXMoreThan90_ThrowException() throws LocationWithInvalidArgumentsException {
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
                 () -> locationService.findLocationByNearby(80,900)
         );
-        assertTrue(locationWithInvalidArguments.getMessage().contentEquals("Map сoordinates isn't correct!"));
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Map сoordinates isn't correct!"));
     }
 }

@@ -1,21 +1,18 @@
 package io.project.fastwork.services.api;
 
 import io.project.fastwork.domains.Location;
-import io.project.fastwork.domains.Work;
-import io.project.fastwork.services.exception.LocationNotFound;
-import io.project.fastwork.services.exception.LocationWithInvalidArguments;
-import org.springframework.cglib.core.Local;
-import org.springframework.stereotype.Service;
+import io.project.fastwork.services.exception.LocationNotFoundException;
+import io.project.fastwork.services.exception.LocationWithInvalidArgumentsException;
 
 import java.util.List;
 
 
 public interface LocationServiceApi {
-    Location saveLocation(Location savedLocation) throws LocationWithInvalidArguments;
-    Location updateLocation(Location updatedLocation) throws LocationWithInvalidArguments;
-    Location deleteLocation(Location deletedLocation) throws LocationNotFound;
-    Location getByWork(Long work_id) throws LocationNotFound;
+    Location saveLocation(Location savedLocation) throws LocationWithInvalidArgumentsException;
+    Location updateLocation(Location updatedLocation) throws LocationWithInvalidArgumentsException;
+    Location deleteLocation(Location deletedLocation) throws LocationNotFoundException;
+    Location getByWork(Long work_id) throws LocationNotFoundException;
     List<Location>findLocationByCity(String city);
-    List<Location>findLocationByNearby(double x,double y) throws LocationWithInvalidArguments;
+    List<Location>findLocationByNearby(double x,double y) throws LocationWithInvalidArgumentsException;
 
 }
