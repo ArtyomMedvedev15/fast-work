@@ -1,4 +1,4 @@
-package io.project.fastwork.services;
+package io.project.fastwork.services.api;
 
 import io.project.fastwork.domains.Location;
 import io.project.fastwork.domains.Work;

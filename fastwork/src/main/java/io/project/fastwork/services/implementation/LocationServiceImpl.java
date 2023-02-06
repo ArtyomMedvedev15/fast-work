@@ -2,14 +2,13 @@ package io.project.fastwork.services.implementation;
 
 import io.project.fastwork.domains.Location;
 import io.project.fastwork.repositories.LocationRepository;
-import io.project.fastwork.services.LocationServiceApi;
+import io.project.fastwork.services.api.LocationServiceApi;
 import io.project.fastwork.services.exception.LocationNotFound;
 import io.project.fastwork.services.exception.LocationWithInvalidArguments;
 import io.project.fastwork.services.util.LocationValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
