@@ -371,7 +371,7 @@ class LocationValidatorTest {
     void LocationTest_WithInvalidMapCordYMore90_ReturnTrue() {
         Points points_test_parameter = Points.builder()
                 .x(BigDecimal.valueOf(181L))
-                .y(BigDecimal.valueOf(-87L))
+                .y(BigDecimal.valueOf(91))
                 .build();
 
         Location location_with_invalid_city = Location.builder()

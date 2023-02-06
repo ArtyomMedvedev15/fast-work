@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface LocationServiceApi {
     Location saveLocation(Location savedLocation) throws LocationWithInvalidArguments;
     Location updateLocation(Location updatedLocation) throws LocationWithInvalidArguments;

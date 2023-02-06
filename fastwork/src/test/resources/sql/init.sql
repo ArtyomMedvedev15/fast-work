@@ -11,18 +11,6 @@ create table location
     location_street      varchar(255)
 );
 
-create table users
-(
-    id               bigint not null
-        primary key,
-    user_date_create timestamp(6),
-    user_email       varchar(255),
-    user_name        varchar(255),
-    user_password    varchar(255),
-    user_role        varchar(255),
-    user_soname      varchar(255),
-    user_status      varchar(255)
-);
 
 create table work
 (

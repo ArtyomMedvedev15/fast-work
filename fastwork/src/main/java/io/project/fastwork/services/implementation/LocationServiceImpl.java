@@ -1,7 +1,6 @@
 package io.project.fastwork.services.implementation;
 
 import io.project.fastwork.domains.Location;
-import io.project.fastwork.domains.Work;
 import io.project.fastwork.repositories.LocationRepository;
 import io.project.fastwork.services.LocationServiceApi;
 import io.project.fastwork.services.exception.LocationNotFound;
@@ -9,31 +8,38 @@ import io.project.fastwork.services.exception.LocationWithInvalidArguments;
 import io.project.fastwork.services.util.LocationValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
+@Service
 public class LocationServiceImpl implements LocationServiceApi {
     private final LocationRepository locationRepository;
 
     @Override
     public Location saveLocation(Location savedLocation) throws LocationWithInvalidArguments {
-        if(LocationValidator.LocationValidDataValues(savedLocation)){
+        Location check_exists_location = locationRepository.getByWorkId(savedLocation.getLocationWork().getId());
+        if(LocationValidator.LocationValidDataValues(savedLocation) && check_exists_location==null){
             log.info("Save new location for work with id {} in {}",savedLocation.getLocationWork().getId(),new Date());
-            locationRepository.save(savedLocation);
+            savedLocation.setLocationDateCreate(Timestamp.valueOf(LocalDateTime.now()));
+            return locationRepository.save(savedLocation);
         }
-        log.error("Invalid data for location, throw exception with message {}",new LocationWithInvalidArguments().getMessage());
-        throw new LocationWithInvalidArguments();
+        log.error("Invalid data for location, or try to save second location for work, throw exception with message {}",new LocationWithInvalidArguments().getMessage());
+        throw new LocationWithInvalidArguments("Invalid data for location, or try to save second location for work, throw exception");
     }
 
     @Override
     public Location updateLocation(Location updatedLocation) throws LocationWithInvalidArguments {
         if(LocationValidator.LocationValidDataValues(updatedLocation)){
             log.info("Update location with id {} for work with id {} in {}",updatedLocation.getId(),updatedLocation.getLocationWork().getId(),new Date());
-            locationRepository.save(updatedLocation);
+            return locationRepository.save(updatedLocation);
         }
         log.error("Invalid data for location, throw exception with message {} in {}",new LocationWithInvalidArguments().getMessage(), new Date());
         throw new LocationWithInvalidArguments();
@@ -45,6 +51,7 @@ public class LocationServiceImpl implements LocationServiceApi {
         if(location_deleted_check!=null){
             log.warn("Delete location with id {} for work with id {} in {}",deletedLocation.getId(),deletedLocation.getLocationWork().getId(),new Date());
             locationRepository.delete(deletedLocation);
+            return deletedLocation;
         }
         log.error("Location with id {} not found,throw exception in {}",deletedLocation.getId(),new Date());
         throw new LocationNotFound(String.format("Location with id - %s not found",deletedLocation.getId()));
