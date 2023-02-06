@@ -5,6 +5,7 @@ import io.project.fastwork.repositories.TypeWorkRepository;
 import io.project.fastwork.services.api.TypeWorkServiceApi;
 import io.project.fastwork.services.exception.TypeWorkAlreadyExistsException;
 import io.project.fastwork.services.exception.TypeWorkInvalidParameterException;
+import io.project.fastwork.services.exception.TypeWorkNotFound;
 import io.project.fastwork.services.util.TypeWorkValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,10 +54,16 @@ public class TypeWorkServiceImpl implements TypeWorkServiceApi {
     }
 
     @Override
-    public TypeWork deleteTypeWork(TypeWork deletedTypeWork) {
+    public TypeWork deleteTypeWork(TypeWork deletedTypeWork) throws TypeWorkNotFound {
         TypeWork check_type_work_exists = typeWorkRepository.findById(deletedTypeWork.getId()).orElse(null);
-
-        return null;
+        if(check_type_work_exists!=null){
+            log.warn("Delete type work with id {} in {}",deletedTypeWork.getId(),new Date());
+            typeWorkRepository.delete(deletedTypeWork);
+            return deletedTypeWork;
+        }else{
+            log.error("Type work with id {} was not found, throw exception in {}",deletedTypeWork.getId(),new Date());
+            throw new TypeWorkNotFound(String.format("Type work with id %s not found",deletedTypeWork.getId()));
+        }
     }
 
     @Override
