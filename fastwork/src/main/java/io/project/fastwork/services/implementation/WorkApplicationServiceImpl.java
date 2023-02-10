@@ -1,6 +1,7 @@
 package io.project.fastwork.services.implementation;
 
 import io.project.fastwork.domains.StatusWorkApplication;
+import io.project.fastwork.domains.Users;
 import io.project.fastwork.domains.Work;
 import io.project.fastwork.domains.WorkApplication;
 import io.project.fastwork.repositories.WorkAppllicationRepository;
@@ -9,6 +10,8 @@ import io.project.fastwork.services.api.WorkApplicationServiceApi;
 import io.project.fastwork.services.api.WorkServiceApi;
 import io.project.fastwork.services.exception.WorkApplicationAlreadySend;
 import io.project.fastwork.services.exception.WorkApplicationNotFound;
+import io.project.fastwork.services.exception.WorkNotFound;
+import io.project.fastwork.services.exception.WorkerNotFound;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -70,12 +73,24 @@ public class WorkApplicationServiceImpl implements WorkApplicationServiceApi {
     }
 
     @Override
-    public List<WorkApplication> findByWorkId(Long work_id) {
-        return null;
+    public List<WorkApplication> findByWorkId(Long work_id) throws WorkNotFound {
+        Work work_is_exists = workService.getWorkById(work_id);
+        if(work_is_exists!=null){
+            log.info("Get all work application with work id {} in {}",work_id,new Date());
+            return workAppllicationRepository.findByWorkId(work_id);
+        }
+        log.error("Work with id {} doen't exists, throw exception in {}",work_id,new Date());
+       throw new WorkNotFound(String.format("Work with id %s not found",work_id));
     }
 
     @Override
-    public List<WorkApplication> findByWorkerid(Long worker_id) {
-        return null;
+    public List<WorkApplication> findByWorkerid(Long worker_id) throws WorkerNotFound {
+        Users user_is_exists = userService.getById(worker_id);
+        if(user_is_exists!=null){
+            log.info("Get all work application by worker id {} in {}",worker_id,new Date());
+            return workAppllicationRepository.findByWorkerId(worker_id);
+        }
+        log.error("Worker with id {} doesn't exists, throw exception in {}",worker_id,new Date());
+        throw new WorkerNotFound(String.format("Worker with id %s not found",worker_id));
     }
 }
