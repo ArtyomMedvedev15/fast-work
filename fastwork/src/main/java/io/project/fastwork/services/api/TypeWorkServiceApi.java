@@ -13,5 +13,6 @@ public interface TypeWorkServiceApi {
     TypeWork saveTypeWork(TypeWork savedTypeWork) throws TypeWorkInvalidParameterException, TypeWorkAlreadyExistsException;
     TypeWork updateTypeWork(TypeWork updatedTypeWork) throws TypeWorkAlreadyExistsException, TypeWorkInvalidParameterException;
     TypeWork deleteTypeWork(TypeWork deletedTypeWork) throws TypeWorkNotFound;
+    TypeWork getTypeWorkById(Long id) throws TypeWorkNotFound;
     List<TypeWork>findAll();
 }

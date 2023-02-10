@@ -1,5 +1,7 @@
 insert into type_work(id, type_work_date_create, type_work_describe, type_work_name)
-values (777, '2023-01-23', 'test', 'test');
+values (777, '2023-01-23', 'TestTestTestTest', 'test');
+insert into type_work(id, type_work_date_create, type_work_describe, type_work_name)
+values (778, '2023-01-23', 'TestTestTestTest', 'test2');
 insert into users(id, user_date_create, user_email, user_name, user_password, user_role, user_soname, user_status)
 values (777, '2023-04-02', 'user@mail.text', 'hirer', 'test', 'WORKER', 'test', 'ACTIVE');
 insert into work(id, work_count_person, work_date_create,work_describe, work_name,work_price, work_status, work_hirer_id,work_type_id)

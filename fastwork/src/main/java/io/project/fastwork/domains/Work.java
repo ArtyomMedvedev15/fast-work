@@ -21,7 +21,7 @@ public class Work {
     private String workDescribe;
     private Integer workCountPerson;
     private Float workPrice;
-    @OneToOne
+    @OneToOne(orphanRemoval = true,cascade = CascadeType.REMOVE)
     private TypeWork workType;
     private Timestamp workDateCreate;
     @Enumerated(EnumType.STRING)

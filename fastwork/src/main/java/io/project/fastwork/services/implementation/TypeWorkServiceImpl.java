@@ -24,7 +24,7 @@ public class TypeWorkServiceImpl implements TypeWorkServiceApi {
     @Override
     public TypeWork saveTypeWork(TypeWork savedTypeWork) throws TypeWorkInvalidParameterException, TypeWorkAlreadyExistsException {
         TypeWork check_type_work_exists = typeWorkRepository.findByTypeWorkName(savedTypeWork.getTypeWorkName());
-        if (check_type_work_exists == null) {
+        if (check_type_work_exists != null) {
             log.error("Type work with name {} already exists exception, in {}",savedTypeWork.getTypeWorkName(),new Date());
             throw new TypeWorkAlreadyExistsException("Type work already exists, try yet.");
         }
@@ -40,10 +40,7 @@ public class TypeWorkServiceImpl implements TypeWorkServiceApi {
     @Override
     public TypeWork updateTypeWork(TypeWork updatedTypeWork) throws TypeWorkAlreadyExistsException, TypeWorkInvalidParameterException {
         TypeWork check_type_work_exists = typeWorkRepository.findByTypeWorkName(updatedTypeWork.getTypeWorkName());
-        if (check_type_work_exists == null) {
-            log.error("Type work with name {} already exists exception, in {}",updatedTypeWork.getTypeWorkName(),new Date());
-            throw new TypeWorkAlreadyExistsException("Type work already exists, try yet.");
-        }
+
         if (TypeWorkValidator.TypeWorkValidator(updatedTypeWork)) {
             log.info("Update type work with name {} in {}",updatedTypeWork.getTypeWorkName(),new Date());
             return typeWorkRepository.save(updatedTypeWork);
@@ -63,6 +60,19 @@ public class TypeWorkServiceImpl implements TypeWorkServiceApi {
         }else{
             log.error("Type work with id {} was not found, throw exception in {}",deletedTypeWork.getId(),new Date());
             throw new TypeWorkNotFound(String.format("Type work with id %s not found",deletedTypeWork.getId()));
+        }
+    }
+
+    @Override
+    public TypeWork getTypeWorkById(Long id_type_work) throws TypeWorkNotFound {
+        TypeWork check_type_work_exists = typeWorkRepository.findById(id_type_work).orElse(null);
+        if(check_type_work_exists!=null){
+            log.warn("Delete type work with id {} in {}",check_type_work_exists.getId(),new Date());
+            return typeWorkRepository.getTypeWorkById(id_type_work);
+
+        }else{
+            log.error("Type work with id {} was not found, throw exception in {}",id_type_work,new Date());
+            throw new TypeWorkNotFound(String.format("Type work with id %s not found",id_type_work));
         }
     }
 
