@@ -21,4 +21,6 @@ public class WorkApplication {
     @OneToOne(fetch = FetchType.EAGER)
     private Work work;
     private Timestamp dateApplicaton;
+    @Enumerated(EnumType.STRING)
+    private StatusWorkApplication statusWorkApplication;
 }

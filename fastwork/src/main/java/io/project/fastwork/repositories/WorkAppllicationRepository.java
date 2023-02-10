@@ -15,4 +15,7 @@ public interface WorkAppllicationRepository extends JpaRepository<WorkApplicatio
 
     @Query("select wp from WorkApplication wp where wp.worker.id=:worker_id")
     List<WorkApplication>findByWorkerId(@Param("worker_id") Long worker_id);
+
+    @Query("select wp from WorkApplication wp where wp.id=:work_application_id")
+    WorkApplication getWorkApplicationById(@Param("work_application_id") Long idWorkApplication);
 }
