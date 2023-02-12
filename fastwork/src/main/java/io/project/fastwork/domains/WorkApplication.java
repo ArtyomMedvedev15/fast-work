@@ -16,9 +16,9 @@ public class WorkApplication {
     @Id
     @GeneratedValue
     private Long id;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE,orphanRemoval = true)
     private Users worker;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE,orphanRemoval = true)
     private Work work;
     private Timestamp dateApplicaton;
     @Enumerated(EnumType.STRING)

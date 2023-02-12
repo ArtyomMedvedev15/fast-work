@@ -51,3 +51,16 @@ create table location
         constraint fkosww2xgcvjofop85q6i7egdjt
             references work
 );
+
+create table work_application
+(
+    id              bigint not null
+        primary key,
+    date_applicaton timestamp(6),
+    work_id         bigint
+        constraint fkl5mdxbig1onhlsw17njkumdk2
+            references work on delete cascade ,
+    worker_id       bigint
+        constraint fk8joagvc8yvnbrgl2e130wku7x
+            references users on delete cascade
+);

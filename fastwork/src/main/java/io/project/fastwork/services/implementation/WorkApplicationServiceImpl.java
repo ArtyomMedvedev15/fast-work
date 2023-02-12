@@ -4,10 +4,10 @@ import io.project.fastwork.domains.StatusWorkApplication;
 import io.project.fastwork.domains.Users;
 import io.project.fastwork.domains.Work;
 import io.project.fastwork.domains.WorkApplication;
+import io.project.fastwork.repositories.UserRepository;
 import io.project.fastwork.repositories.WorkAppllicationRepository;
-import io.project.fastwork.services.api.UserServiceApi;
+import io.project.fastwork.repositories.WorkRepository;
 import io.project.fastwork.services.api.WorkApplicationServiceApi;
-import io.project.fastwork.services.api.WorkServiceApi;
 import io.project.fastwork.services.exception.WorkApplicationAlreadySend;
 import io.project.fastwork.services.exception.WorkApplicationNotFound;
 import io.project.fastwork.services.exception.WorkNotFound;
@@ -28,13 +28,13 @@ import java.util.List;
 @Transactional
 public class WorkApplicationServiceImpl implements WorkApplicationServiceApi {
 
-    private WorkAppllicationRepository workAppllicationRepository;
-    private WorkServiceApi workService;
-    private UserServiceApi userService;
+    private final WorkAppllicationRepository workAppllicationRepository;
+    private final WorkRepository workRepository;
+    private final UserRepository userRepository;
     @Override
     public WorkApplication saveWorkApplication(WorkApplication savedWorkApplication) throws WorkApplicationAlreadySend {
         List<WorkApplication> workerListApplication = workAppllicationRepository.findByWorkerId(savedWorkApplication.getWorker().getId());
-        WorkApplication check_work_application = workerListApplication.stream().filter(o1 -> o1.getWork().equals(savedWorkApplication.getWork())).
+        WorkApplication check_work_application = workerListApplication.stream().filter(o1 -> o1.getWork().getId().equals(savedWorkApplication.getWork().getId())).
                 findFirst().orElse(null);
         if (check_work_application == null) {
             log.info("Save work application for work with id {} and worker with id {} in {}", savedWorkApplication.getWork().getId(),
@@ -57,7 +57,7 @@ public class WorkApplicationServiceImpl implements WorkApplicationServiceApi {
             return workAppllicationRepository.save(workApplicationById);
         }
         log.error("Work application with id - {} not found throw exception in {}",rejectedWorkApplicationId,new Date());
-        throw new WorkApplicationNotFound(String.format("Work application with id %s",rejectedWorkApplicationId));
+        throw new WorkApplicationNotFound(String.format("Work application with id %s not found!",rejectedWorkApplicationId));
     }
 
     @Override
@@ -69,28 +69,28 @@ public class WorkApplicationServiceImpl implements WorkApplicationServiceApi {
             return workAppllicationRepository.save(workApplicationById);
         }
         log.error("Work application with id - {} not found throw exception in {}",approvedWorkApplicationId,new Date());
-        throw new WorkApplicationNotFound(String.format("Work application with id %s",approvedWorkApplicationId));
+        throw new WorkApplicationNotFound(String.format("Work application with id %s not found!",approvedWorkApplicationId));
     }
 
     @Override
     public List<WorkApplication> findByWorkId(Long work_id) throws WorkNotFound {
-        Work work_is_exists = workService.getWorkById(work_id);
+        Work work_is_exists = workRepository.getWorkById(work_id);
         if(work_is_exists!=null){
             log.info("Get all work application with work id {} in {}",work_id,new Date());
             return workAppllicationRepository.findByWorkId(work_id);
         }
         log.error("Work with id {} doen't exists, throw exception in {}",work_id,new Date());
-       throw new WorkNotFound(String.format("Work with id %s not found",work_id));
+       throw new WorkNotFound(String.format("Work with id %s not found!",work_id));
     }
 
     @Override
     public List<WorkApplication> findByWorkerid(Long worker_id) throws WorkerNotFound {
-        Users user_is_exists = userService.getById(worker_id);
+        Users user_is_exists = userRepository.getUserById(worker_id);
         if(user_is_exists!=null){
             log.info("Get all work application by worker id {} in {}",worker_id,new Date());
             return workAppllicationRepository.findByWorkerId(worker_id);
         }
         log.error("Worker with id {} doesn't exists, throw exception in {}",worker_id,new Date());
-        throw new WorkerNotFound(String.format("Worker with id %s not found",worker_id));
+        throw new WorkerNotFound(String.format("Worker with id %s not found!",worker_id));
     }
 }

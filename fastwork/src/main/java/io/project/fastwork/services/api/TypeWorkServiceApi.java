@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface TypeWorkServiceApi {
     TypeWork saveTypeWork(TypeWork savedTypeWork) throws TypeWorkInvalidParameterException, TypeWorkAlreadyExistsException;
     TypeWork updateTypeWork(TypeWork updatedTypeWork) throws TypeWorkAlreadyExistsException, TypeWorkInvalidParameterException;

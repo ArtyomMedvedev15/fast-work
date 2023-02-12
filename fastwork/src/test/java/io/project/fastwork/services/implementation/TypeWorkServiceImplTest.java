@@ -62,7 +62,7 @@ class TypeWorkServiceImplTest {
     }
 
     @Test
-    void SaveTypeWork_WithInValidTypeWorkNameLessLength3_ThrowException() throws TypeWorkInvalidParameterException, TypeWorkAlreadyExistsException {
+    void SaveTypeWork_WithInValidTypeWorkNameLessLength3_ThrowException(){
         TypeWork type_work_invalid = TypeWork.builder()
                 .id(777L)
                 .typeWorkName("Typ")
@@ -76,7 +76,7 @@ class TypeWorkServiceImplTest {
         assertTrue(typeWorkInvalidParameterException.getMessage().contentEquals("Check string parameters, something was wrong!"));
     }
     @Test
-    void SaveTypeWork_WithInValidTypeWorkNameMoreLength40_ThrowException() throws TypeWorkInvalidParameterException, TypeWorkAlreadyExistsException {
+    void SaveTypeWork_WithInValidTypeWorkNameMoreLength40_ThrowException(){
         TypeWork type_work_invalid = TypeWork.builder()
                 .id(777L)
                 .typeWorkName("TypeTypeTypeTypeTypeTypeTypeTypeTypeTypeTypeType")
@@ -91,7 +91,7 @@ class TypeWorkServiceImplTest {
     }
 
     @Test
-    void SaveTypeWork_WithInValidTypeWorkNameEmpty_ThrowException() throws TypeWorkInvalidParameterException, TypeWorkAlreadyExistsException {
+    void SaveTypeWork_WithInValidTypeWorkNameEmpty_ThrowException(){
         TypeWork type_work_invalid = TypeWork.builder()
                 .id(777L)
                 .typeWorkName("")
@@ -106,7 +106,7 @@ class TypeWorkServiceImplTest {
     }
 
     @Test
-    void SaveTypeWork_WithInValidTypeWorkDescribeEmpty_ThrowException() throws TypeWorkInvalidParameterException, TypeWorkAlreadyExistsException {
+    void SaveTypeWork_WithInValidTypeWorkDescribeEmpty_ThrowException(){
         TypeWork type_work_invalid = TypeWork.builder()
                 .id(777L)
                 .typeWorkName("Type")
@@ -120,7 +120,7 @@ class TypeWorkServiceImplTest {
         assertTrue(typeWorkInvalidParameterException.getMessage().contentEquals("Check string parameters, something was wrong!"));
     }
     @Test
-    void SaveTypeWork_WithInValidTypeWorkDescribeLengthLess15_ThrowException() throws TypeWorkInvalidParameterException, TypeWorkAlreadyExistsException {
+    void SaveTypeWork_WithInValidTypeWorkDescribeLengthLess15_ThrowException(){
         TypeWork type_work_invalid = TypeWork.builder()
                 .id(777L)
                 .typeWorkName("Type")
@@ -135,7 +135,7 @@ class TypeWorkServiceImplTest {
     }
 
     @Test
-    void SaveTypeWork_WithInValidTypeWorkDescribeLengthMore256_ThrowException() throws TypeWorkInvalidParameterException, TypeWorkAlreadyExistsException {
+    void SaveTypeWork_WithInValidTypeWorkDescribeLengthMore256_ThrowException(){
         TypeWork type_work_invalid = TypeWork.builder()
                 .id(777L)
                 .typeWorkName("Type")
@@ -154,7 +154,7 @@ class TypeWorkServiceImplTest {
     }
 
     @Test
-    void SaveTypeWork_WithInValidTypeWorkWithExisted_ThrowException() throws TypeWorkInvalidParameterException, TypeWorkAlreadyExistsException {
+    void SaveTypeWork_WithInValidTypeWorkWithExisted_ThrowException(){
         TypeWork type_work_invalid = TypeWork.builder()
                 .id(777L)
                 .typeWorkName("test")
@@ -178,7 +178,7 @@ class TypeWorkServiceImplTest {
     }
 
     @Test
-    void UpdateTypeWork_WithInValidTypeWorkNameLengthLess4_ThrowException() throws TypeWorkInvalidParameterException, TypeWorkAlreadyExistsException {
+    void UpdateTypeWork_WithInValidTypeWorkNameLengthLess4_ThrowException(){
         TypeWork type_work_Invalid = typeWorkService.findAll().stream().filter(o1->o1.getTypeWorkName().equals("test"))
                 .findFirst().orElse(null);
         type_work_Invalid.setTypeWorkName("tes");
@@ -190,7 +190,7 @@ class TypeWorkServiceImplTest {
     }
 
     @Test
-    void UpdateTypeWork_WithInValidTypeWorkNameEmpty_ThrowException() throws TypeWorkInvalidParameterException, TypeWorkAlreadyExistsException {
+    void UpdateTypeWork_WithInValidTypeWorkNameEmpty_ThrowException(){
         TypeWork type_work_Invalid = typeWorkService.findAll().stream().filter(o1->o1.getTypeWorkName().equals("test"))
                 .findFirst().orElse(null);
         type_work_Invalid.setTypeWorkName("");
@@ -202,7 +202,7 @@ class TypeWorkServiceImplTest {
     }
 
     @Test
-    void UpdateTypeWork_WithInValidTypeWorkDescribeLengthLess15_ThrowException() throws TypeWorkInvalidParameterException, TypeWorkAlreadyExistsException, TypeWorkNotFound {
+    void UpdateTypeWork_WithInValidTypeWorkDescribeLengthLess15_ThrowException() throws TypeWorkNotFound {
         TypeWork type_work_Invalid = typeWorkService.getTypeWorkById(777L);
         type_work_Invalid.setTypeWorkDescribe("tes");
         TypeWorkInvalidParameterException typeWorkInvalidParameterException = assertThrows(
@@ -213,7 +213,7 @@ class TypeWorkServiceImplTest {
     }
 
     @Test
-    void UpdateTypeWork_WithInValidTypeWorkDescribeLengthMore256_ThrowException() throws TypeWorkInvalidParameterException, TypeWorkAlreadyExistsException {
+    void UpdateTypeWork_WithInValidTypeWorkDescribeLengthMore256_ThrowException(){
         TypeWork type_work_Invalid = typeWorkService.findAll().stream().filter(o1->o1.getTypeWorkName().equals("test"))
                 .findFirst().orElse(null);
                type_work_Invalid.setTypeWorkDescribe("TypeWorkTypeWorkTypeWorkTypeWorkTypeWorkTypeWorkTypeWork" +
@@ -229,7 +229,7 @@ class TypeWorkServiceImplTest {
     }
 
     @Test
-    void UpdateTypeWork_WithInValidTypeWorkDescribeEmpty_ThrowException() throws TypeWorkInvalidParameterException, TypeWorkAlreadyExistsException {
+    void UpdateTypeWork_WithInValidTypeWorkDescribeEmpty_ThrowException(){
         TypeWork type_work_Invalid = typeWorkService.findAll().stream().filter(o1->o1.getTypeWorkName().equals("test"))
                 .findFirst().orElse(null);
         type_work_Invalid.setTypeWorkDescribe("");
@@ -250,7 +250,7 @@ class TypeWorkServiceImplTest {
         assertNotNull(type_work_deleted);
     }
     @Test
-    void DeleteTypeWork_WithTypeWorkNull_ThrowException() throws TypeWorkNotFound {
+    void DeleteTypeWork_WithTypeWorkNull_ThrowException() {
         TypeWorkNotFound typeWorkNotFound = assertThrows(
                 TypeWorkNotFound.class,
                 () -> typeWorkService.deleteTypeWork(TypeWork.builder().id(12L).build())

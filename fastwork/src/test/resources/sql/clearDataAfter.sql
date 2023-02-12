@@ -1,3 +1,4 @@
+delete from work_application;
 delete from location;
 delete from work;
 delete from type_work;
