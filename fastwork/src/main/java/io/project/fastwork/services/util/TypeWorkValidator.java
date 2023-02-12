@@ -6,7 +6,7 @@ import io.project.fastwork.services.exception.TypeWorkInvalidParameterException;
 import java.util.regex.Pattern;
 
 public class TypeWorkValidator {
-    public static boolean TypeWorkValidator(TypeWork typeWork) throws TypeWorkInvalidParameterException {
+    public static boolean TypeWorkValidDataValues(TypeWork typeWork) throws TypeWorkInvalidParameterException {
         if(Pattern.matches("^[a-zA-Z]{4,30}+$",typeWork.getTypeWorkName()) &&
                 Pattern.matches("^[a-zA-Z]{15,256}+$",typeWork.getTypeWorkDescribe())){
            return true;

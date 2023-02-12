@@ -28,7 +28,7 @@ public class TypeWorkServiceImpl implements TypeWorkServiceApi {
             log.error("Type work with name {} already exists exception, in {}",savedTypeWork.getTypeWorkName(),new Date());
             throw new TypeWorkAlreadyExistsException("Type work already exists, try yet.");
         }
-        if (TypeWorkValidator.TypeWorkValidator(savedTypeWork)) {
+        if (TypeWorkValidator.TypeWorkValidDataValues(savedTypeWork)) {
             log.info("Save new type work with name {} in {}",savedTypeWork.getTypeWorkName(),new Date());
             return typeWorkRepository.save(savedTypeWork);
         } else {
@@ -41,7 +41,7 @@ public class TypeWorkServiceImpl implements TypeWorkServiceApi {
     public TypeWork updateTypeWork(TypeWork updatedTypeWork) throws TypeWorkAlreadyExistsException, TypeWorkInvalidParameterException {
         TypeWork check_type_work_exists = typeWorkRepository.findByTypeWorkName(updatedTypeWork.getTypeWorkName());
 
-        if (TypeWorkValidator.TypeWorkValidator(updatedTypeWork)) {
+        if (TypeWorkValidator.TypeWorkValidDataValues(updatedTypeWork)) {
             log.info("Update type work with name {} in {}",updatedTypeWork.getTypeWorkName(),new Date());
             return typeWorkRepository.save(updatedTypeWork);
         } else {

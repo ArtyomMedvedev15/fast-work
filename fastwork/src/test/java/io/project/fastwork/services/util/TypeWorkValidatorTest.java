@@ -1,11 +1,8 @@
 package io.project.fastwork.services.util;
 
 import io.project.fastwork.domains.TypeWork;
-import io.project.fastwork.services.exception.LocationWithInvalidArgumentsException;
 import io.project.fastwork.services.exception.TypeWorkInvalidParameterException;
 import org.junit.jupiter.api.Test;
-
-import java.util.StringJoiner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +16,7 @@ class TypeWorkValidatorTest {
                 .typeWorkDescribe("TypeWorkTypeWorkType")
                 .build();
 
-        boolean type_work_validator_result = TypeWorkValidator.TypeWorkValidator(type_work_valid);
+        boolean type_work_validator_result = TypeWorkValidator.TypeWorkValidDataValues(type_work_valid);
 
         assertTrue(type_work_validator_result);
     }
@@ -34,7 +31,7 @@ class TypeWorkValidatorTest {
 
         TypeWorkInvalidParameterException typeWorkInvalidParameterException = assertThrows(
                 TypeWorkInvalidParameterException.class,
-                () -> TypeWorkValidator.TypeWorkValidator(type_work_valid)
+                () -> TypeWorkValidator.TypeWorkValidDataValues(type_work_valid)
         );
 
         assertTrue(typeWorkInvalidParameterException.getMessage().contentEquals("Check string parameters, something was wrong!"));
@@ -50,7 +47,7 @@ class TypeWorkValidatorTest {
 
         TypeWorkInvalidParameterException typeWorkInvalidParameterException = assertThrows(
                 TypeWorkInvalidParameterException.class,
-                () -> TypeWorkValidator.TypeWorkValidator(type_work_valid)
+                () -> TypeWorkValidator.TypeWorkValidDataValues(type_work_valid)
         );
 
         assertTrue(typeWorkInvalidParameterException.getMessage().contentEquals("Check string parameters, something was wrong!"));
@@ -66,7 +63,7 @@ class TypeWorkValidatorTest {
 
         TypeWorkInvalidParameterException typeWorkInvalidParameterException = assertThrows(
                 TypeWorkInvalidParameterException.class,
-                () -> TypeWorkValidator.TypeWorkValidator(type_work_valid)
+                () -> TypeWorkValidator.TypeWorkValidDataValues(type_work_valid)
         );
 
         assertTrue(typeWorkInvalidParameterException.getMessage().contentEquals("Check string parameters, something was wrong!"));
@@ -86,7 +83,7 @@ class TypeWorkValidatorTest {
 
         TypeWorkInvalidParameterException typeWorkInvalidParameterException = assertThrows(
                 TypeWorkInvalidParameterException.class,
-                () -> TypeWorkValidator.TypeWorkValidator(type_work_valid)
+                () -> TypeWorkValidator.TypeWorkValidDataValues(type_work_valid)
         );
 
         assertTrue(typeWorkInvalidParameterException.getMessage().contentEquals("Check string parameters, something was wrong!"));
