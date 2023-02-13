@@ -1,5 +1,6 @@
 package io.project.fastwork.services.api;
 
+import io.project.fastwork.domains.StatusUser;
 import io.project.fastwork.domains.Users;
 import io.project.fastwork.domains.Work;
 import io.project.fastwork.services.exception.*;
@@ -12,7 +13,8 @@ public interface UserServiceApi {
     Users updateUser(Users updatedUser) throws UserAlreadyExisted, UserInvalidDataParemeter;
     Users deleteUser(Users deletedUser) throws UserNotFound;
     Users blockedUser(Users blockedUser) throws UserNotFound;
-    List<Users>findAll();
+    List<Users>findAllUsersByStatus(StatusUser statusUser);
+
     Users findByUsername(String username) throws UserInvalidDataParemeter, UserNotFound;
     Users findByEmail(String email) throws UserInvalidDataParemeter, UserNotFound;
     Users getById(Long idUser) throws UserNotFound;

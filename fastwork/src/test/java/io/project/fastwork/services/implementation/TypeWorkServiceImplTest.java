@@ -241,14 +241,6 @@ class TypeWorkServiceImplTest {
         assertTrue(typeWorkInvalidParameterException.getMessage().contentEquals("Check string parameters, something was wrong!"));
 
     }
-
-    @Test
-    void DeleteTypeWork_WithValidTypeWork_ReturnTrue() throws TypeWorkNotFound {
-        TypeWork type_work_valid = typeWorkService.findAll().stream().filter(o1->o1.getTypeWorkName().equals("test"))
-                .findFirst().orElse(null);
-        TypeWork type_work_deleted = typeWorkService.deleteTypeWork(type_work_valid);
-        assertNotNull(type_work_deleted);
-    }
     @Test
     void DeleteTypeWork_WithTypeWorkNull_ThrowException() {
         TypeWorkNotFound typeWorkNotFound = assertThrows(

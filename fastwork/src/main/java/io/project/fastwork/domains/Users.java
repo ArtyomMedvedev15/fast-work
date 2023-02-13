@@ -5,9 +5,7 @@ import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -30,8 +28,9 @@ public class Users {
     @Enumerated(EnumType.STRING)
     private StatusUser userStatus;
     private Timestamp userDateCreate;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private List<Work> userWorks=new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinTable(name = "users_works")
+    private List<Work> userWorks =new ArrayList<>();
 
     public void addWork(Work work){
         this.userWorks.add(work);

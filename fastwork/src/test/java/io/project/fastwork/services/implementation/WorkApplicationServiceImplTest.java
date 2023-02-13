@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -58,8 +59,8 @@ class WorkApplicationServiceImplTest {
     }
 
     @Test
+    @Transactional
     void SaveWorkApplication_WithWorkAppExisted_ThrowException()throws WorkNotFound {
-        System.out.println("WAPP - " + workApplicationService.findByWorkId(778L));
         WorkApplication invalid_work_application = WorkApplication.builder()
                 .work(Work.builder().id(778L).build())
                 .worker(Users.builder().id(778L).build())

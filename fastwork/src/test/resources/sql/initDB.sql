@@ -4,12 +4,14 @@ create table users
         primary key,
     user_date_create timestamp(6),
     user_email       varchar(255),
+    user_login       varchar(255),
     user_name        varchar(255),
     user_password    varchar(255),
     user_role        varchar(255),
     user_soname      varchar(255),
     user_status      varchar(255)
 );
+
 create table type_work
 (
     id                    bigint not null
@@ -63,4 +65,16 @@ create table work_application
     worker_id       bigint
         constraint fk8joagvc8yvnbrgl2e130wku7x
             references users on delete cascade
+);
+
+create table users_works
+(
+    users_id      bigint not null
+        constraint fknsd2esyslaw6dgmolmkgrhia
+            references users,
+    user_works_id bigint not null
+        constraint uk_bl2exwwfp6x6kthakr182g6u2
+            unique
+        constraint fkri6tp7xwm6ef152y02dte5v4d
+            references work
 );

@@ -10,14 +10,12 @@ import io.project.fastwork.services.exception.*;
 import io.project.fastwork.services.util.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -30,13 +28,14 @@ public class UserServiceImpl implements UserServiceApi {
 
     @Override
     public Users saveUser(Users savedUser) throws UserAlreadyExisted, UserInvalidDataParemeter {
-        Users user_is_exists = userRepository.findByUserName(savedUser.getUserName());
+        Users user_is_exists = userRepository.findByUserName(savedUser.getUserLogin());
         if (user_is_exists != null) {
             log.error("User with username {} already exists in {}", savedUser.getUserLogin(), new Date());
-            throw new UserAlreadyExisted("User with username - %s already existed. Try yet!");
+            throw new UserAlreadyExisted(String.format("User with username - %s already existed. Try yet!",user_is_exists.getUserLogin()));
         }
         if (UserValidator.UserValidDataValues(savedUser)) {
             log.info("Save new user with username {} in {}", savedUser.getUserLogin(), new Date());
+            savedUser.setUserStatus(StatusUser.ACTIVE);
             savedUser.setUserDateCreate(Timestamp.valueOf(LocalDateTime.now()));
             return userRepository.save(savedUser);
         } else {
@@ -47,10 +46,6 @@ public class UserServiceImpl implements UserServiceApi {
 
     @Override
     public Users updateUser(Users updatedUser) throws UserAlreadyExisted, UserInvalidDataParemeter {
-        if (userRepository.exists(Example.of(updatedUser))) {
-            log.error("User with username {} already exists in {}", updatedUser.getUserLogin(), new Date());
-            throw new UserAlreadyExisted("User with username - %s already existed. Try yet!");
-        }
         if (UserValidator.UserValidDataValues(updatedUser)) {
             log.info("Update user with id {} in {}", updatedUser.getId(), new Date());
             updatedUser.setUserDateCreate(Timestamp.valueOf(LocalDateTime.now()));
@@ -80,7 +75,7 @@ public class UserServiceImpl implements UserServiceApi {
         Users user_is_exist = userRepository.getUserById(blockedUser.getId());
         if (user_is_exist != null) {
             log.warn("Delete user with id {} in {}", blockedUser.getId(), new Date());
-            blockedUser.setUserStatus(StatusUser.BLOKED);
+            blockedUser.setUserStatus(StatusUser.BLOCKED);
             userRepository.save(blockedUser);
             return blockedUser;
         } else {
@@ -90,9 +85,9 @@ public class UserServiceImpl implements UserServiceApi {
     }
 
     @Override
-    public List<Users> findAll() {
+    public List<Users> findAllUsersByStatus(StatusUser statusUser) {
         log.info("Get all active user in {}", new Date());
-        return userRepository.findAll().stream().filter(o1 -> o1.getUserStatus().equals(StatusUser.ACTIVE)).toList();
+        return userRepository.findAll().stream().filter(o1 -> o1.getUserStatus().equals(statusUser)).toList();
     }
 
     @Override
@@ -141,23 +136,29 @@ public class UserServiceImpl implements UserServiceApi {
 
     @Override
     public Work addWorkToWorker(Work added_work, Users worker) throws WorkAlreadyAdded {
-        if(worker.getUserWorks().contains(added_work)){
+        Work work_is_existed = worker.getUserWorks().stream().filter(o1->o1.getWorkName()
+                .equals(added_work.getWorkName())).findFirst().orElse(null);
+        if(work_is_existed!=null){
             log.info("Work with id {} already added to worker with id {} in {}",added_work.getId(),worker.getId(),new Date());
             throw new WorkAlreadyAdded(String.format("Work with id %s already added to worker with id %s",added_work.getId(),worker.getId()));
         }
         log.info("Add new work with id {} to worker with id {} in {}",added_work.getId(),worker.getId(),new Date());
         worker.getUserWorks().add(added_work);
+        userRepository.save(worker);
         return added_work;
     }
 
     @Override
     public Work removeWorkFromWorker(Work removed_work,Users worker) throws WorkNotFound {
-        if(!worker.getUserWorks().contains(removed_work)){
+        Work work_is_existed = worker.getUserWorks().stream().filter(o1->o1.getWorkName()
+                .equals(removed_work.getWorkName())).findFirst().orElse(null);
+        if(work_is_existed==null){
             log.info("Work with id {} doesn't have in worker with id {} in {}",removed_work.getId(),worker.getId(),new Date());
             throw new WorkNotFound(String.format("Work with id %s doesn't have in worker with id %s",removed_work.getId(),worker.getId()));
         }
-        log.info("Add new work with id {} to worker with id {} in {}",removed_work.getId(),worker.getId(),new Date());
-        worker.getUserWorks().remove(removed_work);
+        log.info("Remove work with id {} to worker with id {} in {}",removed_work.getId(),worker.getId(),new Date());
+        worker.removeWork(removed_work);
+        userRepository.save(worker);
         return removed_work;
     }
 }
