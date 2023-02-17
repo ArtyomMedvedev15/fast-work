@@ -25,12 +25,12 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@Transactional
 public class WorkApplicationServiceImpl implements WorkApplicationServiceApi {
 
     private final WorkAppllicationRepository workAppllicationRepository;
     private final WorkRepository workRepository;
     private final UserRepository userRepository;
+    @Transactional
     @Override
     public WorkApplication saveWorkApplication(WorkApplication savedWorkApplication) throws WorkApplicationAlreadySend {
         List<WorkApplication> workerListApplication = workAppllicationRepository.findByWorkerId(savedWorkApplication.getWorker().getId());
@@ -72,6 +72,7 @@ public class WorkApplicationServiceImpl implements WorkApplicationServiceApi {
         throw new WorkApplicationNotFound(String.format("Work application with id %s not found!",approvedWorkApplicationId));
     }
 
+    @Transactional
     @Override
     public List<WorkApplication> findByWorkId(Long work_id) throws WorkNotFound {
         Work work_is_exists = workRepository.getWorkById(work_id);
@@ -83,6 +84,7 @@ public class WorkApplicationServiceImpl implements WorkApplicationServiceApi {
        throw new WorkNotFound(String.format("Work with id %s not found!",work_id));
     }
 
+    @Transactional
     @Override
     public List<WorkApplication> findByWorkerid(Long worker_id) throws WorkerNotFound {
         Users user_is_exists = userRepository.getUserById(worker_id);

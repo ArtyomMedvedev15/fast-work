@@ -11,6 +11,7 @@ import io.project.fastwork.services.util.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -134,6 +135,8 @@ public class UserServiceImpl implements UserServiceApi {
         }
     }
 
+
+    @Transactional
     @Override
     public Work addWorkToWorker(Work added_work, Users worker) throws WorkAlreadyAdded {
         Work work_is_existed = worker.getUserWorks().stream().filter(o1->o1.getWorkName()
@@ -148,6 +151,7 @@ public class UserServiceImpl implements UserServiceApi {
         return added_work;
     }
 
+    @Transactional
     @Override
     public Work removeWorkFromWorker(Work removed_work,Users worker) throws WorkNotFound {
         Work work_is_existed = worker.getUserWorks().stream().filter(o1->o1.getWorkName()

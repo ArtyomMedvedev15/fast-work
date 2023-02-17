@@ -11,10 +11,8 @@ import java.util.List;
 
 @Repository
 public interface WorkRepository extends JpaRepository<Work,Long> {
-    @Query("update Work  w set w.workStatus=:status")
-    Work workClose(@Param("status") StatusWork statusWork);
-    @Query("update Work  w set w.workStatus=:status")
-    Work workExpectionApprove(@Param("status") StatusWork statusWork);
+    @Query("update Work  w set w.workStatus=:status where w.id=:id_work")
+    Work workChangeStatus(@Param("status") StatusWork statusWork,@Param("id_work")Long id_work);
     @Query("select w from Work w where w.workName like %:work_name%")
     List<Work>findWorkByName(@Param("work_name")String work_name);
     @Query("select w from Work  w where w.workType=:workTypeId")
