@@ -16,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +42,7 @@ public class WorkServiceImpl implements WorkServiceApi {
         }
         if (WorkValidator.WorkValidDataValues(savedWork)) {
             log.info("Save new work with name - {} in {}", savedWork.getWorkName(), new Date());
+            savedWork.setWorkDateCreate(Timestamp.valueOf(LocalDateTime.now()));
             return workRepository.save(savedWork);
         } else {
             log.error("Invalid work data parameter throw exception in {}", new Date());
