@@ -78,3 +78,13 @@ create table users_works
         constraint fkri6tp7xwm6ef152y02dte5v4d
             references work
 );
+
+create table notification
+(
+    id                      bigint not null
+        primary key,
+    date_send_notification  timestamp(6),
+    message_notification    varchar(255),
+    name_topic_notification varchar(255),
+    status_notification     varchar(255)
+);

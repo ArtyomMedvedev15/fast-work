@@ -6,7 +6,6 @@ import io.project.fastwork.repositories.NotificationRepository;
 import io.project.fastwork.services.api.NotificationServiceApi;
 import io.project.fastwork.services.exception.NotificationInvalidParameterException;
 import io.project.fastwork.services.exception.NotificationNotFound;
-import io.project.fastwork.services.util.NotificationValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ public class NotificationServiceImpl implements NotificationServiceApi {
 
     @Override
     public Notification saveNotification(Notification savedNotification) throws NotificationInvalidParameterException {
-        if(NotificationValidator.NotificationValidDataValues(savedNotification)){
+        if(!savedNotification.getNameTopicNotification().isEmpty()&&!savedNotification.getMessageNotification().isEmpty()){
             log.info("Save new notification with name topic {} in {}",savedNotification.getNameTopicNotification(),new Date());
             savedNotification.setDateSendNotification(Timestamp.valueOf(LocalDateTime.now()));
             return notificationRepository.save(savedNotification);
@@ -51,7 +50,7 @@ public class NotificationServiceImpl implements NotificationServiceApi {
 
     @Override
     public Notification deleteNotification(Notification notification_deleted) throws NotificationNotFound {
-        Notification check_notification_exists = notificationRepository.getReferenceById(notification_deleted.getId());
+        Notification check_notification_exists = notificationRepository.getNotificationById(notification_deleted.getId());
         if(check_notification_exists!=null){
             log.warn("Delete notification with id {} in {}",notification_deleted.getId(),new Date());
             notificationRepository.delete(notification_deleted);

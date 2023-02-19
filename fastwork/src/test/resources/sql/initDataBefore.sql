@@ -22,3 +22,6 @@ insert into work_application(id, date_applicaton, status_work_application, work_
 values(777,'2023-01-23','EXPECTATION',778,778);
 insert into users_works(users_id, user_works_id) values(781,777);
 insert into users_works(users_id, user_works_id) values(780,778);
+
+insert into notification(id, date_send_notification, message_notification, name_topic_notification, status_notification)values(777,'2023-09-01','test','test','OTHER');
+insert into notification(id, date_send_notification, message_notification, name_topic_notification, status_notification)values(778,'2023-09-01','test','delete','OTHER')
