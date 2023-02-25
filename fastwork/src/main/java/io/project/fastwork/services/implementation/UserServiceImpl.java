@@ -4,7 +4,6 @@ import io.project.fastwork.domains.StatusUser;
 import io.project.fastwork.domains.Users;
 import io.project.fastwork.domains.Work;
 import io.project.fastwork.repositories.UserRepository;
-import io.project.fastwork.repositories.WorkRepository;
 import io.project.fastwork.services.api.UserServiceApi;
 import io.project.fastwork.services.exception.*;
 import io.project.fastwork.services.util.UserValidator;
@@ -26,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class UserServiceImpl implements UserServiceApi, UserDetailsService {
+public class UserServiceImpl implements UserDetailsService, UserServiceApi {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -36,7 +35,7 @@ public class UserServiceImpl implements UserServiceApi, UserDetailsService {
         Users user_is_exists = userRepository.findByUserName(savedUser.getUserLogin());
         if (user_is_exists != null) {
             log.error("User with username {} already exists in {}", savedUser.getUserLogin(), new Date());
-            throw new UserAlreadyExisted(String.format("User with username - %s already existed. Try yet!",user_is_exists.getUserLogin()));
+            throw new UserAlreadyExisted(String.format("User with username - %s already existed. Try yet!", user_is_exists.getUserLogin()));
         }
         if (UserValidator.UserValidDataValues(savedUser)) {
             log.info("Save new user with username {} in {}", savedUser.getUserLogin(), new Date());
@@ -51,7 +50,7 @@ public class UserServiceImpl implements UserServiceApi, UserDetailsService {
     }
 
     @Override
-    public Users updateUser(Users updatedUser) throws UserAlreadyExisted, UserInvalidDataParemeter {
+    public Users updateUser(Users updatedUser) throws UserInvalidDataParemeter {
         if (UserValidator.UserValidDataValues(updatedUser)) {
             log.info("Update user with id {} in {}", updatedUser.getId(), new Date());
             updatedUser.setUserDateCreate(Timestamp.valueOf(LocalDateTime.now()));
@@ -104,10 +103,10 @@ public class UserServiceImpl implements UserServiceApi, UserDetailsService {
         }
         Users user_by_username = userRepository.findByUserName(username);
         if (user_by_username != null) {
-            log.info("Get user by username - {} in {}",user_by_username,new Date());
+            log.info("Get user by username - {} in {}", user_by_username, new Date());
             return user_by_username;
         } else {
-            log.warn("User with username - {} not found, throw exception in {}",username,new Date());
+            log.warn("User with username - {} not found, throw exception in {}", username, new Date());
             throw new UserNotFound(String.format("User with username - %s not found", username));
         }
     }
@@ -120,10 +119,10 @@ public class UserServiceImpl implements UserServiceApi, UserDetailsService {
         }
         Users user_by_email = userRepository.findbyEmail(email);
         if (user_by_email != null) {
-            log.info("Get user by email - {} in {}",user_by_email,new Date());
+            log.info("Get user by email - {} in {}", user_by_email, new Date());
             return user_by_email;
         } else {
-            log.warn("User with email - {} not found, throw exception in {}",email,new Date());
+            log.warn("User with email - {} not found, throw exception in {}", email, new Date());
             throw new UserNotFound(String.format("User with email - %s not found", email));
         }
     }
@@ -131,12 +130,12 @@ public class UserServiceImpl implements UserServiceApi, UserDetailsService {
     @Override
     public Users getById(Long idUser) throws UserNotFound {
         Users user_by_id = userRepository.getUserById(idUser);
-        if(user_by_id!=null){
-            log.info("Get user by id - {} in {}",idUser,new Date());
+        if (user_by_id != null) {
+            log.info("Get user by id - {} in {}", idUser, new Date());
             return user_by_id;
-        }else{
-            log.error("User with id {} not found, throw exception in {}",idUser,new Date());
-            throw new UserNotFound(String.format("User with id %s not found",idUser));
+        } else {
+            log.error("User with id {} not found, throw exception in {}", idUser, new Date());
+            throw new UserNotFound(String.format("User with id %s not found", idUser));
         }
     }
 
@@ -144,13 +143,13 @@ public class UserServiceImpl implements UserServiceApi, UserDetailsService {
     @Transactional
     @Override
     public Work addWorkToWorker(Work added_work, Users worker) throws WorkAlreadyAdded {
-        Work work_is_existed = worker.getUserWorks().stream().filter(o1->o1.getWorkName()
+        Work work_is_existed = worker.getUserWorks().stream().filter(o1 -> o1.getWorkName()
                 .equals(added_work.getWorkName())).findFirst().orElse(null);
-        if(work_is_existed!=null){
-            log.info("Work with id {} already added to worker with id {} in {}",added_work.getId(),worker.getId(),new Date());
-            throw new WorkAlreadyAdded(String.format("Work with id %s already added to worker with id %s",added_work.getId(),worker.getId()));
+        if (work_is_existed != null) {
+            log.info("Work with id {} already added to worker with id {} in {}", added_work.getId(), worker.getId(), new Date());
+            throw new WorkAlreadyAdded(String.format("Work with id %s already added to worker with id %s", added_work.getId(), worker.getId()));
         }
-        log.info("Add new work with id {} to worker with id {} in {}",added_work.getId(),worker.getId(),new Date());
+        log.info("Add new work with id {} to worker with id {} in {}", added_work.getId(), worker.getId(), new Date());
         worker.addWork(added_work);
         userRepository.save(worker);
         return added_work;
@@ -158,14 +157,14 @@ public class UserServiceImpl implements UserServiceApi, UserDetailsService {
 
     @Transactional
     @Override
-    public Work removeWorkFromWorker(Work removed_work,Users worker) throws WorkNotFound {
-        Work work_is_existed = worker.getUserWorks().stream().filter(o1->o1.getWorkName()
+    public Work removeWorkFromWorker(Work removed_work, Users worker) throws WorkNotFound {
+        Work work_is_existed = worker.getUserWorks().stream().filter(o1 -> o1.getWorkName()
                 .equals(removed_work.getWorkName())).findFirst().orElse(null);
-        if(work_is_existed==null){
-            log.info("Work with id {} doesn't have in worker with id {} in {}",removed_work.getId(),worker.getId(),new Date());
-            throw new WorkNotFound(String.format("Work with id %s doesn't have in worker with id %s",removed_work.getId(),worker.getId()));
+        if (work_is_existed == null) {
+            log.info("Work with id {} doesn't have in worker with id {} in {}", removed_work.getId(), worker.getId(), new Date());
+            throw new WorkNotFound(String.format("Work with id %s doesn't have in worker with id %s", removed_work.getId(), worker.getId()));
         }
-        log.info("Remove work with id {} to worker with id {} in {}",removed_work.getId(),worker.getId(),new Date());
+        log.info("Remove work with id {} to worker with id {} in {}", removed_work.getId(), worker.getId(), new Date());
         worker.removeWork(removed_work);
         userRepository.save(worker);
         return removed_work;
@@ -174,9 +173,9 @@ public class UserServiceImpl implements UserServiceApi, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users user_from_db = userRepository.findByUserName(username);
-        if(username==null){
-            log.error("User with username {} not found, throw exception in {}",username,new Date());
-            throw new UsernameNotFoundException(String.format("User with username %s not found!",username));
+        if (username == null) {
+            log.error("User with username {} not found, throw exception in {}", username, new Date());
+            throw new UsernameNotFoundException(String.format("User with username %s not found!", username));
         }
         return user_from_db;
     }
