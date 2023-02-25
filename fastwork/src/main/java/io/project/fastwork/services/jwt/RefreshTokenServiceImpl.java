@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Date;
@@ -33,6 +34,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenServiceApi {
         return refreshTokenRepository.findByToken(token);
     }
 
+    @Transactional
     @Override
     public RefreshToken createRefreshToken(Long userId){
         RefreshToken refreshToken = null;
@@ -60,6 +62,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenServiceApi {
         return refreshTokenExpiry;
     }
 
+    @Transactional
     @Override
     public int deleteTokenByUserId(Long userId){
         try {
