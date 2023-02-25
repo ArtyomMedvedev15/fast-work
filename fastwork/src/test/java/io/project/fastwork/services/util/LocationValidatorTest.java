@@ -3,7 +3,12 @@ package io.project.fastwork.services.util;
 import io.project.fastwork.domains.Location;
 import io.project.fastwork.domains.Points;
 import io.project.fastwork.services.exception.LocationWithInvalidArgumentsException;
+import io.project.fastwork.services.exception.UserInvalidDataParemeter;
+import io.project.fastwork.util.LocationArgumentProviders;
+import io.project.fastwork.util.UserArgumentProviders;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.math.BigDecimal;
 
@@ -11,28 +16,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LocationValidatorTest {
-    @Test
-    void LocationTest_WithValidParaments_ReturnTrue() throws LocationWithInvalidArgumentsException {
-        Points points_test_parameter = Points.builder()
-                .x(BigDecimal.valueOf(123L))
-                .y(BigDecimal.valueOf(87L))
-                .build();
-        Location location_valid = Location.builder()
-                .locationCity("Test")
-                .locationCountry("Test")
-                .locationRegion("Test")
-                .locationStreet("Test")
-                .locationPoints(points_test_parameter)
-                .build();
-
-        boolean is_valid_location = LocationValidator.LocationValidDataValues(location_valid);
-
-        assertTrue(is_valid_location);
-
+    @ParameterizedTest
+    @ArgumentsSource(LocationArgumentProviders.LocationArgumentInvalidProviders.class)
+    void LocationTest_WithValidParaments_ReturnTrue(Location location_invalid) throws LocationWithInvalidArgumentsException {
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
+                () -> LocationValidator.LocationValidDataValues(location_invalid)
+        );
+        assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
-    void LocationTest_WithInvalidCity_ReturnTrue() {
+    void LocationTest_WithInvalidCity_ThrowException() {
         Points points_test_parameter = Points.builder()
                 .x(BigDecimal.valueOf(123L))
                 .y(BigDecimal.valueOf(87L))
@@ -55,7 +50,7 @@ class LocationValidatorTest {
     }
 
     @Test
-    void LocationTest_WithInvalidCityLess4Length_ReturnTrue() {
+    void LocationTest_WithInvalidCityLess4Length_ThrowException() {
         Points points_test_parameter = Points.builder()
                 .x(BigDecimal.valueOf(123L))
                 .y(BigDecimal.valueOf(87L))
@@ -78,7 +73,7 @@ class LocationValidatorTest {
     }
 
     @Test
-    void LocationTest_WithInvalidCityMore30Length_ReturnTrue() {
+    void LocationTest_WithInvalidCityMore30Length_ThrowException() {
         Points points_test_parameter = Points.builder()
                 .x(BigDecimal.valueOf(123L))
                 .y(BigDecimal.valueOf(87L))
@@ -101,7 +96,7 @@ class LocationValidatorTest {
     }
 
     @Test
-    void LocationTest_WithInvalidCountry_ReturnTrue() {
+    void LocationTest_WithInvalidCountry_ThrowException() {
         Points points_test_parameter = Points.builder()
                 .x(BigDecimal.valueOf(123L))
                 .y(BigDecimal.valueOf(87L))
@@ -123,7 +118,7 @@ class LocationValidatorTest {
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
-    void LocationTest_WithInvalidCountryLess4Length_ReturnTrue() {
+    void LocationTest_WithInvalidCountryLess4Length_ThrowException() {
         Points points_test_parameter = Points.builder()
                 .x(BigDecimal.valueOf(123L))
                 .y(BigDecimal.valueOf(87L))
@@ -145,7 +140,7 @@ class LocationValidatorTest {
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
     @Test
-    void LocationTest_WithInvalidCountryMoreThan30Length_ReturnTrue() {
+    void LocationTest_WithInvalidCountryMoreThan30Length_ThrowExcepti() {
         Points points_test_parameter = Points.builder()
                 .x(BigDecimal.valueOf(123L))
                 .y(BigDecimal.valueOf(87L))
