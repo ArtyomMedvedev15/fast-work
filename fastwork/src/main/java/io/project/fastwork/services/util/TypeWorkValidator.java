@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class TypeWorkValidator {
     public static boolean TypeWorkValidDataValues(TypeWork typeWork) throws TypeWorkInvalidParameterException {
         if(Pattern.matches("^[a-zA-Z]{4,30}+$",typeWork.getTypeWorkName()) &&
-                Pattern.matches("(([a-zA-Z0-9]+\\s)*[a-zA-Z0-9]){10,256}+$",typeWork.getTypeWorkDescribe())){
+                Pattern.matches("(([a-zA-Z0-9]+\\s)*[a-zA-Z0-9]){10,256}",typeWork.getTypeWorkDescribe())){
            return true;
         }else{
             throw new TypeWorkInvalidParameterException("Check string parameters, something was wrong!");
