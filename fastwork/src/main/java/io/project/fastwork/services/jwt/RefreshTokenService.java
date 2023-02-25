@@ -22,7 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class RefreshTokenServiceImpl implements RefreshTokenServiceApi {
+public class RefreshTokenService implements RefreshTokenServiceApi {
 
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserServiceApi userService;
