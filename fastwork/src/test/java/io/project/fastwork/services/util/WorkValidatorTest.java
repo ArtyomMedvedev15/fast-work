@@ -1,6 +1,7 @@
 package io.project.fastwork.services.util;
 
 import io.project.fastwork.domains.Work;
+import io.project.fastwork.services.exception.TypeWorkInvalidParameterException;
 import io.project.fastwork.services.exception.WorkInvalidDataValues;
 import io.project.fastwork.util.UserArgumentProviders;
 import io.project.fastwork.util.WorkArgumentProviders;
@@ -14,8 +15,17 @@ class WorkValidatorTest {
 
     @ParameterizedTest
     @ArgumentsSource(WorkArgumentProviders.WorkArgumentValidProviders.class)
-    void WorkValidDataValuesTest_WithValidValud_ReturnTrue(Work work_valid) throws WorkInvalidDataValues {
+    void WorkValidDataValuesTest_WithValidValue_ReturnTrue(Work work_valid) throws WorkInvalidDataValues {
         assertTrue(WorkValidator.WorkValidDataValues(work_valid));
+    }
+    @ParameterizedTest
+    @ArgumentsSource(WorkArgumentProviders.WorkArgumentInvalidProviders.class)
+    void WorkValidDataValuesTest_WithInvalidValue_ReturnTrue(Work work_invalid) throws WorkInvalidDataValues {
+        WorkInvalidDataValues workInvalidDataValues = assertThrows(
+                WorkInvalidDataValues.class,
+                () -> WorkValidator.WorkValidDataValues(work_invalid)
+        );
+        assertTrue(workInvalidDataValues.getMessage().contentEquals("Invalid data values for work, check string parameters"));
 
     }
 }

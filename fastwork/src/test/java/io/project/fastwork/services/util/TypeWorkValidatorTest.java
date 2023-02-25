@@ -13,7 +13,7 @@ class TypeWorkValidatorTest {
         TypeWork type_work_valid = TypeWork.builder()
                 .id(777L)
                 .typeWorkName("Type")
-                .typeWorkDescribe("TypeWorkTypeWorkType")
+                .typeWorkDescribe("TypeWorkTyp eWorkType")
                 .build();
 
         boolean type_work_validator_result = TypeWorkValidator.TypeWorkValidDataValues(type_work_valid);
