@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +29,7 @@ import java.util.List;
 public class UserServiceImpl implements UserServiceApi, UserDetailsService {
 
     private final UserRepository userRepository;
-    private final WorkRepository workRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public Users saveUser(Users savedUser) throws UserAlreadyExisted, UserInvalidDataParemeter {
@@ -39,6 +40,7 @@ public class UserServiceImpl implements UserServiceApi, UserDetailsService {
         }
         if (UserValidator.UserValidDataValues(savedUser)) {
             log.info("Save new user with username {} in {}", savedUser.getUserLogin(), new Date());
+            savedUser.setUserPassword(passwordEncoder.encode(savedUser.getUserPassword()));
             savedUser.setUserStatus(StatusUser.ACTIVE);
             savedUser.setUserDateCreate(Timestamp.valueOf(LocalDateTime.now()));
             return userRepository.save(savedUser);
@@ -149,7 +151,7 @@ public class UserServiceImpl implements UserServiceApi, UserDetailsService {
             throw new WorkAlreadyAdded(String.format("Work with id %s already added to worker with id %s",added_work.getId(),worker.getId()));
         }
         log.info("Add new work with id {} to worker with id {} in {}",added_work.getId(),worker.getId(),new Date());
-        worker.getUserWorks().add(added_work);
+        worker.addWork(added_work);
         userRepository.save(worker);
         return added_work;
     }
@@ -173,6 +175,7 @@ public class UserServiceImpl implements UserServiceApi, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users user_from_db = userRepository.findByUserName(username);
         if(username==null){
+            log.error("User with username {} not found, throw exception in {}",username,new Date());
             throw new UsernameNotFoundException(String.format("User with username %s not found!",username));
         }
         return user_from_db;
