@@ -1,5 +1,12 @@
 package io.project.fastwork.domains;
 
-public enum Role {
-    WORKER,HIRER,ADMIN,MODERATOR
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role implements GrantedAuthority {
+    WORKER,HIRER,ADMIN,MODERATOR;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }
