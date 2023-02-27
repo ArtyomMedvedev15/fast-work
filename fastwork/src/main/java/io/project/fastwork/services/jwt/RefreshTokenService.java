@@ -1,6 +1,5 @@
 package io.project.fastwork.services.jwt;
 
-import io.jsonwebtoken.Jwts;
 import io.project.fastwork.domains.RefreshToken;
 import io.project.fastwork.repositories.RefreshTokenRepository;
 import io.project.fastwork.services.api.RefreshTokenServiceApi;
@@ -66,7 +65,7 @@ public class RefreshTokenService implements RefreshTokenServiceApi {
     @Override
     public int deleteTokenByUserId(Long userId){
         try {
-            refreshTokenRepository.deletebyUser(userService.getById(userId));
+            refreshTokenRepository.deleteByUser(userService.getById(userId));
             return 1;
         } catch (UserNotFound e) {
             log.error("User with id {} not found, throw exception in {}",userId,new Date());

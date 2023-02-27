@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,10 +26,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class UserServiceImpl implements UserDetailsService, UserServiceApi {
+public class UserServiceImpl implements UserServiceApi {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Users saveUser(Users savedUser) throws UserAlreadyExisted, UserInvalidDataParemeter {
@@ -170,13 +172,4 @@ public class UserServiceImpl implements UserDetailsService, UserServiceApi {
         return removed_work;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user_from_db = userRepository.findByUserName(username);
-        if (username == null) {
-            log.error("User with username {} not found, throw exception in {}", username, new Date());
-            throw new UsernameNotFoundException(String.format("User with username %s not found!", username));
-        }
-        return user_from_db;
-    }
 }
