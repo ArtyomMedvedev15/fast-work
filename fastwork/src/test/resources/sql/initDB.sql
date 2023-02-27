@@ -56,16 +56,20 @@ create table location
 
 create table work_application
 (
-    id              bigint not null
+    id                      bigint not null
         primary key,
-    date_applicaton timestamp(6),
-    work_id         bigint
+    date_applicaton         timestamp(6),
+    work_id                 bigint
         constraint fkl5mdxbig1onhlsw17njkumdk2
-            references work on delete cascade ,
-    worker_id       bigint
+            references work
+            on delete cascade,
+    worker_id               bigint
         constraint fk8joagvc8yvnbrgl2e130wku7x
-            references users on delete cascade
+            references users
+            on delete cascade,
+    status_work_application varchar(255)
 );
+
 
 create table users_works
 (
@@ -88,3 +92,15 @@ create table notification
     name_topic_notification varchar(255),
     status_notification     varchar(255)
 );
+create table if not exists refresh_token
+(
+    id          bigint                      not null
+    primary key,
+    expiry_date timestamp(6) with time zone not null,
+                                 token       varchar(255)                not null
+    constraint uk_r4k4edos30bx9neoq81mdvwph
+    unique,
+    user_id     bigint
+    constraint fkjtx87i0jvq2svedphegvdwcuy
+    references users
+    );

@@ -1,18 +1,25 @@
 package io.project.fastwork.services.implementation;
 
+import io.project.fastwork.configuration.MailConfig;
 import io.project.fastwork.domains.Location;
 import io.project.fastwork.domains.Points;
 import io.project.fastwork.domains.Work;
 import io.project.fastwork.repositories.LocationRepository;
 import io.project.fastwork.services.api.LocationServiceApi;
+import io.project.fastwork.services.api.MailServiceApi;
 import io.project.fastwork.services.exception.LocationNotFoundException;
 import io.project.fastwork.services.exception.LocationWithInvalidArgumentsException;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -23,6 +30,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
 @Testcontainers
 @Sql(value = "classpath:/sql/initDataBefore.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -35,6 +43,8 @@ class LocationServiceImplTest {
     @Autowired
     private LocationRepository locationRepository;
 
+    @MockBean
+    private MailServiceApi mailServiceApi;
     @Container
     static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:9.6.18-alpine")
             .withDatabaseName("prop")

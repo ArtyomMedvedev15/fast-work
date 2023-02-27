@@ -88,7 +88,7 @@ class UserServiceImplTest {
         Users user_valid = userService.getById(777L);
         user_valid.setUserName("UpdateUser");
         Users user_update = userService.updateUser(user_valid);
-        assertEquals("UpdateUser", user_update.getUserName());
+        assertEquals("UpdateUser", user_update.getUsername());
     }
 
     @Test
@@ -142,7 +142,7 @@ class UserServiceImplTest {
     @Test
     void FindUserbyUsername_WithValidLoginCorrect_ReturnTrue() throws UserNotFound, UserInvalidDataParemeter {
         Users user_by_username = userService.findByUsername("Login123");
-        assertEquals("hirer", user_by_username.getUserName());
+        assertEquals("hirer", user_by_username.getUsername());
     }
 
     @Test
@@ -166,7 +166,7 @@ class UserServiceImplTest {
     @Test
     void FindUserByEmail_WithValidEmailCorrect_ReturnTrue() throws UserNotFound, UserInvalidDataParemeter {
         Users user_by_username = userService.findByEmail("user2@mail.tex");
-        assertEquals("hirer", user_by_username.getUserName());
+        assertEquals("hirer", user_by_username.getUsername());
     }
 
     @Test

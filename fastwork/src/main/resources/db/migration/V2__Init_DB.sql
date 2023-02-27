@@ -54,17 +54,20 @@ create table if not exists location
             references work
 );
 
-create table if not exists work_application
+create table work_application
 (
-    id              bigint not null
+    id                      bigint not null
         primary key,
-    date_applicaton timestamp(6),
-    work_id         bigint
+    date_applicaton         timestamp(6),
+    work_id                 bigint
         constraint fkl5mdxbig1onhlsw17njkumdk2
-            references work on delete cascade ,
-    worker_id       bigint
+            references work
+            on delete cascade,
+    worker_id               bigint
         constraint fk8joagvc8yvnbrgl2e130wku7x
-            references users on delete cascade
+            references users
+            on delete cascade,
+    status_work_application varchar(255)
 );
 
 create table if not exists users_works
