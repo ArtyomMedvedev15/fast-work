@@ -6,9 +6,7 @@ import io.project.fastwork.domains.Users;
 import io.project.fastwork.domains.Work;
 import io.project.fastwork.repositories.WorkRepository;
 import io.project.fastwork.services.api.UserServiceApi;
-import io.project.fastwork.services.api.WorkServiceApi;
 import io.project.fastwork.services.exception.*;
-import org.apache.catalina.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +19,6 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
-import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
@@ -55,11 +52,11 @@ class UserServiceImplTest {
     @Test
     void SaveUser_WithValidUser_ReturnTrue() throws UserAlreadyExisted, UserInvalidDataParemeter {
         Users user_valid = Users.builder()
-                .userLogin("UserLogin12")
-                .userName("UserTest")
-                .userSoname("UserTest")
-                .userPassword("Testtest12@a")
-                .userEmail("usertest@test.com")
+                .username("JHaris12")
+                .userOriginalName("JHarissd")
+                .userSoname("Bronson")
+                .userPassword("QwErTy132!z")
+                .userEmail("monim@gmail.com")
                 .userRole(Role.WORKER)
                 .build();
         Users user_save_result = userService.saveUser(user_valid);
@@ -69,8 +66,8 @@ class UserServiceImplTest {
     @Test
     void SaveUser_WithExistedUser_ThrowException(){
         Users user_valid = Users.builder()
-                .userLogin("Login123")
-                .userName("UserTest")
+                .username("Login123")
+                .userOriginalName("UserTest")
                 .userSoname("UserTest")
                 .userPassword("Testtest12@a")
                 .userEmail("usertest@test.com")
@@ -86,7 +83,7 @@ class UserServiceImplTest {
     @Test
     void UpdateUser_WithValidUser_ReturnTrue() throws UserNotFound, UserAlreadyExisted, UserInvalidDataParemeter {
         Users user_valid = userService.getById(777L);
-        user_valid.setUserName("UpdateUser");
+        user_valid.setUsername("UpdateUser");
         Users user_update = userService.updateUser(user_valid);
         assertEquals("UpdateUser", user_update.getUsername());
     }
@@ -141,7 +138,7 @@ class UserServiceImplTest {
 
     @Test
     void FindUserbyUsername_WithValidLoginCorrect_ReturnTrue() throws UserNotFound, UserInvalidDataParemeter {
-        Users user_by_username = userService.findByUsername("Login123");
+        Users user_by_username = userService.findByLogin("Login123");
         assertEquals("hirer", user_by_username.getUsername());
     }
 
@@ -149,7 +146,7 @@ class UserServiceImplTest {
     void FindUserbyUsername_WithInvalidLogin_ThrowException(){
         UserInvalidDataParemeter userInvalidDataParemeter = assertThrows(
                 UserInvalidDataParemeter.class,
-                () ->   userService.findByUsername("")
+                () ->   userService.findByLogin("")
         );
         assertTrue(userInvalidDataParemeter.getMessage().contentEquals("Username for search incorrect, try yet"));
     }
@@ -158,15 +155,16 @@ class UserServiceImplTest {
     void FindUserbyUsername_WithNotFoundUser_ThrowException(){
         UserNotFound userNotFound = assertThrows(
                 UserNotFound.class,
-                () ->   userService.findByUsername("Samsa")
+                () ->   userService.findByLogin("Samsa")
         );
         assertTrue(userNotFound.getMessage().contentEquals("User with username - Samsa not found"));
     }
 
     @Test
+    @Transactional
     void FindUserByEmail_WithValidEmailCorrect_ReturnTrue() throws UserNotFound, UserInvalidDataParemeter {
         Users user_by_username = userService.findByEmail("user2@mail.tex");
-        assertEquals("hirer", user_by_username.getUsername());
+        assertEquals("hirer", user_by_username.getUserOriginalName());
     }
 
     @Test
@@ -190,7 +188,7 @@ class UserServiceImplTest {
     @Test
     void GetUserById_WithExistedUser_ReturnTrue() throws UserNotFound {
         Users user_by_id = userService.getById(779L);
-        assertEquals("Logi123s", user_by_id.getUserLogin());
+        assertEquals("Logi123s", user_by_id.getUsername());
     }
 
     @Test

@@ -9,10 +9,6 @@ import io.project.fastwork.services.exception.*;
 import io.project.fastwork.services.util.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,13 +30,13 @@ public class UserServiceImpl implements UserServiceApi {
 
     @Override
     public Users saveUser(Users savedUser) throws UserAlreadyExisted, UserInvalidDataParemeter {
-        Users user_is_exists = userRepository.findByUserName(savedUser.getUserLogin());
+        Users user_is_exists = userRepository.findByLogin(savedUser.getUsername());
         if (user_is_exists != null) {
-            log.error("User with username {} already exists in {}", savedUser.getUserLogin(), new Date());
-            throw new UserAlreadyExisted(String.format("User with username - %s already existed. Try yet!", user_is_exists.getUserLogin()));
+            log.error("User with username {} already exists in {}", savedUser.getUsername(), new Date());
+            throw new UserAlreadyExisted(String.format("User with username - %s already existed. Try yet!", user_is_exists.getUsername()));
         }
         if (UserValidator.UserValidDataValues(savedUser)) {
-            log.info("Save new user with username {} in {}", savedUser.getUserLogin(), new Date());
+            log.info("Save new user with username {} in {}", savedUser.getUsername(), new Date());
             savedUser.setUserPassword(passwordEncoder.encode(savedUser.getUserPassword()));
             savedUser.setUserStatus(StatusUser.ACTIVE);
             savedUser.setUserDateCreate(Timestamp.valueOf(LocalDateTime.now()));
@@ -98,12 +94,12 @@ public class UserServiceImpl implements UserServiceApi {
     }
 
     @Override
-    public Users findByUsername(String username) throws UserInvalidDataParemeter, UserNotFound {
+    public Users findByLogin(String username) throws UserInvalidDataParemeter, UserNotFound {
         if (username.equals("")) {
             log.info("Username for search equals empty string, throw exception in {}", new Date());
             throw new UserInvalidDataParemeter("Username for search incorrect, try yet");
         }
-        Users user_by_username = userRepository.findByUserName(username);
+        Users user_by_username = userRepository.findByLogin(username);
         if (user_by_username != null) {
             log.info("Get user by username - {} in {}", user_by_username, new Date());
             return user_by_username;

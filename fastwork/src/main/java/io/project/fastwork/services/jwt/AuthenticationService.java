@@ -1,9 +1,9 @@
 package io.project.fastwork.services.jwt;
 
 import io.project.fastwork.domains.Users;
-import io.project.fastwork.dto.AuthenticationRequest;
-import io.project.fastwork.dto.AuthenticationResponse;
-import io.project.fastwork.dto.RegistrationRequest;
+import io.project.fastwork.dto.request.AuthenticationRequest;
+import io.project.fastwork.dto.response.AuthenticationResponse;
+import io.project.fastwork.dto.request.RegistrationRequest;
 import io.project.fastwork.services.api.UserServiceApi;
 import io.project.fastwork.services.exception.UserAlreadyExisted;
 import io.project.fastwork.services.exception.UserInvalidDataParemeter;
@@ -27,11 +27,11 @@ public class AuthenticationService {
 
     public AuthenticationResponse registrationUser(RegistrationRequest registrationRequest){
         var user_save = Users.builder()
-                .userLogin(registrationRequest.getUserLogin())
-                .userName(registrationRequest.getUserName())
-                .userSoname(registrationRequest.getUserSoname())
-                .userPassword(registrationRequest.getUserPassword())
-                .userEmail(registrationRequest.getUserEmail())
+                .username(registrationRequest.getUserlogin())
+                .userOriginalName(registrationRequest.getUsername())
+                .userSoname(registrationRequest.getUsersoname())
+                .userPassword(registrationRequest.getUserpassword())
+                .userEmail(registrationRequest.getUseremail())
                 .build();
         try {
             userService.saveUser(user_save);
@@ -53,7 +53,7 @@ public class AuthenticationService {
                         authenticationRequest.getPassword()
                 )
         );
-        var user = userService.findByUsername(authenticationRequest.getUserlogin());
+        var user = userService.findByLogin(authenticationRequest.getUserlogin());
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

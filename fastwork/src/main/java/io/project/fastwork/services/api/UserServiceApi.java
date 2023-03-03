@@ -4,7 +4,6 @@ import io.project.fastwork.domains.StatusUser;
 import io.project.fastwork.domains.Users;
 import io.project.fastwork.domains.Work;
 import io.project.fastwork.services.exception.*;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ public interface UserServiceApi {
     Users blockedUser(Users blockedUser) throws UserNotFound;
     List<Users>findAllUsersByStatus(StatusUser statusUser);
 
-    Users findByUsername(String username) throws UserInvalidDataParemeter, UserNotFound;
+    Users findByLogin(String username) throws UserInvalidDataParemeter, UserNotFound;
     Users findByEmail(String email) throws UserInvalidDataParemeter, UserNotFound;
     Users getById(Long idUser) throws UserNotFound;
     Work addWorkToWorker(Work added_work,Users worker) throws WorkAlreadyAdded;

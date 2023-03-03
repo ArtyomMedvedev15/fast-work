@@ -22,8 +22,8 @@ public class Users implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String userLogin;
-    private String userName;
+    private String username;
+    private String userOriginalName;
     private String userSoname;
     private String userEmail;
     private String userPassword;
@@ -55,12 +55,12 @@ public class Users implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
@@ -70,11 +70,12 @@ public class Users implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
         return true;
     }
+
 }

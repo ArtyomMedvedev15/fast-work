@@ -1,15 +1,15 @@
 create table users
 (
-    id               bigint not null
+    id                 bigint not null
         primary key,
-    user_date_create timestamp(6),
-    user_email       varchar(255),
-    user_login       varchar(255),
-    user_name        varchar(255),
-    user_password    varchar(255),
-    user_role        varchar(255),
-    user_soname      varchar(255),
-    user_status      varchar(255)
+    user_date_create   timestamp(6),
+    user_email         varchar(255),
+    user_original_name varchar(255),
+    user_password      varchar(255),
+    user_role          varchar(255),
+    user_soname        varchar(255),
+    user_status        varchar(255),
+    username           varchar(255)
 );
 
 create table type_work
@@ -104,3 +104,24 @@ create table if not exists refresh_token
     constraint fkjtx87i0jvq2svedphegvdwcuy
     references users
     );
+
+create sequence location_seq
+    increment by 50;
+
+create sequence notification_seq
+    increment by 50;
+
+create sequence refresh_token_seq
+    increment by 50;
+
+create sequence type_work_seq
+    increment by 50;
+
+create sequence users_seq
+    increment by 50;
+
+create sequence work_application_seq
+    increment by 50;
+
+create sequence work_seq
+    increment by 50;

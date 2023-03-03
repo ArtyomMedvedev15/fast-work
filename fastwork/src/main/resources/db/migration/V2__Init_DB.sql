@@ -1,17 +1,16 @@
 create table if not exists users
 (
-    id               bigint not null
+    id                 bigint not null
         primary key,
-    user_date_create timestamp(6),
-    user_email       varchar(255),
-    user_login       varchar(255),
-    user_name        varchar(255),
-    user_password    varchar(255),
-    user_role        varchar(255),
-    user_soname      varchar(255),
-    user_status      varchar(255)
+    user_date_create   timestamp(6),
+    user_email         varchar(255),
+    user_original_name varchar(255),
+    user_password      varchar(255),
+    user_role          varchar(255),
+    user_soname        varchar(255),
+    user_status        varchar(255),
+    username           varchar(255)
 );
-
 create table if not exists type_work
 (
     id                    bigint not null
@@ -54,7 +53,7 @@ create table if not exists location
             references work
 );
 
-create table work_application
+create table if not exists work_application
 (
     id                      bigint not null
         primary key,

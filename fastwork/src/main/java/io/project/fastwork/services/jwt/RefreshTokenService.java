@@ -1,10 +1,11 @@
 package io.project.fastwork.services.jwt;
 
+import io.project.fastwork.controller.exception.TokenRefreshException;
 import io.project.fastwork.domains.RefreshToken;
 import io.project.fastwork.repositories.RefreshTokenRepository;
 import io.project.fastwork.services.api.RefreshTokenServiceApi;
 import io.project.fastwork.services.api.UserServiceApi;
-import io.project.fastwork.services.exception.TokenRefreshException;
+import io.project.fastwork.services.exception.UserInvalidDataParemeter;
 import io.project.fastwork.services.exception.UserNotFound;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,19 +36,21 @@ public class RefreshTokenService implements RefreshTokenServiceApi {
 
     @Transactional
     @Override
-    public RefreshToken createRefreshToken(Long userId){
+    public RefreshToken createRefreshToken(String username){
         RefreshToken refreshToken = null;
         try {
             refreshToken = RefreshToken.builder()
-                    .user(userService.getById(userId))
+                    .user(userService.findByLogin(username))
                     .expiryDate(Instant.now().plusMillis(refreshTokenDurationMs*24))
                     .token(UUID.randomUUID().toString())
                     .build();
         } catch (UserNotFound e) {
-            log.error("User with id {} not found in {}",userId,new Date());
+            log.error("User with username {} not found in {}",username,new Date());
             e.printStackTrace();
+        } catch (UserInvalidDataParemeter e) {
+             e.printStackTrace();
         }
-        log.info("Get refresh token for user with id {} in {}",userId,new Date());
+        log.info("Get refresh token for user with username {} in {}",username,new Date());
         return refreshTokenRepository.save(Objects.requireNonNull(refreshToken));
     }
 
@@ -55,7 +58,7 @@ public class RefreshTokenService implements RefreshTokenServiceApi {
     public RefreshToken verifyExpiration(RefreshToken refreshTokenExpiry) throws TokenRefreshException {
         if (refreshTokenExpiry.getExpiryDate().compareTo(Instant.now()) < 0) {
             refreshTokenRepository.delete(refreshTokenExpiry);
-            throw new TokenRefreshException("Refresh token was expired. Please make a new sign in request");
+            throw new TokenRefreshException(refreshTokenExpiry.getToken(),"Refresh token was expired. Please make a new sign in request");
         }
 
         return refreshTokenExpiry;

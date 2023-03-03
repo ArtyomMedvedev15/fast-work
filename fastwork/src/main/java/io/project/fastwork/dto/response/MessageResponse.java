@@ -1,4 +1,4 @@
-package io.project.fastwork.dto;
+package io.project.fastwork.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequest {
-    private String userlogin;
-    private String password;
+public class MessageResponse {
+    private String message;
 }
