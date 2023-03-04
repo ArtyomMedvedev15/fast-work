@@ -15,7 +15,7 @@ public interface WorkRepository extends JpaRepository<Work,Long> {
     Work workChangeStatus(@Param("status") StatusWork statusWork,@Param("id_work")Long id_work);
     @Query("select w from Work w where w.workName like %:work_name%")
     List<Work>findWorkByName(@Param("work_name")String work_name);
-    @Query("select w from Work  w where w.workType=:workTypeId")
+    @Query("select w from Work  w where w.workType.id=:workTypeId")
     List<Work>findWorkByType(@Param("workTypeId")Long idWorkType);
     @Query("select w from Work w where w.id=:work_id")
     Work getWorkById(@Param("work_id")Long work_id);

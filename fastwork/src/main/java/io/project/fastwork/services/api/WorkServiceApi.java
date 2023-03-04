@@ -19,7 +19,7 @@ public interface WorkServiceApi {
     Work getWorkById(Long work_id) throws WorkNotFound;
     Work exceptionWork(Work exceptionWork) throws WorkNotFound;
     List<Work>findWorkByName(String nameWork);
-    List<Work>findWorkByTypeWork(TypeWork typeWork) throws TypeWorkNotFound;
+    List<Work>findWorkByTypeWork(TypeWork typeWork);
 
     List<Work>findAllOpenedWork();
     List<Work>findAllClosedWork();

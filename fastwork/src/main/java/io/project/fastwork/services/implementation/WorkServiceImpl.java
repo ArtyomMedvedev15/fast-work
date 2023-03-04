@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -122,14 +123,14 @@ public class WorkServiceImpl implements WorkServiceApi {
 
     @Transactional
     @Override
-    public List<Work> findWorkByTypeWork(TypeWork typeWork) throws TypeWorkNotFound {
+    public List<Work> findWorkByTypeWork(TypeWork typeWork){
         TypeWork check_type_work_exists = typeWorkRepository.findByTypeWorkName(typeWork.getTypeWorkName());
         if (check_type_work_exists != null) {
             log.info("Get work with type work {} in {}", typeWork.getTypeWorkName(), new Date());
-            return workRepository.findWorkByType(typeWork.getId());
+            return workRepository.findWorkByType(typeWork.getId()).stream().filter(o1->o1.getWorkStatus().equals(StatusWork.OPEN)).collect(Collectors.toList());
         } else {
             log.error("Cannot get work by type, type work equals null, in {}", new Date());
-            throw new TypeWorkNotFound(String.format("Type work with id %s not found", typeWork.getId()));
+            return Collections.emptyList();
         }
     }
 
