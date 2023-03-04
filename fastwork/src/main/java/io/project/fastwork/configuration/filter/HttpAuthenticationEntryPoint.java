@@ -18,9 +18,7 @@ public class HttpAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        OutputStream responseStream = response.getOutputStream();
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(responseStream, authException.getMessage());
-        responseStream.flush();
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error -> Unauthorized");
+
     }
 }

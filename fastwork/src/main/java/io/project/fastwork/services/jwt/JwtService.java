@@ -5,6 +5,11 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.project.fastwork.domains.Users;
+import io.project.fastwork.services.api.UserServiceApi;
+import io.project.fastwork.services.exception.UserInvalidDataParemeter;
+import io.project.fastwork.services.exception.UserNotFound;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -16,10 +21,12 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
     @Value("${secret.key}")
     private String secret_key;
 
+    private final UserServiceApi userService;
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -53,7 +60,21 @@ public class JwtService {
     public String generateToken(UserDetails userDetails){
         return generateToken(new HashMap<>(),userDetails);
     }
-
+    public String generateTokenFromUsername(String username){
+        try {
+            Users userByLogin = userService.findByLogin(username);
+            return Jwts.builder()
+                    .claim("status_active",userByLogin.isAccountNonExpired())
+                    .claim("role",userByLogin.getUserRole())
+                    .setSubject(username)
+                    .setIssuedAt(new Date(System.currentTimeMillis()))
+                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+                    .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                    .compact();
+        } catch (UserInvalidDataParemeter | UserNotFound e) {
+            throw new RuntimeException(e);
+        }
+    }
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails){
         return Jwts.builder()
                 .setClaims(extraClaims)

@@ -29,6 +29,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -41,7 +42,6 @@ public class AuthenticationController {
     private final JwtService jwtService;
     private final RefreshTokenServiceApi refreshTokenService;
     private final UserServiceApi userService;
-    private final UserDetailsService userDetailsService;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody AuthenticationRequest authenticationRequest) {
@@ -60,6 +60,7 @@ public class AuthenticationController {
                 .token(jwt)
                 .refreshToken(refreshToken.getToken())
                 .username(userDetails.getUsername())
+                        .type("Bearer ")
                 .email(refreshToken.getUser().getUserEmail())
                 .roles(Role.valueOf(roles.get(0))).build());
     }
@@ -75,7 +76,6 @@ public class AuthenticationController {
                     .userRole(Role.valueOf(registrationRequest.getUserrole()))
                     .userPassword(registrationRequest.getUserpassword())
                     .build();
-            System.out.println("USER"+user_registraton);
             userService.saveUser(user_registraton);
         } catch (UserAlreadyExisted | UserInvalidDataParemeter e) {
             return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
@@ -86,25 +86,31 @@ public class AuthenticationController {
     @PostMapping("/refreshtoken")
     public ResponseEntity<?> refreshToken(@RequestBody TokenRefreshRequest tokenRefreshRequest) {
         String refreshTokenRequest = tokenRefreshRequest.getRefreshToken();
-        String usernameRequest = tokenRefreshRequest.getUsername();
-
-        System.out.println(userDetailsService.loadUserByUsername(usernameRequest));
-        return refreshTokenService.findByToken(refreshTokenRequest)
-                .map(refreshTokenService::verifyExpiration)
+        Optional<RefreshToken> refreshTokenfind = refreshTokenService.findByToken(refreshTokenRequest);
+        Optional<String> token = Optional.of(refreshTokenService.findByToken(refreshTokenRequest)
+                .map(refreshToken -> {
+                    refreshTokenService.verifyExpiration(refreshToken);
+                    return refreshToken;
+                })
                 .map(RefreshToken::getUser)
-                .map(users -> {
-                    String token = jwtService.generateToken(userDetailsService.loadUserByUsername(usernameRequest));
-                    return ResponseEntity.ok(TokenRefreshResponse.builder().accessToken(token).refreshToken(refreshTokenRequest));
-                }).orElseThrow(() -> new TokenRefreshException(refreshTokenRequest,
-                        "Refresh token is not in database!"));
+                 .map(u -> jwtService.generateTokenFromUsername(u.getUsername()))
+                .orElseThrow(() -> new TokenRefreshException(refreshTokenRequest, "Missing refresh token in database. Please login again")));
+
+        return ResponseEntity.ok(AuthenticationResponse.builder()
+                .token(token.get())
+                .refreshToken(refreshTokenRequest)
+                .username(refreshTokenfind.get().getUser().getUsername())
+                .email(refreshTokenfind.get().getUser().getUserEmail())
+                .roles(refreshTokenfind.get().getUser().getUserRole()));
+
     }
 
     @PostMapping("/signout")
     public ResponseEntity<?> logoutUser() {
-        Users userDetails = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Long userId = userDetails.getId();
+        Authentication loggeg_user = SecurityContextHolder.getContext().getAuthentication();
+        String username = loggeg_user.getName();
         try {
-            refreshTokenService.deleteTokenByUserId(userId);
+            refreshTokenService.deleteTokenByUserId(username);
         } catch (UserNotFound e) {
            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
         }

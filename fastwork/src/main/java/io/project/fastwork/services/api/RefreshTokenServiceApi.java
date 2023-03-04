@@ -10,5 +10,5 @@ public interface RefreshTokenServiceApi {
     Optional<RefreshToken>findByToken(String token);
     RefreshToken createRefreshToken(String username);
     RefreshToken verifyExpiration(RefreshToken refreshTokenExpiry) throws TokenRefreshException;
-    int deleteTokenByUserId(Long userId) throws UserNotFound;
+    void deleteTokenByUserId(String username) throws UserNotFound;
 }

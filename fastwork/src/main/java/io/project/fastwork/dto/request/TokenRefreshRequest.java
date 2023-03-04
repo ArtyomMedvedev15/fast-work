@@ -11,5 +11,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TokenRefreshRequest {
     private String refreshToken;
-    private String username;
 }

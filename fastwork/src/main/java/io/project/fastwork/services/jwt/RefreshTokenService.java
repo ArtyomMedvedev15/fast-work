@@ -66,14 +66,14 @@ public class RefreshTokenService implements RefreshTokenServiceApi {
 
     @Transactional
     @Override
-    public int deleteTokenByUserId(Long userId){
+    public void deleteTokenByUserId(String username){
         try {
-            refreshTokenRepository.deleteByUser(userService.getById(userId));
-            return 1;
+            refreshTokenRepository.deleteByUser(userService.findByLogin(username));
         } catch (UserNotFound e) {
-            log.error("User with id {} not found, throw exception in {}",userId,new Date());
+            log.error("User with id {} not found, throw exception in {}",username,new Date());
             e.printStackTrace();
-            return 0;
+        } catch (UserInvalidDataParemeter e) {
+            throw new RuntimeException(e);
         }
     }
 }
