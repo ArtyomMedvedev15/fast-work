@@ -9,7 +9,6 @@ import io.project.fastwork.dto.request.RegistrationRequest;
 import io.project.fastwork.dto.request.TokenRefreshRequest;
 import io.project.fastwork.dto.response.AuthenticationResponse;
 import io.project.fastwork.dto.response.MessageResponse;
-import io.project.fastwork.dto.response.TokenRefreshResponse;
 import io.project.fastwork.services.api.RefreshTokenServiceApi;
 import io.project.fastwork.services.api.UserServiceApi;
 import io.project.fastwork.services.exception.UserAlreadyExisted;
@@ -25,7 +24,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +31,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/v1/fastwork/auth/")
+@RequestMapping("/api/v1/auth/")
 @RequiredArgsConstructor
 @Slf4j
 public class AuthenticationController {
@@ -98,10 +96,11 @@ public class AuthenticationController {
 
         return ResponseEntity.ok(AuthenticationResponse.builder()
                 .token(token.get())
+                        .type("Bearer ")
                 .refreshToken(refreshTokenRequest)
                 .username(refreshTokenfind.get().getUser().getUsername())
                 .email(refreshTokenfind.get().getUser().getUserEmail())
-                .roles(refreshTokenfind.get().getUser().getUserRole()));
+                .roles(refreshTokenfind.get().getUser().getUserRole()).build());
 
     }
 
