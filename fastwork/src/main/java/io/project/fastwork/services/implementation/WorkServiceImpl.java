@@ -113,7 +113,7 @@ public class WorkServiceImpl implements WorkServiceApi {
     public List<Work> findWorkByName(String nameWork) {
         if (!nameWork.isEmpty()) {
             log.info("Get work by name {} in {}", nameWork, new Date());
-            return workRepository.findWorkByName(nameWork);
+            return workRepository.findWorkByName(nameWork).stream().filter(o1->o1.getWorkStatus().equals(StatusWork.OPEN)).collect(Collectors.toList());
         } else {
             log.warn("Get all work, work name equals empty, in {}", new Date());
             return workRepository.findAll();
