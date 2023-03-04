@@ -4,6 +4,7 @@ import io.project.fastwork.domains.StatusWork;
 import io.project.fastwork.domains.TypeWork;
 import io.project.fastwork.domains.Work;
 import io.project.fastwork.repositories.TypeWorkRepository;
+import io.project.fastwork.repositories.UserRepository;
 import io.project.fastwork.repositories.WorkRepository;
 import io.project.fastwork.services.api.WorkServiceApi;
 import io.project.fastwork.services.exception.TypeWorkNotFound;
@@ -31,6 +32,8 @@ public class WorkServiceImpl implements WorkServiceApi {
     private final WorkRepository workRepository;
     private final TypeWorkRepository typeWorkRepository;
 
+    private final UserRepository userRepository;
+
 
     @Override
     public Work saveWork(Work savedWork) throws WorkAlreadyExists, WorkInvalidDataValues {
@@ -44,6 +47,9 @@ public class WorkServiceImpl implements WorkServiceApi {
         if (WorkValidator.WorkValidDataValues(savedWork)) {
             log.info("Save new work with name - {} in {}", savedWork.getWorkName(), new Date());
             savedWork.setWorkDateCreate(Timestamp.valueOf(LocalDateTime.now()));
+            savedWork.setWorkStatus(StatusWork.EXPECTATION);
+            savedWork.setWorkHirer(userRepository.getUserById(savedWork.getWorkHirer().getId()));
+            savedWork.setWorkType(typeWorkRepository.getTypeWorkById(savedWork.getWorkType().getId()));
             return workRepository.save(savedWork);
         } else {
             log.error("Invalid work data parameter throw exception in {}", new Date());
