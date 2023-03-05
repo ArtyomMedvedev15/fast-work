@@ -118,6 +118,18 @@ public class WorkController {
         return ResponseEntity.ok().body(workResponse);
     }
 
+    @PostMapping("/exceptionwork/{id_work}")
+    public ResponseEntity<?>exceptionWork(@PathVariable("id_work")Long id_work){
+        Work work_exception;
+        try {
+            work_exception = workService.exceptionWork(workService.getWorkById(id_work));
+        } catch (WorkNotFound e) {
+            throw new RestWorkNotFoundException(String.format("Work with id - %s not found",id_work));
+        }
+        WorkResponse workResponse = getWorkResponse(work_exception);
+        return ResponseEntity.ok().body(workResponse);
+    }
+
 
 
 
