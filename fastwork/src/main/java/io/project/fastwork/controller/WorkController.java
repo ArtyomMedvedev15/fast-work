@@ -103,7 +103,18 @@ public class WorkController {
             throw new RestWorkNotFoundException(String.format("Work with id - %s not found",workUpdateRequest.getWorkTypeId()));
         }
         WorkResponse workResponse = getWorkResponse(work_update);
+        return ResponseEntity.ok().body(workResponse);
+    }
 
+    @PostMapping("/closework/{id_work}")
+    public ResponseEntity<?>closeWork(@PathVariable("id_work")Long id_work){
+        Work work_closed;
+        try {
+            work_closed = workService.closeWork(workService.getWorkById(id_work));
+        } catch (WorkNotFound e) {
+            throw new RestWorkNotFoundException(String.format("Work with id - %s not found",id_work));
+        }
+        WorkResponse workResponse = getWorkResponse(work_closed);
         return ResponseEntity.ok().body(workResponse);
     }
 

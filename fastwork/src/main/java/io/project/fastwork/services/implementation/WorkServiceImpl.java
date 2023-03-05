@@ -73,7 +73,8 @@ public class WorkServiceImpl implements WorkServiceApi {
         Work check_work_exists = workRepository.getWorkById(closedWork.getId());
         if (check_work_exists != null) {
             log.info("Set work with id {} status close in {}", closedWork.getId(), new Date());
-            return workRepository.workChangeStatus(StatusWork.CLOSE, closedWork.getId());
+            closedWork.setWorkStatus(StatusWork.CLOSE);
+            return workRepository.save(closedWork);
         } else {
             log.error("Work with id {} was not found throw exception in {}", closedWork.getId(), new Date());
             throw new WorkNotFound(String.format("Work with id %s not found!", closedWork.getId()));
@@ -85,7 +86,8 @@ public class WorkServiceImpl implements WorkServiceApi {
         Work check_work_exists = workRepository.getWorkById(openedWork.getId());
         if (check_work_exists != null) {
             log.info("Set work with id {} status open in {}", openedWork.getId(), new Date());
-            return workRepository.workChangeStatus(StatusWork.OPEN, openedWork.getId());
+            openedWork.setWorkStatus(StatusWork.OPEN);
+            return workRepository.save(openedWork);
         } else {
             log.error("Work with id {} was not found throw exception in {}", openedWork.getId(), new Date());
             throw new WorkNotFound(String.format("Work with id %s not found!", openedWork.getId()));
@@ -109,7 +111,8 @@ public class WorkServiceImpl implements WorkServiceApi {
         Work check_work_exists = workRepository.getWorkById(exceptionWork.getId());
         if (check_work_exists != null) {
             log.info("Set work with id {} status exception in {}", exceptionWork.getId(), new Date());
-            return workRepository.workChangeStatus(StatusWork.EXPECTATION, exceptionWork.getId());
+            exceptionWork.setWorkStatus(StatusWork.EXPECTATION);
+            return workRepository.save(exceptionWork);
         } else {
             log.error("Work with id {} was not found throw exception in {}", exceptionWork.getId(), new Date());
             throw new WorkNotFound(String.format("Work with id %s not found!", exceptionWork.getId()));
