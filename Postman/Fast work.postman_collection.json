@@ -1,0 +1,758 @@
+{
+	"info": {
+		"_postman_id": "df320179-7673-450d-90dd-698ae6864c09",
+		"name": "Fast work",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10958180"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Sign up",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"username\":\"JHarissd\",\r\n    \"userlogin\":\"JHaris12\",\r\n    \"usersoname\":\"Bronson\",\r\n    \"useremail\":\"monim@gmail.com\",\r\n    \"userpassword\":\"QwErTy132!z\",\r\n    \"userrole\":\"WORKER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/auth/signup",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userlogin\":\"JHaris12\",\r\n    \"password\":\"QwErTy132!z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/auth/signin",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3Nzk1ODQ0MiwiZXhwIjoxNjc4MDQ0ODQyfQ.0FOA6eo6coYvw-dFV_de5Q3Z_q96ECOfxFiosDJEe7I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3Nzk1MTY4NSwiZXhwIjoxNjc4MDM4MDg1fQ.YveBrX0gcUUmcw9bSl4ZkCLM0KAPwXfgZdOz5hY06is",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\":\"64bc9dc6-99c2-4cb8-b796-d0e7bd1ea200\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/auth/refreshtoken",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"refreshtoken"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign out",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3Nzk1NDg4NywiZXhwIjoxNjc4MDQxMjg3fQ.k3uRbL9E8sNr4J0JMq2QLjGWzjPFDGPvtGJm8mWmYgQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/work/all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"work",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Work",
+			"item": [
+				{
+					"name": "Get all opened work",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3Nzk1ODQ0MiwiZXhwIjoxNjc4MDQ0ODQyfQ.0FOA6eo6coYvw-dFV_de5Q3Z_q96ECOfxFiosDJEe7I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/work/all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"work",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get work by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3Nzk1ODQ0MiwiZXhwIjoxNjc4MDQ0ODQyfQ.0FOA6eo6coYvw-dFV_de5Q3Z_q96ECOfxFiosDJEe7I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/work/1231",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"work",
+								"1231"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find work by name",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3Nzk1ODQ0MiwiZXhwIjoxNjc4MDQ0ODQyfQ.0FOA6eo6coYvw-dFV_de5Q3Z_q96ECOfxFiosDJEe7I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"workname\":\"as\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/work/findbyname",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"work",
+								"findbyname"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find work by type",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3Nzk1ODQ0MiwiZXhwIjoxNjc4MDQ0ODQyfQ.0FOA6eo6coYvw-dFV_de5Q3Z_q96ECOfxFiosDJEe7I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id_type\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/work/findbytype",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"work",
+								"findbytype"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save work",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3Nzk1ODQ0MiwiZXhwIjoxNjc4MDQ0ODQyfQ.0FOA6eo6coYvw-dFV_de5Q3Z_q96ECOfxFiosDJEe7I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"workName\":\"Temp faasdads\",\r\n    \"workDescribe\":\"Fast work Fast work\",\r\n    \"workCountPerson\":1,\r\n    \"workPrice\":15.00,\r\n    \"workTypeId\":1,\r\n    \"workHirerId\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/work/save",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"work",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update work",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3Nzk1ODQ0MiwiZXhwIjoxNjc4MDQ0ODQyfQ.0FOA6eo6coYvw-dFV_de5Q3Z_q96ECOfxFiosDJEe7I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"workId\":152,\r\n    \"workName\":\"Temp Update bas\",\r\n    \"workDescribe\":\"Fast work Fast work\",\r\n    \"workCountPerson\":1,\r\n    \"workPrice\":15.00,\r\n    \"workTypeId\":1,\r\n    \"workHirerId\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/work/update",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"work",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Close work",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3ODA0MjI3NSwiZXhwIjoxNjc4MTI4Njc1fQ.FySfgHCQlZmlspWglp9aREhnd7Uy7G62kfgomWlhMXI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/work/closework/252",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"work",
+								"closework",
+								"252"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Exception work",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3ODA0MjI3NSwiZXhwIjoxNjc4MTI4Njc1fQ.FySfgHCQlZmlspWglp9aREhnd7Uy7G62kfgomWlhMXI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/work/exceptionwork/252",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"work",
+								"exceptionwork",
+								"252"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Open work",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3ODA0MjI3NSwiZXhwIjoxNjc4MTI4Njc1fQ.FySfgHCQlZmlspWglp9aREhnd7Uy7G62kfgomWlhMXI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/work/openwork/252",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"work",
+								"openwork",
+								"252"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all closed work",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3ODA0MjI3NSwiZXhwIjoxNjc4MTI4Njc1fQ.FySfgHCQlZmlspWglp9aREhnd7Uy7G62kfgomWlhMXI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/work/closedwork",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"work",
+								"closedwork"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all exception work",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3ODA0MjI3NSwiZXhwIjoxNjc4MTI4Njc1fQ.FySfgHCQlZmlspWglp9aREhnd7Uy7G62kfgomWlhMXI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/work/exceptionwork",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"work",
+								"exceptionwork"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all work",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3ODA0MjI3NSwiZXhwIjoxNjc4MTI4Njc1fQ.FySfgHCQlZmlspWglp9aREhnd7Uy7G62kfgomWlhMXI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/work/all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"work",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Type work",
+			"item": [
+				{
+					"name": "Get all type work",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3ODA0MjI3NSwiZXhwIjoxNjc4MTI4Njc1fQ.FySfgHCQlZmlspWglp9aREhnd7Uy7G62kfgomWlhMXI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/typework/all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"typework",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save type work",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3ODA0MjI3NSwiZXhwIjoxNjc4MTI4Njc1fQ.FySfgHCQlZmlspWglp9aREhnd7Uy7G62kfgomWlhMXI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"typeWorkName\":\"Typework\",\r\n    \"typeWorkDescribe\":\"Fast work fast work\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/typework/save",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"typework",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Type work get by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3ODA0MjI3NSwiZXhwIjoxNjc4MTI4Njc1fQ.FySfgHCQlZmlspWglp9aREhnd7Uy7G62kfgomWlhMXI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/typework/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"typework",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update type work",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3ODA0MjI3NSwiZXhwIjoxNjc4MTI4Njc1fQ.FySfgHCQlZmlspWglp9aREhnd7Uy7G62kfgomWlhMXI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":4,\r\n    \"typeWorkName\":\"TypeworkUpdated\",\r\n    \"typeWorkDescribe\":\"Fast work fast work\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/typework/update",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"typework",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete type work by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3ODA0MjI3NSwiZXhwIjoxNjc4MTI4Njc1fQ.FySfgHCQlZmlspWglp9aREhnd7Uy7G62kfgomWlhMXI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/typework/delete/4",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"typework",
+								"delete",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
