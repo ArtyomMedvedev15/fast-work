@@ -20,7 +20,7 @@ public interface WorkServiceApi {
     Work exceptionWork(Work exceptionWork) throws WorkNotFound;
     List<Work>findWorkByName(String nameWork);
     List<Work>findWorkByTypeWork(TypeWork typeWork);
-
+    List<Work>findAllWork();
     List<Work>findAllOpenedWork();
     List<Work>findAllClosedWork();
     List<Work>findAllExceptionWork();

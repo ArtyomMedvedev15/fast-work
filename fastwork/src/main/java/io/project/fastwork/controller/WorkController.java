@@ -36,8 +36,13 @@ public class WorkController {
     private final WorkServiceApi workService;
     private final TypeWorkServiceApi typeWorkService;
 
-
     @GetMapping("/all")
+    public ResponseEntity<?>getAll(){
+        List<WorkResponse>workList=workService.findAllWork().stream().map(WorkDtoUtil::getWorkResponse).collect(Collectors.toList());
+        return ResponseEntity.ok().body(workList);
+    }
+
+    @GetMapping("/openedwork")
     public ResponseEntity<?>getAllWorksOpen(){
         List<WorkResponse>workList=workService.findAllOpenedWork().stream().map(WorkDtoUtil::getWorkResponse).collect(Collectors.toList());
         return ResponseEntity.ok().body(workList);

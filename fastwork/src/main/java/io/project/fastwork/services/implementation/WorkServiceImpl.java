@@ -144,6 +144,12 @@ public class WorkServiceImpl implements WorkServiceApi {
     }
 
     @Override
+    public List<Work> findAllWork() {
+        log.info("Get all work in {}",new Date());
+        return workRepository.findAll();
+    }
+
+    @Override
     public List<Work> findAllOpenedWork() {
         log.info("Get all work with status open in {}", new Date());
         return workRepository.findAll().stream().filter(o1 -> o1.getWorkStatus().equals(StatusWork.OPEN))
