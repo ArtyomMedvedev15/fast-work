@@ -49,6 +49,12 @@ public class WorkController {
         return ResponseEntity.ok().body(workList);
     }
 
+    @GetMapping("/exceptionwork")
+    public ResponseEntity<?>getAllExceptionWork(){
+        List<WorkResponse>workList=workService.findAllExceptionWork().stream().map(WorkDtoUtil::getWorkResponse).collect(Collectors.toList());
+        return ResponseEntity.ok().body(workList);
+    }
+
     @GetMapping("/{id_work}")
     public ResponseEntity<?>getAllWorks(@PathVariable("id_work")Long id_work){
         Work work_by_id;
