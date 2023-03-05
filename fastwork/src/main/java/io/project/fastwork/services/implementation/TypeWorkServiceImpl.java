@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class TypeWorkServiceImpl implements TypeWorkServiceApi {
             throw new TypeWorkAlreadyExistsException("Type work already exists, try yet.");
         }
         if (TypeWorkValidator.TypeWorkValidDataValues(savedTypeWork)) {
+            savedTypeWork.setTypeWorkDateCreate(Timestamp.valueOf(LocalDateTime.now()));
             log.info("Save new type work with name {} in {}",savedTypeWork.getTypeWorkName(),new Date());
             return typeWorkRepository.save(savedTypeWork);
         } else {
@@ -41,6 +44,7 @@ public class TypeWorkServiceImpl implements TypeWorkServiceApi {
     public TypeWork updateTypeWork(TypeWork updatedTypeWork) throws TypeWorkInvalidParameterException {
         if (TypeWorkValidator.TypeWorkValidDataValues(updatedTypeWork)) {
             log.info("Update type work with name {} in {}",updatedTypeWork.getTypeWorkName(),new Date());
+            updatedTypeWork.setTypeWorkDateCreate(typeWorkRepository.getTypeWorkById(updatedTypeWork.getId()).getTypeWorkDateCreate());
             return typeWorkRepository.save(updatedTypeWork);
         } else {
             log.error("Invalid parameter for type work, throw exception in {}",new Date());

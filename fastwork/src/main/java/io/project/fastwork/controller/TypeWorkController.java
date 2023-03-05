@@ -5,6 +5,7 @@ import io.project.fastwork.controller.exception.RestTypeWorkInvalidParameterExce
 import io.project.fastwork.controller.exception.RestTypeWorkNotFoundException;
 import io.project.fastwork.domains.TypeWork;
 import io.project.fastwork.dto.request.TypeWorkSaveRequest;
+import io.project.fastwork.dto.request.TypeWorkUpdateRequest;
 import io.project.fastwork.dto.response.TypeWorkResponse;
 import io.project.fastwork.dto.util.TypeWorkDtoUtil;
 import io.project.fastwork.services.api.TypeWorkServiceApi;
@@ -18,8 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static io.project.fastwork.dto.util.TypeWorkDtoUtil.getTypeWorkFromRequest;
-import static io.project.fastwork.dto.util.TypeWorkDtoUtil.getTypeWorkResponse;
+import static io.project.fastwork.dto.util.TypeWorkDtoUtil.*;
 
 @RestController
 @RequestMapping("/api/v1/typework")
@@ -59,6 +59,20 @@ public class TypeWorkController {
         }
         TypeWorkResponse typeWorkResponse = getTypeWorkResponse(typeWorkSave);
         return ResponseEntity.ok().body(typeWorkResponse);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?>updateTypeWork(@RequestBody TypeWorkUpdateRequest typeWorkUpdateRequest){
+        TypeWork typeWorkUpdate = getTypeWorkFromUpdateRequest(typeWorkUpdateRequest);
+        try {
+            typeWorkUpdate = typeWorkService.updateTypeWork(typeWorkUpdate);
+        } catch (TypeWorkAlreadyExistsException e) {
+            throw new RestTypeWorkInvalidParameterException("Type work data isn't correct!");
+        } catch (TypeWorkInvalidParameterException e) {
+            throw new RestTypeWorkAlreadyExistsException(String.format("Type work with name - %s already exists!",typeWorkUpdate.getTypeWorkName()));
+        }
+        TypeWorkResponse typeWorkResponseUpdate = getTypeWorkResponse(typeWorkUpdate);
+        return ResponseEntity.ok().body(typeWorkResponseUpdate);
     }
 
 }
