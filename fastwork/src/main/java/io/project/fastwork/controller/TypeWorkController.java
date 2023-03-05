@@ -2,6 +2,7 @@ package io.project.fastwork.controller;
 
 import io.project.fastwork.controller.exception.RestTypeWorkAlreadyExistsException;
 import io.project.fastwork.controller.exception.RestTypeWorkInvalidParameterException;
+import io.project.fastwork.controller.exception.RestTypeWorkNotFoundException;
 import io.project.fastwork.domains.TypeWork;
 import io.project.fastwork.dto.request.TypeWorkSaveRequest;
 import io.project.fastwork.dto.response.TypeWorkResponse;
@@ -9,6 +10,7 @@ import io.project.fastwork.dto.util.TypeWorkDtoUtil;
 import io.project.fastwork.services.api.TypeWorkServiceApi;
 import io.project.fastwork.services.exception.TypeWorkAlreadyExistsException;
 import io.project.fastwork.services.exception.TypeWorkInvalidParameterException;
+import io.project.fastwork.services.exception.TypeWorkNotFound;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,18 @@ public class TypeWorkController {
     public ResponseEntity<?>getAllTypeWork(){
         List<TypeWorkResponse>typeWorkResponseList = typeWorkService.findAll().stream().map(TypeWorkDtoUtil::getTypeWorkResponse).toList();
         return ResponseEntity.ok().body(typeWorkResponseList);
+    }
+
+    @GetMapping("/{id_type_work}")
+    public ResponseEntity<?>getTypeWorkById(@PathVariable("id_type_work")Long id_type_work){
+        TypeWork typeWorkById;
+        try {
+            typeWorkById = typeWorkService.getTypeWorkById(id_type_work);
+        } catch (TypeWorkNotFound e) {
+            throw new RestTypeWorkNotFoundException(String.format("Type work with id %s not found",id_type_work));
+        }
+        TypeWorkResponse typeWorkResponse = getTypeWorkResponse(typeWorkById);
+        return ResponseEntity.ok().body(typeWorkResponse);
     }
 
     @PostMapping("/save")
