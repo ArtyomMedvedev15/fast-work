@@ -14,6 +14,7 @@ import io.project.fastwork.services.exception.TypeWorkInvalidParameterException;
 import io.project.fastwork.services.exception.TypeWorkNotFound;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,6 +74,19 @@ public class TypeWorkController {
         }
         TypeWorkResponse typeWorkResponseUpdate = getTypeWorkResponse(typeWorkUpdate);
         return ResponseEntity.ok().body(typeWorkResponseUpdate);
+    }
+
+    @DeleteMapping("/delete/{id_type_work}")
+    public ResponseEntity<?>deleteTypeWork(@PathVariable("id_type_work")Long id_type_work){
+        TypeWork typeWorkDelete;
+        try {
+            typeWorkDelete = typeWorkService.getTypeWorkById(id_type_work);
+            typeWorkDelete = typeWorkService.deleteTypeWork(typeWorkDelete);
+        } catch (TypeWorkNotFound e) {
+            throw new RestTypeWorkNotFoundException(String.format("Type work with id %s not found",id_type_work));
+        }
+        TypeWorkResponse typeWorkResponseDelete = getTypeWorkResponse(typeWorkDelete);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(typeWorkResponseDelete);
     }
 
 }
