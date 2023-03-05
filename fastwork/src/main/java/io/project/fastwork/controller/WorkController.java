@@ -38,8 +38,14 @@ public class WorkController {
 
 
     @GetMapping("/all")
-    public ResponseEntity<?>getAllWorks(){
+    public ResponseEntity<?>getAllWorksOpen(){
         List<WorkResponse>workList=workService.findAllOpenedWork().stream().map(WorkDtoUtil::getWorkResponse).collect(Collectors.toList());
+        return ResponseEntity.ok().body(workList);
+    }
+
+    @GetMapping("/closedwork")
+    public ResponseEntity<?>getAllClosedWork(){
+        List<WorkResponse>workList=workService.findAllClosedWork().stream().map(WorkDtoUtil::getWorkResponse).collect(Collectors.toList());
         return ResponseEntity.ok().body(workList);
     }
 
