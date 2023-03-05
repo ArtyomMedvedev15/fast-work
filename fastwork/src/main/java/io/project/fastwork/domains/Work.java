@@ -21,11 +21,11 @@ public class Work {
     private String workDescribe;
     private Integer workCountPerson;
     private Float workPrice;
-    @OneToOne()
+    @OneToOne(fetch = FetchType.LAZY)
     private TypeWork workType;
     private Timestamp workDateCreate;
     @Enumerated(EnumType.STRING)
     private StatusWork workStatus;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     private Users workHirer;
 }

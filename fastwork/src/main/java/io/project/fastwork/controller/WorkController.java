@@ -5,12 +5,13 @@ import io.project.fastwork.controller.exception.RestWorkAlreadyExistsException;
 import io.project.fastwork.controller.exception.RestWorkInvalidDataValuesException;
 import io.project.fastwork.controller.exception.RestWorkNotFoundException;
 import io.project.fastwork.domains.TypeWork;
-import io.project.fastwork.domains.Users;
 import io.project.fastwork.domains.Work;
 import io.project.fastwork.dto.request.WorkByNameRequest;
 import io.project.fastwork.dto.request.WorkByTypeRequest;
 import io.project.fastwork.dto.request.WorkSaveRequest;
+import io.project.fastwork.dto.request.WorkUpdateRequest;
 import io.project.fastwork.dto.response.WorkResponse;
+import io.project.fastwork.dto.util.WorkDtoUtil;
 import io.project.fastwork.services.api.TypeWorkServiceApi;
 import io.project.fastwork.services.api.WorkServiceApi;
 import io.project.fastwork.services.exception.TypeWorkNotFound;
@@ -23,9 +24,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static io.project.fastwork.dto.util.WorkDtoUtil.getWorkFromRequest;
-import static io.project.fastwork.dto.util.WorkDtoUtil.getWorkResponse;
+import static io.project.fastwork.dto.util.WorkDtoUtil.*;
 
 @RestController
 @RequestMapping("/api/v1/work")
@@ -38,7 +39,7 @@ public class WorkController {
 
     @GetMapping("/all")
     public ResponseEntity<?>getAllWorks(){
-        List<Work>workList=workService.findAllOpenedWork();
+        List<WorkResponse>workList=workService.findAllOpenedWork().stream().map(WorkDtoUtil::getWorkResponse).collect(Collectors.toList());
         return ResponseEntity.ok().body(workList);
     }
 
@@ -48,15 +49,16 @@ public class WorkController {
         try {
             work_by_id = workService.getWorkById(id_work);
         } catch (WorkNotFound e) {
-            e.printStackTrace();
             throw new RestWorkNotFoundException(String.format("Work with id - %s not found",id_work));
         }
-        return ResponseEntity.ok().body(work_by_id);
+        WorkResponse workResponseById = getWorkResponse(work_by_id);
+        return ResponseEntity.ok().body(workResponseById);
     }
 
     @PostMapping("/findbyname")
     public ResponseEntity<?>getAllWorksByName(@RequestBody WorkByNameRequest workByNameRequest){
-        List<Work>workList = workService.findWorkByName(workByNameRequest.getWorkname());
+        List<WorkResponse>workList = workService.findWorkByName(workByNameRequest.getWorkname()).stream()
+                .map(WorkDtoUtil::getWorkResponse).collect(Collectors.toList());
         return ResponseEntity.ok().body(workList);
     }
 
@@ -68,23 +70,44 @@ public class WorkController {
         } catch (TypeWorkNotFound e) {
             throw new RestTypeWorkNotFoundException(String.format("Type work with id %s not found",workByTypeRequest.getId_type()));
         }
-        List<Work>workList = workService.findWorkByTypeWork(typeWorkById);
+        List<WorkResponse>workList = workService.findWorkByTypeWork(typeWorkById).stream()
+                .map(WorkDtoUtil::getWorkResponse).collect(Collectors.toList());
         return ResponseEntity.ok().body(workList);
     }
 
     @PostMapping("/save")
     public ResponseEntity<?>saveWork(@RequestBody WorkSaveRequest workSaveRequest){
-        Work work_save = getWorkFromRequest(workSaveRequest);
+        Work work_save = getWorkFromSaveRequest(workSaveRequest);
         try {
-            workService.saveWork(work_save);
+            work_save = workService.saveWork(work_save);
         } catch (WorkAlreadyExists e) {
             throw new RestWorkAlreadyExistsException(String.format("Work with name %s already exists!",workSaveRequest.getWorkName()));
         } catch (WorkInvalidDataValues e) {
             throw new RestWorkInvalidDataValuesException("Work data isn't correct, try yet!");
         }
-        WorkResponse workResponse = getWorkResponse(workSaveRequest);
+        WorkResponse workResponse = getWorkResponse(work_save);
         return ResponseEntity.ok().body(workResponse);
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<?>updateWork(@RequestBody WorkUpdateRequest workUpdateRequest){
+        Work work_update = getWorkFromUpdateRequest(workUpdateRequest);
+        try {
+            Work work_old = workService.getWorkById(workUpdateRequest.getWorkId());
+            work_update.setWorkStatus(work_old.getWorkStatus());
+            work_update.setWorkDateCreate(work_old.getWorkDateCreate());
+            work_update = workService.updateWork(work_update);
+        } catch (WorkInvalidDataValues e) {
+            throw new RestWorkInvalidDataValuesException("Work data isn't correct, try yet!");
+        } catch (WorkNotFound e) {
+            throw new RestWorkNotFoundException(String.format("Work with id - %s not found",workUpdateRequest.getWorkTypeId()));
+        }
+        WorkResponse workResponse = getWorkResponse(work_update);
+
+        return ResponseEntity.ok().body(workResponse);
+    }
+
+
 
 
 }
