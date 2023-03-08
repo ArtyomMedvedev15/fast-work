@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LocationByCityRequest {
-    private String locationCity;
+public class LocationByNearbyRequest {
+    private Double locationX;
+    private Double locationY;
 }

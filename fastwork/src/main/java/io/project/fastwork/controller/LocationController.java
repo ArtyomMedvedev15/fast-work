@@ -1,12 +1,15 @@
 package io.project.fastwork.controller;
 
 import io.project.fastwork.controller.exception.RestLocationNotFoundException;
+import io.project.fastwork.controller.exception.RestLocationWithInvalidArgumentsException;
 import io.project.fastwork.domains.Location;
 import io.project.fastwork.dto.request.LocationByCityRequest;
+import io.project.fastwork.dto.request.LocationByNearbyRequest;
 import io.project.fastwork.dto.response.LocationResponse;
 import io.project.fastwork.dto.util.LocationDtoUtil;
 import io.project.fastwork.services.api.LocationServiceApi;
 import io.project.fastwork.services.exception.LocationNotFoundException;
+import io.project.fastwork.services.exception.LocationWithInvalidArgumentsException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -37,8 +40,20 @@ public class LocationController {
 
     @PostMapping("/findbycity")
     public ResponseEntity<?>findLocationByCity(@RequestBody LocationByCityRequest locationByCityRequest){
-        List<LocationResponse>locationsByCity = locationService.findLocationByCity(locationByCityRequest.getCity()).stream().map(LocationDtoUtil::getLocationResponseFromDomain).toList();
+        List<LocationResponse>locationsByCity = locationService.findLocationByCity(locationByCityRequest.getLocationCity()).stream().map(LocationDtoUtil::getLocationResponseFromDomain).toList();
         return ResponseEntity.ok().body(locationsByCity);
+    }
+
+    @PostMapping("/findbynearby")
+    public ResponseEntity<?>findLocationByNearby(@RequestBody LocationByNearbyRequest locationByNearbyRequest){
+        List<LocationResponse>locationsByNearby;
+        try {
+            locationsByNearby = locationService.findLocationByNearby(locationByNearbyRequest.getLocationX(),locationByNearbyRequest.getLocationY()).stream()
+                    .map(LocationDtoUtil::getLocationResponseFromDomain).collect(Collectors.toList());
+        } catch (LocationWithInvalidArgumentsException e) {
+            throw new RestLocationWithInvalidArgumentsException("Location coordinates isn't correct!");
+        }
+        return ResponseEntity.ok().body(locationsByNearby);
     }
 
 }
