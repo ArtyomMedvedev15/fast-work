@@ -37,7 +37,10 @@ public class LocationServiceImpl implements LocationServiceApi {
     @Override
     public Location updateLocation(Location updatedLocation) throws LocationWithInvalidArgumentsException {
         if(LocationValidator.LocationValidDataValues(updatedLocation)){
-            log.info("Update location with id {} for work with id {} in {}",updatedLocation.getId(),updatedLocation.getLocationWork().getId(),new Date());
+            Location locationOld = locationRepository.getReferenceById(updatedLocation.getId());
+            updatedLocation.setLocationWork(locationOld.getLocationWork());
+            updatedLocation.setLocationDateCreate(locationOld.getLocationDateCreate());
+            log.info("Update location with id {} for work with id {} in {}",updatedLocation.getId(),locationOld.getLocationWork().getId(),new Date());
             return locationRepository.save(updatedLocation);
         }
         log.error("Invalid data for location, throw exception with message {} in {}",new LocationWithInvalidArgumentsException().getMessage(), new Date());

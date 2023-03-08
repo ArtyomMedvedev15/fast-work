@@ -7,6 +7,7 @@ import io.project.fastwork.domains.Location;
 import io.project.fastwork.dto.request.LocationByCityRequest;
 import io.project.fastwork.dto.request.LocationByNearbyRequest;
 import io.project.fastwork.dto.request.LocationSaveRequest;
+import io.project.fastwork.dto.request.LocationUpdateRequest;
 import io.project.fastwork.dto.response.LocationResponse;
 import io.project.fastwork.dto.util.LocationDtoUtil;
 import io.project.fastwork.services.api.LocationServiceApi;
@@ -22,8 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static io.project.fastwork.dto.util.LocationDtoUtil.getLocationFromRequest;
-import static io.project.fastwork.dto.util.LocationDtoUtil.getLocationResponseFromDomain;
+import static io.project.fastwork.dto.util.LocationDtoUtil.*;
 
 @RestController
 @RequestMapping("/api/v1/location")
@@ -66,7 +66,7 @@ public class LocationController {
     public ResponseEntity<?>saveLocation(@RequestBody LocationSaveRequest locationSaveRequest){
         Location locationSave;
         try {
-            locationSave = getLocationFromRequest(locationSaveRequest);
+            locationSave = getLocationFromSaveRequest(locationSaveRequest);
             locationSave.setLocationWork(workService.getWorkById(locationSaveRequest.getLocationWorkId()));
             locationSave = locationService.saveLocation(locationSave);
         } catch (WorkNotFound e) {
@@ -75,6 +75,19 @@ public class LocationController {
             throw new RestLocationWithInvalidArgumentsException(e.getMessage());
         }
         LocationResponse locationResponse = LocationDtoUtil.getLocationResponseFromDomain(locationSave);
+        return ResponseEntity.ok().body(locationResponse);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?>updateLocation(@RequestBody LocationUpdateRequest locationUpdateRequest){
+        Location locationUpdate;
+        try {
+            locationUpdate = getLocationFromUpdateRequest(locationUpdateRequest);
+            locationUpdate = locationService.updateLocation(locationUpdate);
+        } catch (LocationWithInvalidArgumentsException e) {
+            throw new RestLocationWithInvalidArgumentsException(e.getMessage());
+        }
+        LocationResponse locationResponse = LocationDtoUtil.getLocationResponseFromDomain(locationUpdate);
         return ResponseEntity.ok().body(locationResponse);
     }
 
