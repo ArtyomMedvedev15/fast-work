@@ -5,16 +5,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.Serial;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class RestLocationNotFoundException extends RuntimeException{
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class RestUserInvalidDataParemeterException extends RuntimeException{
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public RestLocationNotFoundException() {
+    public RestUserInvalidDataParemeterException() {
         super();
     }
 
-    public RestLocationNotFoundException(String message) {
+    public RestUserInvalidDataParemeterException(String message) {
         super(message);
     }
 }
