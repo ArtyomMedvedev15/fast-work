@@ -50,8 +50,9 @@ public class LocationServiceImpl implements LocationServiceApi {
     @Override
     public Location deleteLocation(Location deletedLocation) throws LocationNotFoundException {
         Location location_deleted_check=locationRepository.findById(deletedLocation.getId()).orElse(null);
+        System.out.println(location_deleted_check);
         if(location_deleted_check!=null){
-            log.warn("Delete location with id {} for work with id {} in {}",deletedLocation.getId(),deletedLocation.getLocationWork().getId(),new Date());
+            log.warn("Delete location with id {} for work with id {} in {}",location_deleted_check.getId(),location_deleted_check.getLocationWork().getId(),new Date());
             locationRepository.delete(deletedLocation);
             return deletedLocation;
         }

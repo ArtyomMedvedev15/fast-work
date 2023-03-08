@@ -1,5 +1,6 @@
 package io.project.fastwork.controller;
 
+import com.electronwill.nightconfig.core.conversion.Path;
 import io.project.fastwork.controller.exception.RestLocationNotFoundException;
 import io.project.fastwork.controller.exception.RestLocationWithInvalidArgumentsException;
 import io.project.fastwork.controller.exception.RestWorkNotFoundException;
@@ -89,6 +90,18 @@ public class LocationController {
         }
         LocationResponse locationResponse = LocationDtoUtil.getLocationResponseFromDomain(locationUpdate);
         return ResponseEntity.ok().body(locationResponse);
+    }
+
+    @DeleteMapping("/delete/{location_id}")
+    public ResponseEntity<?>deleteLocation(@PathVariable("location_id")Long location_id){
+        Location deletedLocation;
+        try {
+            deletedLocation = locationService.deleteLocation(Location.builder().id(location_id).build());
+        } catch (LocationNotFoundException e) {
+            throw new RestLocationNotFoundException(String.format("Location with id %s not found!", location_id));
+        }
+
+        return ResponseEntity.noContent().build();
     }
 
 }
