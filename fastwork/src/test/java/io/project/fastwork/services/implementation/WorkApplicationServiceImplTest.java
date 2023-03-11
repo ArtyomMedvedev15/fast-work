@@ -56,6 +56,7 @@ class WorkApplicationServiceImplTest {
     }
 
     @Test
+    @Transactional
     void SaveWorkApplication_WithValidWorkApp_ReturnTrue() throws WorkApplicationAlreadySend, UserNotFound {
         Work work = workRepository.getWorkById(777L);
         Users worker = userService.getById(777L);
@@ -65,6 +66,7 @@ class WorkApplicationServiceImplTest {
                 .build();
 
         WorkApplication workApplication_saved = workApplicationService.saveWorkApplication(valid_work_application);
+        System.out.println("WORKS" + workApplication_saved.getWorker().getUserWorks());
         assertNotNull(workApplication_saved);
     }
 
@@ -83,6 +85,7 @@ class WorkApplicationServiceImplTest {
     }
 
     @Test
+    @Transactional
     void RejectedWorkApplication_WithValidWorkApp_ReturnTrue() throws WorkApplicationNotFound {
         WorkApplication work_application_rejected = workApplicationService.rejectedWorkApplication(777L);
         assertEquals(work_application_rejected.getStatusWorkApplication(), StatusWorkApplication.REJECT);
@@ -98,9 +101,12 @@ class WorkApplicationServiceImplTest {
      }
 
     @Test
-    void ApprovedWorkApplication_WithValidWorkApp_ReturnTrue() throws WorkApplicationNotFound {
-        WorkApplication work_application_rejected = workApplicationService.approvedWorkApplication(777L);
-        assertEquals(work_application_rejected.getStatusWorkApplication(), StatusWorkApplication.APPROVE);
+    @Transactional
+    void ApprovedWorkApplication_WithValidWorkApp_ReturnTrue() throws WorkApplicationNotFound, WorkAlreadyAdded {
+        WorkApplication work_application_approved = workApplicationService.approvedWorkApplication(777L);
+        System.out.println("WORKS" + work_application_approved.getWorker().getUserWorks());
+        assertEquals(work_application_approved.getStatusWorkApplication(), StatusWorkApplication.APPROVE);
+
     }
 
     @Test
@@ -129,7 +135,7 @@ class WorkApplicationServiceImplTest {
 
 
     @Test
-    void FindWorkApplicationByWorkerid_WithValidWorkerId_ReturnTrue() throws WorkerNotFound {
+    void FindWorkApplicationByWorkerid_WithValidWorkerId_ReturnTrue() throws WorkerNotFound, UserNotFound {
         List<WorkApplication>workApplicationList = workApplicationService.findByWorkerid(778L);
         assertFalse(workApplicationList.isEmpty());
     }
