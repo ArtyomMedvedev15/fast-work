@@ -17,6 +17,7 @@ import io.project.fastwork.services.exception.WorkNotFound;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,7 @@ public class WorkerController {
     private final UserServiceApi userService;
     private final WorkServiceApi workService;
 
+    @PreAuthorize("hasAnyAuthority('WORKER','MODERATOR','ADMIN')")
     @PostMapping("/addwork")
     public ResponseEntity<?>addWorkWorker(@RequestBody AddWorkWorkerRequest addWorkWorkerRequest){
         Work work;
@@ -49,7 +51,7 @@ public class WorkerController {
         WorkResponse workResponseAdded = WorkDtoUtil.getWorkResponse(work);
         return ResponseEntity.ok().body(workResponseAdded);
     }
-
+    @PreAuthorize("hasAnyAuthority('WORKER','MODERATOR','ADMIN')")
     @PostMapping("/removework")
     public ResponseEntity<?>addWorkWorker(@RequestBody RemoveWorkWorkerRequest removeWorkWorkerRequest){
         Work work;

@@ -18,6 +18,7 @@ import io.project.fastwork.services.exception.WorkNotFound;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -62,6 +63,7 @@ public class LocationController {
         return ResponseEntity.ok().body(locationsByNearby);
     }
 
+    @PreAuthorize("hasAnyAuthority('HIRER','ADMIN','MODERATOR')")
     @PostMapping("/save")
     public ResponseEntity<?>saveLocation(@RequestBody LocationSaveRequest locationSaveRequest){
         Location locationSave;
@@ -78,6 +80,7 @@ public class LocationController {
         return ResponseEntity.ok().body(locationResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('HIRER','ADMIN','MODERATOR')")
     @PutMapping("/update")
     public ResponseEntity<?>updateLocation(@RequestBody LocationUpdateRequest locationUpdateRequest){
         Location locationUpdate;
@@ -90,7 +93,7 @@ public class LocationController {
         LocationResponse locationResponse = LocationDtoUtil.getLocationResponseFromDomain(locationUpdate);
         return ResponseEntity.ok().body(locationResponse);
     }
-
+    @PreAuthorize("hasAnyAuthority('HIRER','ADMIN','MODERATOR')")
     @DeleteMapping("/delete/{location_id}")
     public ResponseEntity<?>deleteLocation(@PathVariable("location_id")Long location_id){
         Location deletedLocation;

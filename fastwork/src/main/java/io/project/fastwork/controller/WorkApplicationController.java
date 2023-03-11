@@ -1,7 +1,6 @@
 package io.project.fastwork.controller;
 
 import io.project.fastwork.controller.advice.exception.*;
-import io.project.fastwork.controller.exception.*;
 import io.project.fastwork.domains.WorkApplication;
 import io.project.fastwork.dto.request.WorkApplicationSaveRequest;
 import io.project.fastwork.dto.response.WorkApplicationResponse;
@@ -13,6 +12,7 @@ import io.project.fastwork.services.exception.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -76,6 +76,7 @@ public class WorkApplicationController {
         return ResponseEntity.ok().body(workApplicationSaveResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('HIRER','MODERATOR','ADMIN')")
     @PutMapping("/approve/{id_workapp}")
     public ResponseEntity<?>approveWorkApplicationById(@PathVariable("id_workapp")Long id_workapp){
         WorkApplication workApplicationApproved;
@@ -89,7 +90,7 @@ public class WorkApplicationController {
         WorkApplicationResponse workApplicationApprovedResponse = WorkApplicationDtoUtil.getWorkApplicationRepsonse(workApplicationApproved);
         return ResponseEntity.ok().body(workApplicationApprovedResponse);
     }
-
+    @PreAuthorize("hasAnyAuthority('HIRER','MODERATOR','ADMIN')")
     @PutMapping("/reject/{id_workapp}")
     public ResponseEntity<?>rejectWorkApplicationById(@PathVariable("id_workapp")Long id_workapp){
         WorkApplication workApplicationReject;

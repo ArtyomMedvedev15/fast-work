@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,6 +49,7 @@ public class TypeWorkController {
         return ResponseEntity.ok().body(typeWorkResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN','MODERATOR')")
     @PostMapping("/save")
     public ResponseEntity<?>saveTypeWork(@RequestBody TypeWorkSaveRequest typeWorkSaveRequest){
         TypeWork typeWorkSave = getTypeWorkFromRequest(typeWorkSaveRequest);
@@ -61,7 +63,7 @@ public class TypeWorkController {
         TypeWorkResponse typeWorkResponse = getTypeWorkResponse(typeWorkSave);
         return ResponseEntity.ok().body(typeWorkResponse);
     }
-
+    @PreAuthorize("hasAnyAuthority('ADMIN','MODERATOR')")
     @PutMapping("/update")
     public ResponseEntity<?>updateTypeWork(@RequestBody TypeWorkUpdateRequest typeWorkUpdateRequest){
         TypeWork typeWorkUpdate = getTypeWorkFromUpdateRequest(typeWorkUpdateRequest);
@@ -76,6 +78,7 @@ public class TypeWorkController {
         return ResponseEntity.ok().body(typeWorkResponseUpdate);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN','MODERATOR')")
     @DeleteMapping("/delete/{id_type_work}")
     public ResponseEntity<?>deleteTypeWork(@PathVariable("id_type_work")Long id_type_work){
         TypeWork typeWorkDelete;

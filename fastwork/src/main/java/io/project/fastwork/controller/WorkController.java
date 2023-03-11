@@ -21,6 +21,7 @@ import io.project.fastwork.services.exception.WorkNotFound;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -92,6 +93,7 @@ public class WorkController {
         return ResponseEntity.ok().body(workList);
     }
 
+    @PreAuthorize("hasAnyAuthority('HIRER','ADMIN')")
     @PostMapping("/save")
     public ResponseEntity<?>saveWork(@RequestBody WorkSaveRequest workSaveRequest){
         Work work_save = getWorkFromSaveRequest(workSaveRequest);
@@ -106,6 +108,7 @@ public class WorkController {
         return ResponseEntity.ok().body(workResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('HIRER','ADMIN')")
     @PutMapping("/update")
     public ResponseEntity<?>updateWork(@RequestBody WorkUpdateRequest workUpdateRequest){
         Work work_update = getWorkFromUpdateRequest(workUpdateRequest);
@@ -122,7 +125,7 @@ public class WorkController {
         WorkResponse workResponse = getWorkResponse(work_update);
         return ResponseEntity.ok().body(workResponse);
     }
-
+    @PreAuthorize("hasAnyAuthority('HIRER','ADMIN','MODERATOR')")
     @PostMapping("/closework/{id_work}")
     public ResponseEntity<?>closeWork(@PathVariable("id_work")Long id_work){
         Work work_closed;
@@ -135,6 +138,7 @@ public class WorkController {
         return ResponseEntity.ok().body(workResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN','MODERATOR')")
     @PostMapping("/exceptionwork/{id_work}")
     public ResponseEntity<?>exceptionWork(@PathVariable("id_work")Long id_work){
         Work work_exception;
@@ -147,6 +151,7 @@ public class WorkController {
         return ResponseEntity.ok().body(workResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN','MODERATOR')")
     @PostMapping("/openwork/{id_work}")
     public ResponseEntity<?>openWork(@PathVariable("id_work")Long id_work){
         Work work_open;
