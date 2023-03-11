@@ -1,10 +1,13 @@
 package io.project.fastwork.controller;
 
 import io.project.fastwork.controller.exception.RestWorkNotFoundException;
+import io.project.fastwork.controller.exception.RestWorkerNotFoundException;
 import io.project.fastwork.dto.response.WorkApplicationResponse;
 import io.project.fastwork.dto.util.WorkApplicationDtoUtil;
 import io.project.fastwork.services.api.WorkApplicationServiceApi;
+import io.project.fastwork.services.exception.UserNotFound;
 import io.project.fastwork.services.exception.WorkNotFound;
+import io.project.fastwork.services.exception.WorkerNotFound;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +33,7 @@ public class WorkApplicationController {
     }
 
     @GetMapping("/findbywork/{id_work}")
-    public ResponseEntity<?>getAllWorkAplicationByWorkId(@PathVariable("id_work")Long id_work){
+    public ResponseEntity<?>getAllWorkApplicationByWorkId(@PathVariable("id_work")Long id_work){
         List<WorkApplicationResponse>workApplicationResponsesByWorkId;
         try {
             workApplicationResponsesByWorkId=workApplicationService.findByWorkId(id_work).stream()
@@ -40,4 +43,16 @@ public class WorkApplicationController {
         }
         return ResponseEntity.ok().body(workApplicationResponsesByWorkId);
     }
+
+    @GetMapping("/findbyworker/{id_worker}")
+    public ResponseEntity<?>getAllWorkApplicationByWorkerId(@PathVariable("id_worker")Long id_worker){
+        List<WorkApplicationResponse>workApplicationResponseList;
+        try {
+            workApplicationResponseList = workApplicationService.findByWorkerid(id_worker).stream().map(WorkApplicationDtoUtil::getWorkApplicationRepsonse).toList();
+        } catch (WorkerNotFound | UserNotFound e) {
+            throw new RestWorkerNotFoundException(e.getMessage());
+        }
+        return ResponseEntity.ok().body(workApplicationResponseList);
+    }
+
 }
