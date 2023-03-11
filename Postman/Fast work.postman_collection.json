@@ -82,16 +82,6 @@
 				{
 					"name": "Refresh token",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjpbIldPUktFUiJdLCJzdWIiOiJKSGFyaXMxMiIsImlhdCI6MTY3Nzk1ODQ0MiwiZXhwIjoxNjc4MDQ0ODQyfQ.0FOA6eo6coYvw-dFV_de5Q3Z_q96ECOfxFiosDJEe7I",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [
 							{
@@ -103,7 +93,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"refreshToken\":\"64bc9dc6-99c2-4cb8-b796-d0e7bd1ea200\"\r\n}",
+							"raw": "{\r\n    \"refreshToken\":\"6d82e714-3af9-4dd7-a7c9-fbb4a46fc9a5\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -749,6 +739,492 @@
 								"4"
 							]
 						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Location",
+			"item": [
+				{
+					"name": "Get location by work id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjoiV09SS0VSIiwic3ViIjoiSkhhcmlzMTIiLCJpYXQiOjE2NzgyODQ3MDUsImV4cCI6MTY3ODM3MTEwNX0.t9Pdl7PEq4tHOTi6iGU_X1cjubeGy-POd6E4oY0ctrQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/location/work/152",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"location",
+								"work",
+								"152"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find location by city",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjoiV09SS0VSIiwic3ViIjoiSkhhcmlzMTIiLCJpYXQiOjE2NzgyODQ3MDUsImV4cCI6MTY3ODM3MTEwNX0.t9Pdl7PEq4tHOTi6iGU_X1cjubeGy-POd6E4oY0ctrQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"locationCity\":\"tetete\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/location/findbycity",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"location",
+								"findbycity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find location by nearby",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjoiV09SS0VSIiwic3ViIjoiSkhhcmlzMTIiLCJpYXQiOjE2NzgyODQ3MDUsImV4cCI6MTY3ODM3MTEwNX0.t9Pdl7PEq4tHOTi6iGU_X1cjubeGy-POd6E4oY0ctrQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"locationX\":25.00,\r\n    \"locationY\":24.00\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/location/findbynearby",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"location",
+								"findbynearby"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save location",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjoiV09SS0VSIiwic3ViIjoiSkhhcmlzMTIiLCJpYXQiOjE2NzgyODQ3MDUsImV4cCI6MTY3ODM3MTEwNX0.t9Pdl7PEq4tHOTi6iGU_X1cjubeGy-POd6E4oY0ctrQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"locationCountry\": \"testet\",\r\n        \"locationRegion\": \"asdasdas\",\r\n        \"locationCity\": \"tetete\",\r\n        \"locationStreet\": \"asdasdasdads\",\r\n        \"locationPoints\": {\r\n            \"x\": 23.00,\r\n            \"y\": 23.00\r\n        },\r\n        \"locationWorkId\": 252\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/location/save",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"location",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update location",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjoiV09SS0VSIiwic3ViIjoiSkhhcmlzMTIiLCJpYXQiOjE2NzgyODQ3MDUsImV4cCI6MTY3ODM3MTEwNX0.t9Pdl7PEq4tHOTi6iGU_X1cjubeGy-POd6E4oY0ctrQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"locationId\":1,\r\n        \"locationCountry\": \"testetUpdate\",\r\n        \"locationRegion\": \"asdasdas\",\r\n        \"locationCity\": \"tetete\",\r\n        \"locationStreet\": \"asdasdasdads\",\r\n        \"locationPoints\": {\r\n            \"x\": 23.00,\r\n            \"y\": 23.00\r\n        }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/location/update",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"location",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete location",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjoiV09SS0VSIiwic3ViIjoiSkhhcmlzMTIiLCJpYXQiOjE2NzgyODQ3MDUsImV4cCI6MTY3ODM3MTEwNX0.t9Pdl7PEq4tHOTi6iGU_X1cjubeGy-POd6E4oY0ctrQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/location/delete/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"location",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Work application",
+			"item": [
+				{
+					"name": "Get all work application",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjoiV09SS0VSIiwic3ViIjoiSkhhcmlzMTIiLCJpYXQiOjE2Nzg1MzUwMTksImV4cCI6MTY3ODYyMTQxOX0.pDdGOQAyzS1EBirNIvS3zRPG92XKZp5kqVSiMF5h320",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/workapplication/all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"workapplication",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all work application by work id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjoiV09SS0VSIiwic3ViIjoiSkhhcmlzMTIiLCJpYXQiOjE2Nzg1MzUwMTksImV4cCI6MTY3ODYyMTQxOX0.pDdGOQAyzS1EBirNIvS3zRPG92XKZp5kqVSiMF5h320",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/workapplication/findbywork/252",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"workapplication",
+								"findbywork",
+								"252"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all work application by worker id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjoiV09SS0VSIiwic3ViIjoiSkhhcmlzMTIiLCJpYXQiOjE2Nzg1MzUwMTksImV4cCI6MTY3ODYyMTQxOX0.pDdGOQAyzS1EBirNIvS3zRPG92XKZp5kqVSiMF5h320",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/workapplication/findbyworker/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"workapplication",
+								"findbyworker",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save work application",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjoiV09SS0VSIiwic3ViIjoiSkhhcmlzMTIiLCJpYXQiOjE2Nzg1MzUwMTksImV4cCI6MTY3ODYyMTQxOX0.pDdGOQAyzS1EBirNIvS3zRPG92XKZp5kqVSiMF5h320",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"workerId\":1,\r\n    \"workId\":152\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/workapplication/save",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"workapplication",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approve work application",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjoiV09SS0VSIiwic3ViIjoiSkhhcmlzMTIiLCJpYXQiOjE2Nzg1MzUwMTksImV4cCI6MTY3ODYyMTQxOX0.pDdGOQAyzS1EBirNIvS3zRPG92XKZp5kqVSiMF5h320",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/workapplication/approve/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"workapplication",
+								"approve",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reject work application",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjoiV09SS0VSIiwic3ViIjoiSkhhcmlzMTIiLCJpYXQiOjE2Nzg1MzUwMTksImV4cCI6MTY3ODYyMTQxOX0.pDdGOQAyzS1EBirNIvS3zRPG92XKZp5kqVSiMF5h320",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/workapplication/reject/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"workapplication",
+								"reject",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Worker",
+			"item": [
+				{
+					"name": "Add work to worker",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdGF0dXNfYWN0aXZlIjp0cnVlLCJyb2xlIjoiV09SS0VSIiwic3ViIjoiSkhhcmlzMTIiLCJpYXQiOjE2Nzg1MzUwMTksImV4cCI6MTY3ODYyMTQxOX0.pDdGOQAyzS1EBirNIvS3zRPG92XKZp5kqVSiMF5h320",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"workerId\":1,\r\n    \"workId\":202\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/worker/addwork",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"worker",
+								"addwork"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}
