@@ -6,6 +6,7 @@ import io.project.fastwork.controller.exception.RestWorkerNotFoundException;
 import io.project.fastwork.domains.Users;
 import io.project.fastwork.domains.Work;
 import io.project.fastwork.dto.request.AddWorkWorkerRequest;
+import io.project.fastwork.dto.request.RemoveWorkWorkerRequest;
 import io.project.fastwork.dto.response.WorkResponse;
 import io.project.fastwork.dto.util.WorkDtoUtil;
 import io.project.fastwork.services.api.UserServiceApi;
@@ -29,6 +30,7 @@ public class WorkerController {
 
     private final UserServiceApi userService;
     private final WorkServiceApi workService;
+
     @PostMapping("/addwork")
     public ResponseEntity<?>addWorkWorker(@RequestBody AddWorkWorkerRequest addWorkWorkerRequest){
         Work work;
@@ -48,4 +50,21 @@ public class WorkerController {
         return ResponseEntity.ok().body(workResponseAdded);
     }
 
+    @PostMapping("/removework")
+    public ResponseEntity<?>addWorkWorker(@RequestBody RemoveWorkWorkerRequest removeWorkWorkerRequest){
+        Work work;
+        Users worker;
+        try {
+            worker = userService.getById(removeWorkWorkerRequest.getWorkerId());
+            work = workService.getWorkById(removeWorkWorkerRequest.getWorkId());
+            userService.removeWorkFromWorker(work,worker);
+        } catch (UserNotFound e) {
+            throw new RestWorkerNotFoundException(e.getMessage());
+        } catch (WorkNotFound e) {
+            throw new RestWorkNotFoundException(String.format("Work with id - %s not found",removeWorkWorkerRequest.getWorkId()));
+        }
+
+        WorkResponse workResponseRemoved= WorkDtoUtil.getWorkResponse(work);
+        return ResponseEntity.ok().body(workResponseRemoved);
+    }
 }
