@@ -7,6 +7,7 @@ import io.project.fastwork.domains.WorkApplication;
 import io.project.fastwork.repositories.UserRepository;
 import io.project.fastwork.repositories.WorkAppllicationRepository;
 import io.project.fastwork.repositories.WorkRepository;
+import io.project.fastwork.services.api.MailServiceApi;
 import io.project.fastwork.services.api.WorkApplicationServiceApi;
 import io.project.fastwork.services.exception.WorkApplicationAlreadySend;
 import io.project.fastwork.services.exception.WorkApplicationNotFound;
@@ -30,6 +31,8 @@ public class WorkApplicationServiceImpl implements WorkApplicationServiceApi {
     private final WorkAppllicationRepository workAppllicationRepository;
     private final WorkRepository workRepository;
     private final UserRepository userRepository;
+
+    private final MailServiceApi mailService;
     @Transactional
     @Override
     public WorkApplication saveWorkApplication(WorkApplication savedWorkApplication) throws WorkApplicationAlreadySend {
@@ -94,5 +97,11 @@ public class WorkApplicationServiceImpl implements WorkApplicationServiceApi {
         }
         log.error("Worker with id {} doesn't exists, throw exception in {}",worker_id,new Date());
         throw new WorkerNotFound(String.format("Worker with id %s not found!",worker_id));
+    }
+
+    @Override
+    public List<WorkApplication> findAllWorkApplication() {
+        log.info("Get all work application in {}",new Date());
+        return workAppllicationRepository.findAll();
     }
 }
