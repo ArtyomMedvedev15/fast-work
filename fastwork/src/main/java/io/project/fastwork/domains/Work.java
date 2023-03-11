@@ -26,6 +26,6 @@ public class Work {
     private Timestamp workDateCreate;
     @Enumerated(EnumType.STRING)
     private StatusWork workStatus;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private Users workHirer;
 }

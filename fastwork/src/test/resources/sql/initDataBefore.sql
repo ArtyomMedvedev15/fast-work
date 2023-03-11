@@ -3,7 +3,7 @@ values (777, '2023-01-23', 'TestTestTestTest', 'test');
 insert into type_work(id, type_work_date_create, type_work_describe, type_work_name)
 values (778, '2023-01-23', 'TestTestTestTest', 'test2');
 insert into users(id, user_date_create, username,user_email, user_original_name, user_password, user_role, user_soname, user_status)
-values (777, '2023-04-02','Login123','user1@mail.tex','hirer', 'Horrison@123s', 'WORKER', 'Testtest', 'ACTIVE');
+values (777, '2023-04-02','Login123','vcseca@fexbox.org','hirer', 'Horrison@123s', 'WORKER', 'Testtest', 'ACTIVE');
 insert into users(id, user_date_create, username,user_email, user_original_name, user_password, user_role, user_soname, user_status)
 values (779, '2023-04-02','Logi123s','user2@mail.tex','hirer', 'Horrison@123s', 'WORKER', 'Testtest', 'ACTIVE');
 insert into users(id, user_date_create, username,user_email, user_original_name, user_password, user_role, user_soname, user_status)

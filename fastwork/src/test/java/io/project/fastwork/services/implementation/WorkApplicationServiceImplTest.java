@@ -4,6 +4,8 @@ import io.project.fastwork.domains.StatusWorkApplication;
 import io.project.fastwork.domains.Users;
 import io.project.fastwork.domains.Work;
 import io.project.fastwork.domains.WorkApplication;
+import io.project.fastwork.repositories.WorkRepository;
+import io.project.fastwork.services.api.UserServiceApi;
 import io.project.fastwork.services.api.WorkApplicationServiceApi;
 import io.project.fastwork.services.exception.*;
 import org.junit.jupiter.api.Test;
@@ -30,6 +32,12 @@ class WorkApplicationServiceImplTest {
     @Autowired
     private WorkApplicationServiceApi workApplicationService;
 
+    @Autowired
+    private WorkRepository workRepository;
+
+    @Autowired
+    private UserServiceApi userService;
+
     @Container
     static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:9.6.18-alpine")
             .withDatabaseName("prop")
@@ -48,10 +56,12 @@ class WorkApplicationServiceImplTest {
     }
 
     @Test
-    void SaveWorkApplication_WithValidWorkApp_ReturnTrue() throws WorkApplicationAlreadySend {
+    void SaveWorkApplication_WithValidWorkApp_ReturnTrue() throws WorkApplicationAlreadySend, UserNotFound {
+        Work work = workRepository.getWorkById(777L);
+        Users worker = userService.getById(777L);
         WorkApplication valid_work_application = WorkApplication.builder()
-                .work(Work.builder().id(777L).build())
-                .worker(Users.builder().id(777L).build())
+                .work(work)
+                .worker(worker)
                 .build();
 
         WorkApplication workApplication_saved = workApplicationService.saveWorkApplication(valid_work_application);

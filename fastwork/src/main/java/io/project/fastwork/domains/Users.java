@@ -78,4 +78,8 @@ public class Users implements UserDetails {
         return true;
     }
 
+    public String getFullName(){
+        return userSoname + " " + userOriginalName;
+    }
+
 }

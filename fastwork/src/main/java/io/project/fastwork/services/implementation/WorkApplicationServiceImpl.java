@@ -13,6 +13,7 @@ import io.project.fastwork.services.exception.WorkApplicationAlreadySend;
 import io.project.fastwork.services.exception.WorkApplicationNotFound;
 import io.project.fastwork.services.exception.WorkNotFound;
 import io.project.fastwork.services.exception.WorkerNotFound;
+import io.project.fastwork.services.util.MailMessageBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,9 @@ public class WorkApplicationServiceImpl implements WorkApplicationServiceApi {
         if (check_work_application == null) {
             log.info("Save work application for work with id {} and worker with id {} in {}", savedWorkApplication.getWork().getId(),
                     savedWorkApplication.getWorker().getId(), new Date());
+            String messageForHirer = MailMessageBuilder.messageBuildHirer(savedWorkApplication.getWorker().getFullName(),
+                    savedWorkApplication.getWork().getWorkHirer().getFullName());
+            mailService.sendMail(savedWorkApplication.getWork().getWorkHirer().getUserEmail(), "Work application",messageForHirer);
             savedWorkApplication.setStatusWorkApplication(StatusWorkApplication.EXPECTATION);
             savedWorkApplication.setDateApplicaton(Timestamp.valueOf(LocalDateTime.now()));
             return workAppllicationRepository.save(savedWorkApplication);
