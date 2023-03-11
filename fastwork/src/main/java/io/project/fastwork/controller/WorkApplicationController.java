@@ -89,4 +89,16 @@ public class WorkApplicationController {
         return ResponseEntity.ok().body(workApplicationApprovedResponse);
     }
 
+    @PutMapping("/reject/{id_workapp}")
+    public ResponseEntity<?>rejectWorkApplicationById(@PathVariable("id_workapp")Long id_workapp){
+        WorkApplication workApplicationReject;
+        try {
+           workApplicationReject = workApplicationService.rejectedWorkApplication(id_workapp);
+        } catch (WorkApplicationNotFound e) {
+            throw new RestWorkApplicationNotFoundException(e.getMessage());
+        }
+        WorkApplicationResponse workApplicationRejectResponse = WorkApplicationDtoUtil.getWorkApplicationRepsonse(workApplicationReject);
+        return ResponseEntity.ok().body(workApplicationRejectResponse);
+    }
+
 }
