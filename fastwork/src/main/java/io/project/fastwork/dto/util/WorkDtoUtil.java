@@ -16,7 +16,7 @@ public class WorkDtoUtil {
                 .workPrice(workSaved.getWorkPrice())
                 .workCountPerson(workSaved.getWorkCountPerson())
                 .workTypeId(workSaved.getWorkType().getId())
-                .workHirerId(workSaved.getWorkHirer().getId())
+                .workHirer(HirerDtoUtil.getHirerResponse(workSaved.getWorkHirer()))
                 .statusWork(workSaved.getWorkStatus())
                 .datecreateWork(workSaved.getWorkDateCreate())
                 .build();

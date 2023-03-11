@@ -19,7 +19,7 @@ public class WorkResponse {
     private Integer workCountPerson;
     private Float workPrice;
     private Long workTypeId;
-    private Long workHirerId;
+    private HirerResponse workHirer;
     private StatusWork statusWork;
     private Timestamp datecreateWork;
 }
