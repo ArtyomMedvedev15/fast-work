@@ -1,5 +1,6 @@
 package io.project.fastwork.controller.advice;
 
+import io.project.fastwork.controller.exception.RestWorkAlreadyAddedException;
 import io.project.fastwork.controller.exception.RestWorkAlreadyExistsException;
 import io.project.fastwork.controller.exception.RestWorkInvalidDataValuesException;
 import io.project.fastwork.controller.exception.RestWorkNotFoundException;
@@ -43,4 +44,15 @@ public class WorkControllerAdvice {
                 .error_message(ex.getMessage())
                 .error_description(request.getDescription(false)).build();
     }
+
+    @ExceptionHandler(value = RestWorkAlreadyAddedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessageResponse handleWorkAlreadyAddedException(RestWorkAlreadyAddedException ex, WebRequest request) {
+        return ErrorMessageResponse.builder()
+                .errro_statusCode(HttpStatus.BAD_REQUEST.value())
+                .timestamp(new Date())
+                .error_message(ex.getMessage())
+                .error_description(request.getDescription(false)).build();
+    }
+
 }

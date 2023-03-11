@@ -6,15 +6,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.io.Serial;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class RestWorkApplicationAlreadySendException extends RuntimeException{
+public class RestWorkAlreadyAddedException extends RuntimeException{
+
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public RestWorkApplicationAlreadySendException() {
+    public RestWorkAlreadyAddedException() {
         super();
     }
 
-    public RestWorkApplicationAlreadySendException(String message) {
+    public RestWorkAlreadyAddedException(String message) {
         super(message);
     }
 }
+

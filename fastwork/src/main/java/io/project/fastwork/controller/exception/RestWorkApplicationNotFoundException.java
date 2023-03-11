@@ -5,16 +5,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.Serial;
 
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-public class RestWorkApplicationAlreadySendException extends RuntimeException{
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class RestWorkApplicationNotFoundException extends RuntimeException{
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public RestWorkApplicationAlreadySendException() {
+    public RestWorkApplicationNotFoundException() {
         super();
     }
 
-    public RestWorkApplicationAlreadySendException(String message) {
+    public RestWorkApplicationNotFoundException(String message) {
         super(message);
     }
 }
+

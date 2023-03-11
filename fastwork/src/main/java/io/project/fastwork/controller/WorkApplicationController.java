@@ -1,8 +1,6 @@
 package io.project.fastwork.controller;
 
-import io.project.fastwork.controller.exception.RestWorkApplicationAlreadySendException;
-import io.project.fastwork.controller.exception.RestWorkNotFoundException;
-import io.project.fastwork.controller.exception.RestWorkerNotFoundException;
+import io.project.fastwork.controller.exception.*;
 import io.project.fastwork.domains.WorkApplication;
 import io.project.fastwork.dto.request.WorkApplicationSaveRequest;
 import io.project.fastwork.dto.response.WorkApplicationResponse;
@@ -10,10 +8,7 @@ import io.project.fastwork.dto.util.WorkApplicationDtoUtil;
 import io.project.fastwork.services.api.UserServiceApi;
 import io.project.fastwork.services.api.WorkApplicationServiceApi;
 import io.project.fastwork.services.api.WorkServiceApi;
-import io.project.fastwork.services.exception.UserNotFound;
-import io.project.fastwork.services.exception.WorkApplicationAlreadySend;
-import io.project.fastwork.services.exception.WorkNotFound;
-import io.project.fastwork.services.exception.WorkerNotFound;
+import io.project.fastwork.services.exception.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -78,6 +73,20 @@ public class WorkApplicationController {
         }
         WorkApplicationResponse workApplicationSaveResponse = WorkApplicationDtoUtil.getWorkApplicationRepsonse(workApplicationSave);
         return ResponseEntity.ok().body(workApplicationSaveResponse);
+    }
+
+    @PutMapping("/approve/{id_workapp}")
+    public ResponseEntity<?>approveWorkApplicationById(@PathVariable("id_workapp")Long id_workapp){
+        WorkApplication workApplicationApproved;
+        try {
+            workApplicationApproved = workApplicationService.approvedWorkApplication(id_workapp);
+        } catch (WorkApplicationNotFound e) {
+            throw new RestWorkApplicationNotFoundException(e.getMessage());
+        } catch (WorkAlreadyAdded e) {
+            throw new RestWorkAlreadyAddedException(e.getMessage());
+        }
+        WorkApplicationResponse workApplicationApprovedResponse = WorkApplicationDtoUtil.getWorkApplicationRepsonse(workApplicationApproved);
+        return ResponseEntity.ok().body(workApplicationApprovedResponse);
     }
 
 }
