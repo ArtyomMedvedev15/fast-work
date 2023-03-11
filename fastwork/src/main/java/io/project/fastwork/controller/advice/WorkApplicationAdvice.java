@@ -1,5 +1,6 @@
 package io.project.fastwork.controller.advice;
 
+import io.project.fastwork.controller.exception.RestWorkApplicationAlreadySendException;
 import io.project.fastwork.controller.exception.RestWorkNotFoundException;
 import io.project.fastwork.controller.exception.RestWorkerNotFoundException;
 import io.project.fastwork.dto.response.ErrorMessageResponse;
@@ -18,6 +19,16 @@ public class WorkApplicationAdvice {
     public ErrorMessageResponse handleWorkerNotFoundException(RestWorkerNotFoundException ex, WebRequest request) {
         return ErrorMessageResponse.builder()
                 .errro_statusCode(HttpStatus.NOT_FOUND.value())
+                .timestamp(new Date())
+                .error_message(ex.getMessage())
+                .error_description(request.getDescription(false)).build();
+    }
+
+    @ExceptionHandler(value = RestWorkApplicationAlreadySendException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessageResponse handleWorkApplicationAlreadySendException(RestWorkApplicationAlreadySendException ex, WebRequest request) {
+        return ErrorMessageResponse.builder()
+                .errro_statusCode(HttpStatus.BAD_REQUEST.value())
                 .timestamp(new Date())
                 .error_message(ex.getMessage())
                 .error_description(request.getDescription(false)).build();

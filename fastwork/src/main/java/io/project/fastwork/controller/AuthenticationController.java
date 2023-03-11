@@ -1,6 +1,6 @@
 package io.project.fastwork.controller;
 
-import io.project.fastwork.controller.exception.RestUserAlreadyExisted;
+import io.project.fastwork.controller.exception.RestUserAlreadyExistedException;
 import io.project.fastwork.controller.exception.RestUserInvalidDataParemeterException;
 import io.project.fastwork.controller.exception.TokenRefreshException;
 import io.project.fastwork.domains.RefreshToken;
@@ -78,7 +78,7 @@ public class AuthenticationController {
                     .build();
             userService.saveUser(user_registraton);
         } catch (UserAlreadyExisted e) {
-            throw new RestUserAlreadyExisted(String.format("User with username %s already exists!",registrationRequest.getUsername()));
+            throw new RestUserAlreadyExistedException(String.format("User with username %s already exists!",registrationRequest.getUsername()));
         } catch (UserInvalidDataParemeter e) {
             throw new RestUserInvalidDataParemeterException(e.getMessage());
         }

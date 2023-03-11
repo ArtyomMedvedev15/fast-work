@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.io.Serial;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class RestUserAlreadyExisted extends RuntimeException{
+public class RestUserAlreadyExistedException extends RuntimeException{
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public RestUserAlreadyExisted() {
+    public RestUserAlreadyExistedException() {
         super();
     }
 
-    public RestUserAlreadyExisted(String message) {
+    public RestUserAlreadyExistedException(String message) {
         super(message);
     }
 }
