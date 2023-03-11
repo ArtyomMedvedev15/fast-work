@@ -1,8 +1,8 @@
 package io.project.fastwork.controller;
 
-import io.project.fastwork.controller.exception.RestTypeWorkAlreadyExistsException;
-import io.project.fastwork.controller.exception.RestTypeWorkInvalidParameterException;
-import io.project.fastwork.controller.exception.RestTypeWorkNotFoundException;
+import io.project.fastwork.controller.advice.exception.RestTypeWorkAlreadyExistsException;
+import io.project.fastwork.controller.advice.exception.RestTypeWorkInvalidParameterException;
+import io.project.fastwork.controller.advice.exception.RestTypeWorkNotFoundException;
 import io.project.fastwork.domains.TypeWork;
 import io.project.fastwork.dto.request.TypeWorkSaveRequest;
 import io.project.fastwork.dto.request.TypeWorkUpdateRequest;

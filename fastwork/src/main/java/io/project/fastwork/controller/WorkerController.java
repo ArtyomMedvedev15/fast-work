@@ -1,8 +1,8 @@
 package io.project.fastwork.controller;
 
-import io.project.fastwork.controller.exception.RestWorkAlreadyAddedException;
-import io.project.fastwork.controller.exception.RestWorkNotFoundException;
-import io.project.fastwork.controller.exception.RestWorkerNotFoundException;
+import io.project.fastwork.controller.advice.exception.RestWorkAlreadyAddedException;
+import io.project.fastwork.controller.advice.exception.RestWorkNotFoundException;
+import io.project.fastwork.controller.advice.exception.RestWorkerNotFoundException;
 import io.project.fastwork.domains.Users;
 import io.project.fastwork.domains.Work;
 import io.project.fastwork.dto.request.AddWorkWorkerRequest;

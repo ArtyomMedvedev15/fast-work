@@ -1,9 +1,9 @@
 package io.project.fastwork.controller.advice;
 
-import io.project.fastwork.controller.exception.RestWorkAlreadyAddedException;
-import io.project.fastwork.controller.exception.RestWorkAlreadyExistsException;
-import io.project.fastwork.controller.exception.RestWorkInvalidDataValuesException;
-import io.project.fastwork.controller.exception.RestWorkNotFoundException;
+import io.project.fastwork.controller.advice.exception.RestWorkAlreadyAddedException;
+import io.project.fastwork.controller.advice.exception.RestWorkAlreadyExistsException;
+import io.project.fastwork.controller.advice.exception.RestWorkInvalidDataValuesException;
+import io.project.fastwork.controller.advice.exception.RestWorkNotFoundException;
 import io.project.fastwork.dto.response.ErrorMessageResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

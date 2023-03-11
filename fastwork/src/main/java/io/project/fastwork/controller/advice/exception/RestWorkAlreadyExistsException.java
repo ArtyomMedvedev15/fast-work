@@ -1,4 +1,4 @@
-package io.project.fastwork.controller.exception;
+package io.project.fastwork.controller.advice.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.io.Serial;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class RestWorkInvalidDataValuesException extends RuntimeException{
+public class RestWorkAlreadyExistsException extends RuntimeException{
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public RestWorkInvalidDataValuesException() {
+    public RestWorkAlreadyExistsException() {
         super();
     }
 
-    public RestWorkInvalidDataValuesException(String message) {
+    public RestWorkAlreadyExistsException(String message) {
         super(message);
     }
 }

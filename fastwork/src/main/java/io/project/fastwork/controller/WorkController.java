@@ -1,9 +1,9 @@
 package io.project.fastwork.controller;
 
-import io.project.fastwork.controller.exception.RestTypeWorkNotFoundException;
-import io.project.fastwork.controller.exception.RestWorkAlreadyExistsException;
-import io.project.fastwork.controller.exception.RestWorkInvalidDataValuesException;
-import io.project.fastwork.controller.exception.RestWorkNotFoundException;
+import io.project.fastwork.controller.advice.exception.RestTypeWorkNotFoundException;
+import io.project.fastwork.controller.advice.exception.RestWorkAlreadyExistsException;
+import io.project.fastwork.controller.advice.exception.RestWorkInvalidDataValuesException;
+import io.project.fastwork.controller.advice.exception.RestWorkNotFoundException;
 import io.project.fastwork.domains.TypeWork;
 import io.project.fastwork.domains.Work;
 import io.project.fastwork.dto.request.WorkByNameRequest;

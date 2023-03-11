@@ -1,4 +1,4 @@
-package io.project.fastwork.controller.exception;
+package io.project.fastwork.controller.advice.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

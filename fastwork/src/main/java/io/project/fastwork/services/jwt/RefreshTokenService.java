@@ -1,6 +1,6 @@
 package io.project.fastwork.services.jwt;
 
-import io.project.fastwork.controller.exception.TokenRefreshException;
+import io.project.fastwork.controller.advice.exception.TokenRefreshException;
 import io.project.fastwork.domains.RefreshToken;
 import io.project.fastwork.repositories.RefreshTokenRepository;
 import io.project.fastwork.services.api.RefreshTokenServiceApi;

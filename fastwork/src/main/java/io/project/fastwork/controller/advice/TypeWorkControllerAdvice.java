@@ -1,7 +1,6 @@
 package io.project.fastwork.controller.advice;
 
-import io.project.fastwork.controller.exception.RestTypeWorkNotFoundException;
-import io.project.fastwork.controller.exception.RestWorkNotFoundException;
+import io.project.fastwork.controller.advice.exception.RestTypeWorkNotFoundException;
 import io.project.fastwork.dto.response.ErrorMessageResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

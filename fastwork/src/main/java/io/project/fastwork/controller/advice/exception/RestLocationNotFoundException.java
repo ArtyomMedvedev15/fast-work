@@ -1,4 +1,4 @@
-package io.project.fastwork.controller.exception;
+package io.project.fastwork.controller.advice.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -6,16 +6,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.io.Serial;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class RestWorkApplicationNotFoundException extends RuntimeException{
+public class RestLocationNotFoundException extends RuntimeException{
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public RestWorkApplicationNotFoundException() {
+    public RestLocationNotFoundException() {
         super();
     }
 
-    public RestWorkApplicationNotFoundException(String message) {
+    public RestLocationNotFoundException(String message) {
         super(message);
     }
 }
-

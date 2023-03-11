@@ -1,8 +1,8 @@
 package io.project.fastwork.controller;
 
-import io.project.fastwork.controller.exception.RestUserAlreadyExistedException;
-import io.project.fastwork.controller.exception.RestUserInvalidDataParemeterException;
-import io.project.fastwork.controller.exception.TokenRefreshException;
+import io.project.fastwork.controller.advice.exception.RestUserAlreadyExistedException;
+import io.project.fastwork.controller.advice.exception.RestUserInvalidDataParemeterException;
+import io.project.fastwork.controller.advice.exception.TokenRefreshException;
 import io.project.fastwork.domains.RefreshToken;
 import io.project.fastwork.domains.Role;
 import io.project.fastwork.domains.Users;

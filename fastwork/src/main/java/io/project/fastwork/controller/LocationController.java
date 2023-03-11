@@ -1,9 +1,8 @@
 package io.project.fastwork.controller;
 
-import com.electronwill.nightconfig.core.conversion.Path;
-import io.project.fastwork.controller.exception.RestLocationNotFoundException;
-import io.project.fastwork.controller.exception.RestLocationWithInvalidArgumentsException;
-import io.project.fastwork.controller.exception.RestWorkNotFoundException;
+import io.project.fastwork.controller.advice.exception.RestLocationNotFoundException;
+import io.project.fastwork.controller.advice.exception.RestLocationWithInvalidArgumentsException;
+import io.project.fastwork.controller.advice.exception.RestWorkNotFoundException;
 import io.project.fastwork.domains.Location;
 import io.project.fastwork.dto.request.LocationByCityRequest;
 import io.project.fastwork.dto.request.LocationByNearbyRequest;
