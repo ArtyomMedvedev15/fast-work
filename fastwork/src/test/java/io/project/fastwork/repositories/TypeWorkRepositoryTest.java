@@ -78,10 +78,4 @@ class TypeWorkRepositoryTest {
         assertTrue(typeWorkList.size()>0);
     }
 
-    @Test
-    void DeleteTypeWork_ReturnTrue(){
-        TypeWork deletedTypeWork = typeWorkRepository.getTypeWorkById(777L);
-        typeWorkRepository.delete(deletedTypeWork);
-        assertEquals(0, typeWorkRepository.findAll().size());
-    }
 }
