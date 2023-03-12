@@ -24,4 +24,6 @@ insert into users_works(users_id, user_works_id) values(781,777);
 insert into users_works(users_id, user_works_id) values(780,778);
 
 insert into notification(id, date_send_notification, message_notification, name_topic_notification, status_notification)values(777,'2023-09-01','test','test','OTHER');
-insert into notification(id, date_send_notification, message_notification, name_topic_notification, status_notification)values(778,'2023-09-01','test','delete','OTHER')
+insert into notification(id, date_send_notification, message_notification, name_topic_notification, status_notification)values(778,'2023-09-01','test','delete','OTHER');
+insert into refresh_token(id, expiry_date, token, user_id) values(787,'2023-04-12','token',777);
+insert into refresh_token(id, expiry_date, token, user_id) values(788,'2023-04-12','token2',779);

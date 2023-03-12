@@ -1,3 +1,4 @@
+delete from refresh_token;
 delete from users_works;
 delete from location;
 delete from work_application;
