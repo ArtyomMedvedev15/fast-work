@@ -26,6 +26,12 @@ import java.util.Optional;
 class WorkRepositoryTest {
     @Autowired
     private WorkRepository workRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TypeWorkRepository typeWorkRepository;
     @Container
     static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:9.6.18-alpine")
             .withDatabaseName("prop")
@@ -69,14 +75,15 @@ class WorkRepositoryTest {
     }
 
     @Test
+    @Transactional
     void SaveWorkTest_ReturnTrue(){
         Work work = Work.builder()
                 .workName("Test")
                 .workDescribe("Test")
                 .workPrice(12.0F)
                 .workCountPerson(5)
-                .workType(TypeWork.builder().id(777L).build())
-                .workHirer(Users.builder().id(778L).build())
+                .workType(typeWorkRepository.getTypeWorkById(777L))
+                .workHirer(userRepository.getUserById(778L))
                 .build();
         Work savedWork = workRepository.save(work);
         Assertions.assertEquals("Test", savedWork.getWorkName());
