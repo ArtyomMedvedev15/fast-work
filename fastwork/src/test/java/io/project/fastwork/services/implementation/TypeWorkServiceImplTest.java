@@ -28,9 +28,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Testcontainers
-@Sql(value = "classpath:/sql/initDataBefore.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(value = "classpath:/sql/clearDataAfter.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 class TypeWorkServiceImplTest {
 
     @MockBean
@@ -39,23 +36,6 @@ class TypeWorkServiceImplTest {
     @Qualifier("typeWorkServiceImpl")
     @Autowired
     private TypeWorkServiceApi typeWorkService;
-
-    @Container
-    static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:9.6.18-alpine")
-            .withDatabaseName("prop")
-            .withUsername("postgres")
-            .withPassword("postgres")
-            .withExposedPorts(5432)
-            .withInitScript("sql/initDB.sql");
-
-
-    @DynamicPropertySource
-    static void registerPgProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url",
-                () -> String.format("jdbc:postgresql://localhost:%d/prop", postgreSQLContainer.getFirstMappedPort()));
-        registry.add("spring.datasource.username", () -> "postgres");
-        registry.add("spring.datasource.password", () -> "postgres");
-    }
 
     @Test
     void SaveTypeWork_WithValidTypeWork_ReturnTrue() throws TypeWorkInvalidParameterException, TypeWorkAlreadyExistsException {
