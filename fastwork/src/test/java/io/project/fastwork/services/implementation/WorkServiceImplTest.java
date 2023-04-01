@@ -425,14 +425,99 @@ class WorkServiceImplTest {
     }
 
     @Test
-    void findAllOpenedWork() {
+    void FindAllOpenedWorkTest_ReturnTrue() {
+        Users userHirer = Users.builder()
+                .id(123L)
+                .username("Hirer")
+                .build();
+
+        TypeWork typeWork = TypeWork.builder()
+                .id(123L)
+                .typeWorkName("Test")
+                .build();
+
+        Work work = Work.builder()
+                .id(888L)
+                .workName("FindTest")
+                .workDescribe("TestTestTest")
+                .workPrice(12.0F)
+                .workCountPerson(5)
+                .workType(typeWork)
+                .workHirer(userHirer)
+                .workStatus(StatusWork.OPEN)
+                .build();
+
+        Mockito.when(workRepository.findAll()).thenReturn(List.of(work));
+
+        List<Work> allWork = workService.findAllWork();
+
+        assertEquals(StatusWork.OPEN, allWork.get(0).getWorkStatus());
+
+        Mockito.verify(workRepository,Mockito.times(1)).findAll();
     }
 
     @Test
-    void findAllClosedWork() {
+    void FindAllClosedWorkTest_ReturnTrue() {
+        Users userHirer = Users.builder()
+                .id(123L)
+                .username("Hirer")
+                .build();
+
+        TypeWork typeWork = TypeWork.builder()
+                .id(123L)
+                .typeWorkName("Test")
+                .build();
+
+        Work work = Work.builder()
+                .id(888L)
+                .workName("FindTest")
+                .workDescribe("TestTestTest")
+                .workPrice(12.0F)
+                .workCountPerson(5)
+                .workType(typeWork)
+                .workHirer(userHirer)
+                .workStatus(StatusWork.CLOSE)
+                .build();
+
+        Mockito.when(workRepository.findAll()).thenReturn(List.of(work));
+
+        List<Work> allWork = workService.findAllWork();
+
+        assertEquals(StatusWork.CLOSE, allWork.get(0).getWorkStatus());
+
+        Mockito.verify(workRepository,Mockito.times(1)).findAll();
     }
 
     @Test
-    void findAllExceptionWork() {
+    void FindAllExceptionWorkTest_ReturnTrue() {
+        Users userHirer = Users.builder()
+                .id(123L)
+                .username("Hirer")
+                .build();
+
+        TypeWork typeWork = TypeWork.builder()
+                .id(123L)
+                .typeWorkName("Test")
+                .build();
+
+        Work work = Work.builder()
+                .id(888L)
+                .workName("FindTest")
+                .workDescribe("TestTestTest")
+                .workPrice(12.0F)
+                .workCountPerson(5)
+                .workType(typeWork)
+                .workHirer(userHirer)
+                .workStatus(StatusWork.EXPECTATION)
+                .build();
+
+        Mockito.when(workRepository.findAll()).thenReturn(List.of(work));
+
+        List<Work> allWork = workService.findAllWork();
+
+        assertEquals(StatusWork.EXPECTATION, allWork.get(0).getWorkStatus());
+
+        Mockito.verify(workRepository,Mockito.times(1)).findAll();
+
     }
 }
