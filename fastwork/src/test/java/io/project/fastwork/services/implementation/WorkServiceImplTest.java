@@ -9,6 +9,7 @@ import io.project.fastwork.services.api.WorkServiceApi;
 import io.project.fastwork.services.exception.WorkAlreadyAdded;
 import io.project.fastwork.services.exception.WorkAlreadyExists;
 import io.project.fastwork.services.exception.WorkInvalidDataValues;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +46,8 @@ class WorkServiceImplTest {
                 .build();
 
         Work work = Work.builder()
-                .workName("Test")
-                .workDescribe("Test")
+                .workName("Testt")
+                .workDescribe("TestTestTest")
                 .workPrice(12.0F)
                 .workCountPerson(5)
                 .workType(typeWork)
@@ -57,7 +58,7 @@ class WorkServiceImplTest {
 
         Work savedWork = workService.saveWork(work);
 
-        assertEquals("Test",savedWork.getWorkName());
+        assertEquals("Testt",savedWork.getWorkName());
         Mockito.verify(workRepository,Mockito.times(1)).save(work);
     }
 
@@ -70,12 +71,12 @@ class WorkServiceImplTest {
 
         TypeWork typeWork = TypeWork.builder()
                 .id(123L)
-                .typeWorkName("Test")
+                .typeWorkName("Testt")
                 .build();
 
         Work work = Work.builder()
-                .workName("Test")
-                .workDescribe("Test")
+                .workName("Testt")
+                .workDescribe("TestTestTest")
                 .workPrice(12.0F)
                 .workCountPerson(5)
                 .workType(typeWork)
@@ -92,7 +93,32 @@ class WorkServiceImplTest {
         Mockito.verify(workRepository,Mockito.times(1)).findAll();
     }
     @Test
-    void updateWork() {
+    void UpdateWorkTest_ReturnTrue() throws WorkInvalidDataValues {
+        Users userHirer = Users.builder()
+                .id(123L)
+                .username("Hirer")
+                .build();
+
+        TypeWork typeWork = TypeWork.builder()
+                .id(123L)
+                .typeWorkName("Test")
+                .build();
+
+        Work work = Work.builder()
+                .workName("Update")
+                .workDescribe("TestTestTest")
+                .workPrice(12.0F)
+                .workCountPerson(5)
+                .workType(typeWork)
+                .workHirer(userHirer)
+                .build();
+
+        Mockito.when(workRepository.save(work)).thenReturn(work);
+
+        Work updateWork = workService.updateWork(work);
+
+        assertEquals("Update", updateWork.getWorkName());
+        Mockito.verify(workRepository,Mockito.times(1)).save(work);
     }
 
     @Test
