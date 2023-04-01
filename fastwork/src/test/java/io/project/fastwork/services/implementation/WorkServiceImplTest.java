@@ -205,7 +205,6 @@ class WorkServiceImplTest {
     }
     @Test
     void OpenWorkTest_WithNullWork_ThrowException() throws WorkNotFound {
-
         Mockito.when(workRepository.getWorkById(888L)).thenReturn(null);
 
         WorkNotFound workNotFound = assertThrows(WorkNotFound.class,
@@ -216,13 +215,58 @@ class WorkServiceImplTest {
         Mockito.verify(workRepository,Mockito.times(1)).getWorkById(888L);
 
     }
+
     @Test
-    void getWorkById() {
+    void ExceptionWorkTest_ReturnTrue() throws WorkNotFound {
+        Users userHirer = Users.builder()
+                .id(123L)
+                .username("Hirer")
+                .build();
+
+        TypeWork typeWork = TypeWork.builder()
+                .id(123L)
+                .typeWorkName("Test")
+                .build();
+
+        Work work = Work.builder()
+                .id(888L)
+                .workName("Closed")
+                .workDescribe("TestTestTest")
+                .workPrice(12.0F)
+                .workCountPerson(5)
+                .workType(typeWork)
+                .workHirer(userHirer)
+                .workStatus(StatusWork.CLOSE)
+                .build();
+
+        Mockito.when(workRepository.save(work)).thenReturn(work);
+        Mockito.when(workRepository.getWorkById(888L)).thenReturn(work);
+
+        Work closeWork = workService.exceptionWork(work);
+
+        assertEquals(StatusWork.EXPECTATION,closeWork.getWorkStatus());
+        Mockito.verify(workRepository,Mockito.times(1)).save(work);
+        Mockito.verify(workRepository,Mockito.times(1)).getWorkById(888L);
     }
 
     @Test
-    void exceptionWork() {
+    void ExceptionWorkTest_WithNullWork_ThrowException() throws WorkNotFound {
+        Mockito.when(workRepository.getWorkById(888L)).thenReturn(null);
+
+        WorkNotFound workNotFound = assertThrows(WorkNotFound.class,
+                ()->workService.exceptionWork(Work.builder().id(888L).build())
+        );
+
+        Mockito.verify(workRepository,Mockito.times(0)).save(Work.builder().id(888L).build());
+        Mockito.verify(workRepository,Mockito.times(1)).getWorkById(888L);
+
     }
+    @Test
+    void GetWorkByIdTest_ReturnTrue() {
+
+    }
+
+
 
     @Test
     void findWorkByName() {
