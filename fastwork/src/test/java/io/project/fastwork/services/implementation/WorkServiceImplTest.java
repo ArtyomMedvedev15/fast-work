@@ -4,6 +4,7 @@ import io.project.fastwork.domains.StatusWork;
 import io.project.fastwork.domains.TypeWork;
 import io.project.fastwork.domains.Users;
 import io.project.fastwork.domains.Work;
+import io.project.fastwork.repositories.TypeWorkRepository;
 import io.project.fastwork.repositories.WorkRepository;
 import io.project.fastwork.services.api.TypeWorkServiceApi;
 import io.project.fastwork.services.api.WorkServiceApi;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,7 +35,7 @@ class WorkServiceImplTest {
     private WorkServiceApi workService;
 
     @MockBean
-    private TypeWorkServiceApi typeWorkService;
+    private TypeWorkRepository typeWorkRepository;
 
     @Test
     void SaveWorkTest_ReturnTrue() throws WorkInvalidDataValues, WorkAlreadyExists {
@@ -308,15 +310,118 @@ class WorkServiceImplTest {
 
 
     @Test
-    void findWorkByName() {
+    void FindWorkByNameTest_ReturnTrue() {
+        Users userHirer = Users.builder()
+                .id(123L)
+                .username("Hirer")
+                .build();
+
+        TypeWork typeWork = TypeWork.builder()
+                .id(123L)
+                .typeWorkName("Test")
+                .build();
+
+        Work work = Work.builder()
+                .id(888L)
+                .workName("FindTest")
+                .workDescribe("TestTestTest")
+                .workPrice(12.0F)
+                .workCountPerson(5)
+                .workType(typeWork)
+                .workHirer(userHirer)
+                .workStatus(StatusWork.OPEN)
+                .build();
+
+        Mockito.when(workRepository.findWorkByName("Find")).thenReturn(List.of(work));
+
+        List<Work> workByName = workService.findWorkByName("Find");
+
+        assertEquals("FindTest",workByName.get(0).getWorkName());
+        Mockito.verify(workRepository,Mockito.times(1)).findWorkByName("Find");
+
     }
 
     @Test
-    void findWorkByTypeWork() {
+    void FindWorkByTypeWorkTest_ReturnTrue() {
+        Users userHirer = Users.builder()
+                .id(123L)
+                .username("Hirer")
+                .build();
+
+        TypeWork typeWork = TypeWork.builder()
+                .id(123L)
+                .typeWorkName("Test")
+                .build();
+
+        Work work = Work.builder()
+                .id(888L)
+                .workName("FindTest")
+                .workDescribe("TestTestTest")
+                .workPrice(12.0F)
+                .workCountPerson(5)
+                .workType(typeWork)
+                .workHirer(userHirer)
+                .workStatus(StatusWork.OPEN)
+                .build();
+
+        Mockito.when(typeWorkRepository.findByTypeWorkName("Test")).thenReturn(typeWork);
+        Mockito.when(workRepository.findWorkByType(123L)).thenReturn(List.of(work));
+
+        List<Work> workByTypeWork = workService.findWorkByTypeWork(typeWork);
+
+        assertEquals("Test",workByTypeWork.get(0).getWorkType().getTypeWorkName());
+
+        Mockito.verify(workRepository,Mockito.times(1)).findWorkByType(123L);
+        Mockito.verify(typeWorkRepository,Mockito.times(1)).findByTypeWorkName("Test");
     }
 
     @Test
-    void findAllWork() {
+    void FindWorkByTypeWorkTest_WithTypeNull_ReturnTrue() {
+        TypeWork typeWork = TypeWork.builder()
+                .id(123L)
+                .typeWorkName("Test")
+                .build();
+        Mockito.when(typeWorkRepository.findByTypeWorkName("Test")).thenReturn(null);
+        Mockito.when(workRepository.findWorkByType(123L)).thenReturn(Collections.emptyList());
+
+        List<Work> workByTypeWork = workService.findWorkByTypeWork(typeWork);
+
+        assertEquals(0, workByTypeWork.size());
+
+        Mockito.verify(workRepository,Mockito.times(0)).findWorkByType(123L);
+        Mockito.verify(typeWorkRepository,Mockito.times(1)).findByTypeWorkName("Test");
+    }
+
+    @Test
+    void FindAllWorkTest_ReturnTrue() {
+        Users userHirer = Users.builder()
+                .id(123L)
+                .username("Hirer")
+                .build();
+
+        TypeWork typeWork = TypeWork.builder()
+                .id(123L)
+                .typeWorkName("Test")
+                .build();
+
+        Work work = Work.builder()
+                .id(888L)
+                .workName("FindTest")
+                .workDescribe("TestTestTest")
+                .workPrice(12.0F)
+                .workCountPerson(5)
+                .workType(typeWork)
+                .workHirer(userHirer)
+                .workStatus(StatusWork.OPEN)
+                .build();
+
+        Mockito.when(workRepository.findAll()).thenReturn(List.of(work));
+
+        List<Work> allWork = workService.findAllWork();
+
+        assertEquals(1, allWork.size());
+
+        Mockito.verify(workRepository,Mockito.times(1)).findAll();
     }
 
     @Test
