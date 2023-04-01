@@ -99,7 +99,7 @@ public class WorkServiceImpl implements WorkServiceApi {
         Work check_work_exists = workRepository.getWorkById(work_id);
         if (check_work_exists != null) {
             log.info("Get work with id {} in {}", work_id, new Date());
-            return workRepository.getWorkById(work_id);
+            return check_work_exists;
         } else {
             log.error("Work with id {} was not found throw exception in {}", work_id, new Date());
             throw new WorkNotFound(String.format("Work with id %s not found!", work_id));

@@ -60,8 +60,8 @@ class WorkServiceImplTest {
 
         Work savedWork = workService.saveWork(work);
 
-        assertEquals("Testt",savedWork.getWorkName());
-        Mockito.verify(workRepository,Mockito.times(1)).save(work);
+        assertEquals("Testt", savedWork.getWorkName());
+        Mockito.verify(workRepository, Mockito.times(1)).save(work);
     }
 
     @Test
@@ -89,11 +89,12 @@ class WorkServiceImplTest {
 
         WorkAlreadyExists workAlreadyExists = assertThrows(
                 WorkAlreadyExists.class,
-                ()->workService.saveWork(work)
+                () -> workService.saveWork(work)
         );
-        Mockito.verify(workRepository,Mockito.times(0)).save(work);
-        Mockito.verify(workRepository,Mockito.times(1)).findAll();
+        Mockito.verify(workRepository, Mockito.times(0)).save(work);
+        Mockito.verify(workRepository, Mockito.times(1)).findAll();
     }
+
     @Test
     void UpdateWorkTest_ReturnTrue() throws WorkInvalidDataValues {
         Users userHirer = Users.builder()
@@ -120,7 +121,7 @@ class WorkServiceImplTest {
         Work updateWork = workService.updateWork(work);
 
         assertEquals("Update", updateWork.getWorkName());
-        Mockito.verify(workRepository,Mockito.times(1)).save(work);
+        Mockito.verify(workRepository, Mockito.times(1)).save(work);
     }
 
     @Test
@@ -151,9 +152,9 @@ class WorkServiceImplTest {
 
         Work closeWork = workService.closeWork(work);
 
-        assertEquals(StatusWork.CLOSE,closeWork.getWorkStatus());
-        Mockito.verify(workRepository,Mockito.times(1)).save(work);
-        Mockito.verify(workRepository,Mockito.times(1)).getWorkById(888L);
+        assertEquals(StatusWork.CLOSE, closeWork.getWorkStatus());
+        Mockito.verify(workRepository, Mockito.times(1)).save(work);
+        Mockito.verify(workRepository, Mockito.times(1)).getWorkById(888L);
 
     }
 
@@ -163,11 +164,11 @@ class WorkServiceImplTest {
         Mockito.when(workRepository.getWorkById(888L)).thenReturn(null);
 
         WorkNotFound workNotFound = assertThrows(WorkNotFound.class,
-                ()->workService.closeWork(Work.builder().id(888L).build())
+                () -> workService.closeWork(Work.builder().id(888L).build())
         );
 
-        Mockito.verify(workRepository,Mockito.times(0)).save(Work.builder().id(888L).build());
-        Mockito.verify(workRepository,Mockito.times(1)).getWorkById(888L);
+        Mockito.verify(workRepository, Mockito.times(0)).save(Work.builder().id(888L).build());
+        Mockito.verify(workRepository, Mockito.times(1)).getWorkById(888L);
 
     }
 
@@ -199,20 +200,21 @@ class WorkServiceImplTest {
 
         Work closeWork = workService.openWork(work);
 
-        assertEquals(StatusWork.OPEN,closeWork.getWorkStatus());
-        Mockito.verify(workRepository,Mockito.times(1)).save(work);
-        Mockito.verify(workRepository,Mockito.times(1)).getWorkById(888L);
+        assertEquals(StatusWork.OPEN, closeWork.getWorkStatus());
+        Mockito.verify(workRepository, Mockito.times(1)).save(work);
+        Mockito.verify(workRepository, Mockito.times(1)).getWorkById(888L);
     }
+
     @Test
     void OpenWorkTest_WithNullWork_ThrowException() throws WorkNotFound {
         Mockito.when(workRepository.getWorkById(888L)).thenReturn(null);
 
         WorkNotFound workNotFound = assertThrows(WorkNotFound.class,
-                ()->workService.openWork(Work.builder().id(888L).build())
+                () -> workService.openWork(Work.builder().id(888L).build())
         );
 
-        Mockito.verify(workRepository,Mockito.times(0)).save(Work.builder().id(888L).build());
-        Mockito.verify(workRepository,Mockito.times(1)).getWorkById(888L);
+        Mockito.verify(workRepository, Mockito.times(0)).save(Work.builder().id(888L).build());
+        Mockito.verify(workRepository, Mockito.times(1)).getWorkById(888L);
 
     }
 
@@ -244,9 +246,9 @@ class WorkServiceImplTest {
 
         Work closeWork = workService.exceptionWork(work);
 
-        assertEquals(StatusWork.EXPECTATION,closeWork.getWorkStatus());
-        Mockito.verify(workRepository,Mockito.times(1)).save(work);
-        Mockito.verify(workRepository,Mockito.times(1)).getWorkById(888L);
+        assertEquals(StatusWork.EXPECTATION, closeWork.getWorkStatus());
+        Mockito.verify(workRepository, Mockito.times(1)).save(work);
+        Mockito.verify(workRepository, Mockito.times(1)).getWorkById(888L);
     }
 
     @Test
@@ -254,18 +256,55 @@ class WorkServiceImplTest {
         Mockito.when(workRepository.getWorkById(888L)).thenReturn(null);
 
         WorkNotFound workNotFound = assertThrows(WorkNotFound.class,
-                ()->workService.exceptionWork(Work.builder().id(888L).build())
+                () -> workService.exceptionWork(Work.builder().id(888L).build())
         );
 
-        Mockito.verify(workRepository,Mockito.times(0)).save(Work.builder().id(888L).build());
-        Mockito.verify(workRepository,Mockito.times(1)).getWorkById(888L);
+        Mockito.verify(workRepository, Mockito.times(0)).save(Work.builder().id(888L).build());
+        Mockito.verify(workRepository, Mockito.times(1)).getWorkById(888L);
 
     }
+
     @Test
-    void GetWorkByIdTest_ReturnTrue() {
+    void GetWorkByIdTest_ReturnTrue() throws WorkNotFound {
+        Users userHirer = Users.builder()
+                .id(123L)
+                .username("Hirer")
+                .build();
 
+        TypeWork typeWork = TypeWork.builder()
+                .id(123L)
+                .typeWorkName("Test")
+                .build();
+
+        Work work = Work.builder()
+                .id(888L)
+                .workName("Getbyid")
+                .workDescribe("TestTestTest")
+                .workPrice(12.0F)
+                .workCountPerson(5)
+                .workType(typeWork)
+                .workHirer(userHirer)
+                .workStatus(StatusWork.CLOSE)
+                .build();
+
+        Mockito.when(workRepository.getWorkById(888L)).thenReturn(work);
+
+        Work workById = workService.getWorkById(888L);
+
+        assertEquals("Getbyid", workById.getWorkName());
+        Mockito.verify(workRepository, Mockito.times(1)).getWorkById(888L);
     }
 
+    @Test
+    void GetWorkByIdTest_WithNonExists_ThrowException() throws WorkNotFound {
+        Mockito.when(workRepository.getWorkById(888L)).thenReturn(null);
+
+        WorkNotFound workNotFound =assertThrows(WorkNotFound.class,
+                ()->workService.getWorkById(888L)
+        );
+
+        Mockito.verify(workRepository, Mockito.times(1)).getWorkById(888L);
+    }
 
 
     @Test
