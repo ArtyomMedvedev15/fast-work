@@ -1,5 +1,6 @@
 package io.project.fastwork.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.project.fastwork.controller.advice.exception.RestTypeWorkAlreadyExistsException;
 import io.project.fastwork.controller.advice.exception.RestTypeWorkInvalidParameterException;
 import io.project.fastwork.controller.advice.exception.RestTypeWorkNotFoundException;
@@ -31,7 +32,7 @@ public class TypeWorkController {
 
     private final TypeWorkServiceApi typeWorkService;
 
-    @GetMapping("/all")
+    @GetMapping(value = "/all",produces = "application/json")
     public ResponseEntity<?>getAllTypeWork(){
         List<TypeWorkResponse>typeWorkResponseList = typeWorkService.findAll().stream().map(TypeWorkDtoUtil::getTypeWorkResponse).toList();
         return ResponseEntity.ok().body(typeWorkResponseList);
@@ -70,9 +71,9 @@ public class TypeWorkController {
         try {
             typeWorkUpdate = typeWorkService.updateTypeWork(typeWorkUpdate);
         } catch (TypeWorkAlreadyExistsException e) {
-            throw new RestTypeWorkInvalidParameterException("Type work data isn't correct!");
-        } catch (TypeWorkInvalidParameterException e) {
             throw new RestTypeWorkAlreadyExistsException(String.format("Type work with name - %s already exists!",typeWorkUpdate.getTypeWorkName()));
+        } catch (TypeWorkInvalidParameterException e) {
+            throw new RestTypeWorkInvalidParameterException("Type work data isn't correct!");
         }
         TypeWorkResponse typeWorkResponseUpdate = getTypeWorkResponse(typeWorkUpdate);
         return ResponseEntity.ok().body(typeWorkResponseUpdate);

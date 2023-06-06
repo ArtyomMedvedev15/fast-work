@@ -1,11 +1,13 @@
 insert into type_work(id, type_work_date_create, type_work_describe, type_work_name)
-values (777, '2023-01-23', 'TestTestTestTest', 'test');
+values (777, '2023-01-23', 'TestTestTestTest', 'Type');
 insert into type_work(id, type_work_date_create, type_work_describe, type_work_name)
-values (778, '2023-01-23', 'TestTestTestTest', 'test2');
+values (778, '2023-01-23', 'TestTestTestTest', 'Test');
+insert into type_work(id, type_work_date_create, type_work_describe, type_work_name)
+values (999, '2023-01-23', 'TestTestTestTest', 'Delete');
 insert into users(id, user_date_create, username,user_email, user_original_name, user_password, user_role, user_soname, user_status)
-values (777, '2023-04-02','Login123','vcseca@fexbox.org','hirer', 'Horrison@123s', 'WORKER', 'Testtest', 'ACTIVE');
+values (777, '2023-04-02','Login123','vcseca@fexbox.org','hirer', '$2a$10$5vL/ixWFMTtHwzhfCpqkCOxCgl9hB7pkZ5nBuTZK1athhq/IRckx2', 'ADMIN', 'Testtest', 'ACTIVE');
 insert into users(id, user_date_create, username,user_email, user_original_name, user_password, user_role, user_soname, user_status)
-values (779, '2023-04-02','Logi123s','user2@mail.tex','hirer', 'Horrison@123s', 'WORKER', 'Testtest', 'ACTIVE');
+values (881, '2023-04-02','Logi123s','user2@mail.tex','hirer', 'Horrison@123s', 'WORKER', 'Testtest', 'ACTIVE');
 insert into users(id, user_date_create, username,user_email, user_original_name, user_password, user_role, user_soname, user_status)
 values (780, '2023-04-02','Logi125s','user3@mail.tex','hirer', 'Horrison@123s', 'WORKER', 'Testtest', 'DELETED');
 insert into users(id, user_date_create, username,user_email, user_original_name, user_password, user_role, user_soname, user_status)
@@ -26,4 +28,4 @@ insert into users_works(users_id, user_works_id) values(780,778);
 insert into notification(id, date_send_notification, message_notification, name_topic_notification, status_notification)values(777,'2023-09-01','test','test','OTHER');
 insert into notification(id, date_send_notification, message_notification, name_topic_notification, status_notification)values(778,'2023-09-01','test','delete','OTHER');
 insert into refresh_token(id, expiry_date, token, user_id) values(787,'2023-04-12','token',777);
-insert into refresh_token(id, expiry_date, token, user_id) values(788,'2023-04-12','token2',779);
+insert into refresh_token(id, expiry_date, token, user_id) values(788,'2023-04-12','token2',881);
