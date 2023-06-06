@@ -25,7 +25,10 @@ values (777, 'test', 'test', '2023-02-05', 78.23, 54.23, 'test', 'test', 778);
 insert into users(id, user_date_create, user_email, user_original_name, user_password, user_role, user_soname, user_status)
 values (778, '2023-04-02', 'vcseca@fexbox.org', 'worker', 'test', 'WORKER', 'test', 'ACTIVE');
 insert into work_application(id, date_applicaton, status_work_application, work_id, worker_id)
-values(777,'2023-01-23','EXPECTATION',778,778);
+values(777,'2023-01-23','EXPECTATION',779,881);
+
+insert into work_application(id, date_applicaton, status_work_application, work_id, worker_id)
+values(888,'2023-01-23','EXPECTATION',777,781);
 insert into users_works(users_id, user_works_id) values(781,777);
 insert into users_works(users_id, user_works_id) values(780,778);
 
