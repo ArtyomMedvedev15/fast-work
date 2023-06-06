@@ -9,13 +9,17 @@ values (777, '2023-04-02','Login123','vcseca@fexbox.org','hirer', '$2a$10$5vL/ix
 insert into users(id, user_date_create, username,user_email, user_original_name, user_password, user_role, user_soname, user_status)
 values (881, '2023-04-02','Logi123s','user2@mail.tex','hirer', 'Horrison@123s', 'WORKER', 'Testtest', 'ACTIVE');
 insert into users(id, user_date_create, username,user_email, user_original_name, user_password, user_role, user_soname, user_status)
-values (780, '2023-04-02','Logi125s','user3@mail.tex','hirer', 'Horrison@123s', 'WORKER', 'Testtest', 'DELETED');
+values (780, '2023-04-02','Login124','user3@mail.tex','hirer', '$2a$10$5vL/ixWFMTtHwzhfCpqkCOxCgl9hB7pkZ5nBuTZK1athhq/IRckx2', 'ADMIN', 'Testtest', 'DELETED');
 insert into users(id, user_date_create, username,user_email, user_original_name, user_password, user_role, user_soname, user_status)
 values (781, '2023-04-02','Logi124s','user4@mail.tex','hirer', 'Horrison@123s', 'WORKER', 'Testtest', 'BLOCKED');
 insert into work(id, work_count_person, work_date_create,work_describe, work_name,work_price, work_status, work_hirer_id,work_type_id)
-values (777, 2, '2022-02-04', 'test', 'test', 22.3, 'OPEN', 777, 777);
+values (777, 2, '2022-02-04', 'test', 'Unique', 22.3, 'OPEN', 777, 777);
 insert into work(id, work_count_person, work_date_create,work_describe, work_name,work_price, work_status, work_hirer_id,work_type_id)
-values (778, 2, '2022-02-04', 'test', 'test', 22.3, 'OPEN', 777, 777);
+values (778, 2, '2022-02-04', 'test', 'Teste', 22.3, 'OPEN', 777, 777);
+insert into work(id, work_count_person, work_date_create,work_describe, work_name,work_price, work_status, work_hirer_id,work_type_id)
+values (779, 2, '2022-02-04', 'test', 'test2', 22.3, 'CLOSE', 777, 777);
+insert into work(id, work_count_person, work_date_create,work_describe, work_name,work_price, work_status, work_hirer_id,work_type_id)
+values (780, 2, '2022-02-04', 'test', 'test3', 22.3, 'EXPECTATION', 777, 777);
 insert into location(id, location_city, location_country, location_date_create, x, y, location_region, location_street,location_work_id)
 values (777, 'test', 'test', '2023-02-05', 78.23, 54.23, 'test', 'test', 778);
 insert into users(id, user_date_create, user_email, user_original_name, user_password, user_role, user_soname, user_status)

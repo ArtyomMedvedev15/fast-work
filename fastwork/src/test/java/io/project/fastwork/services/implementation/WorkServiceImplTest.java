@@ -98,7 +98,7 @@ class WorkServiceImplTest {
     }
 
     @Test
-    void UpdateWorkTest_ReturnTrue() throws WorkInvalidDataValues {
+    void UpdateWorkTest_ReturnTrue() throws WorkInvalidDataValues, WorkAlreadyExists {
         Users userHirer = Users.builder()
                 .id(123L)
                 .username("Hirer")

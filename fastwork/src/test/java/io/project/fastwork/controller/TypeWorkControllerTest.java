@@ -54,8 +54,7 @@ class TypeWorkControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    private Faker fakerData;
-    private Gson gsonUtil;
+     private Gson gsonUtil;
     private String token;
     private final String BASE_URL = "/api/v1/typework";
 

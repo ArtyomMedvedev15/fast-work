@@ -30,8 +30,9 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**","/api/v1/work/all","/api/v1/work/openedwork",
-                        "/api/v1/work/*","/api/v1/work/findbyname","/api/v1/work/findbytype",
-                        "/api/v1/location/work/**","/api/v1/location/findbycity","/api/v1/location/findbynearby","/api/v1/typework/all")
+                        "/api/v1/work/findbyname","/api/v1/work/findbytype",
+                        "/api/v1/location/work/**","/api/v1/location/findbycity",
+                        "/api/v1/location/findbynearby","/api/v1/typework/all")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

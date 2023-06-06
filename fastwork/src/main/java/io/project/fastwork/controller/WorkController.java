@@ -120,7 +120,9 @@ public class WorkController {
         } catch (WorkInvalidDataValues e) {
             throw new RestWorkInvalidDataValuesException("Work data isn't correct, try yet!");
         } catch (WorkNotFound e) {
-            throw new RestWorkNotFoundException(String.format("Work with id - %s not found",workUpdateRequest.getWorkTypeId()));
+            throw new RestWorkNotFoundException(String.format("Work with id - %s not found",workUpdateRequest.getWorkId()));
+        }catch (WorkAlreadyExists workAlreadyExists){
+            throw new RestWorkAlreadyExistsException(String.format("Work with name %s already exists!",workUpdateRequest.getWorkName()));
         }
         WorkResponse workResponse = getWorkResponse(work_update);
         return ResponseEntity.ok().body(workResponse);
