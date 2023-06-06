@@ -2,9 +2,6 @@ package io.project.fastwork.controller;
 
 import com.google.gson.Gson;
 import com.jayway.jsonpath.JsonPath;
-import io.project.fastwork.domains.TypeWork;
-import io.project.fastwork.domains.Users;
-import io.project.fastwork.domains.Work;
 import io.project.fastwork.dto.request.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +16,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;

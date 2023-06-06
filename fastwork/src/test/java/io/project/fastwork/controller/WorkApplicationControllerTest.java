@@ -2,17 +2,12 @@ package io.project.fastwork.controller;
 
 import com.google.gson.Gson;
 import com.jayway.jsonpath.JsonPath;
-import io.project.fastwork.domains.Users;
-import io.project.fastwork.domains.Work;
-import io.project.fastwork.domains.WorkApplication;
 import io.project.fastwork.dto.request.AuthenticationRequest;
 import io.project.fastwork.dto.request.WorkApplicationSaveRequest;
-import io.project.fastwork.dto.request.WorkSaveRequest;
 import io.project.fastwork.services.api.MailServiceApi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
