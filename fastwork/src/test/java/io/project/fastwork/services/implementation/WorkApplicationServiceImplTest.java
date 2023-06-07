@@ -193,7 +193,7 @@ class WorkApplicationServiceImplTest {
 
         List<WorkApplication> workApplicationList = workApplicationService.findByWorkId(778L);
 
-        Mockito.verify(workRepository, Mockito.times(2)).getWorkById(778L);
+        Mockito.verify(workRepository, Mockito.times(1)).getWorkById(778L);
         Mockito.verify(workAppllicationRepository, Mockito.times(1)).findByWorkId(778L);
         assertFalse(workApplicationList.isEmpty());
     }

@@ -42,8 +42,8 @@ class TypeWorkRepositoryTest {
 
     @Test
     void FindByTypeWorkNameTest_ReturnTrue() {
-        TypeWork findByName = typeWorkRepository.findByTypeWorkName("test");
-        Assertions.assertEquals("test",findByName.getTypeWorkName());
+        TypeWork findByName = typeWorkRepository.findByTypeWorkName("Type");
+        Assertions.assertEquals("Type",findByName.getTypeWorkName());
     }
 
     @Test

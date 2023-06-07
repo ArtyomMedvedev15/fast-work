@@ -45,14 +45,14 @@ class WorkAppllicationRepositoryTest {
     }
     @Test
     void FindWorkApplicationByWorkIdTest_ReturnTrue(){
-        List<WorkApplication> workAppllicationRepositoryByWorkId = workAppllicationRepository.findByWorkId(778L);
-        assertEquals(778L,workAppllicationRepositoryByWorkId.get(0).getWork().getId());
+        List<WorkApplication> workAppllicationRepositoryByWorkId = workAppllicationRepository.findByWorkId(779L);
+        assertEquals(779L,workAppllicationRepositoryByWorkId.get(0).getWork().getId());
     }
 
     @Test
     void FindWorkApplicationByWorkeIdTest_ReturnTrue(){
-        List<WorkApplication>workApplicationList=workAppllicationRepository.findByWorkerId(778L);
-        assertEquals(778L,workApplicationList.get(0).getWorker().getId());
+        List<WorkApplication>workApplicationList=workAppllicationRepository.findByWorkerId(881L);
+        assertEquals(881L,workApplicationList.get(0).getWorker().getId());
     }
 
     @Test
@@ -64,7 +64,7 @@ class WorkAppllicationRepositoryTest {
     @Test
     void SaveWorkApplicationTest_ReturnTrue(){
         WorkApplication workApplication = WorkApplication.builder()
-                .worker(Users.builder().id(779L).build())
+                .worker(Users.builder().id(881L).build())
                 .work(Work.builder().id(778L).build())
                 .build();
         WorkApplication savedWorkApplication = workAppllicationRepository.save(workApplication);

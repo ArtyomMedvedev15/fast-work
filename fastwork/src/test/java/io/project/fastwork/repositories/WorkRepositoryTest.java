@@ -52,14 +52,14 @@ class WorkRepositoryTest {
     @Test
     void FindWorkByNameTest_ReturnTrue() {
         List<Work> workByName = workRepository.findWorkByName("test");
-        Assertions.assertEquals("test", workByName.get(0).getWorkName());
+        Assertions.assertEquals("test2", workByName.get(0).getWorkName());
     }
 
     @Test
     @Transactional
     void FindByTypeWorkTest_ReturnTrue() {
         List<Work> workByType = workRepository.findWorkByType(777L);
-        Assertions.assertEquals("test", workByType.get(0).getWorkType().getTypeWorkName());
+        Assertions.assertEquals("Type", workByType.get(0).getWorkType().getTypeWorkName());
     }
 
     @Test
