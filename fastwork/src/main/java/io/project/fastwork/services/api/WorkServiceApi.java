@@ -10,10 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface WorkServiceApi {
     Work saveWork(Work savedWork) throws WorkAlreadyExists, WorkInvalidDataValues;
-    Work updateWork(Work updatedWork) throws WorkInvalidDataValues;
+    Work updateWork(Work updatedWork) throws WorkInvalidDataValues, WorkAlreadyExists;
     Work closeWork(Work closedWork) throws WorkNotFound;
     Work openWork(Work openedWork) throws WorkNotFound;
     Work getWorkById(Long work_id) throws WorkNotFound;

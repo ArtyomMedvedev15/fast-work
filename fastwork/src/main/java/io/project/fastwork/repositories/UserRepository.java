@@ -16,8 +16,4 @@ public interface UserRepository extends JpaRepository<Users,Long> {
     @Query("select u from Users u where u.userEmail=:email")
     Users findbyEmail(@Param("email")String email);
 
-    @Query("update Users u set u.userStatus=:statusUser")
-    Users userBlocked(@Param("statusUser") StatusUser statusUser);
-    @Query("update Users u set u.userStatus=:statusUser")
-    Users userDeleted(@Param("statusUser") StatusUser statusUser);
 }

@@ -53,7 +53,7 @@ public class WorkerController {
     }
     @PreAuthorize("hasAnyAuthority('WORKER','MODERATOR','ADMIN')")
     @PostMapping("/removework")
-    public ResponseEntity<?>addWorkWorker(@RequestBody RemoveWorkWorkerRequest removeWorkWorkerRequest){
+    public ResponseEntity<?>RemoveWorkWorker(@RequestBody RemoveWorkWorkerRequest removeWorkWorkerRequest){
         Work work;
         Users worker;
         try {
@@ -69,4 +69,6 @@ public class WorkerController {
         WorkResponse workResponseRemoved= WorkDtoUtil.getWorkResponse(work);
         return ResponseEntity.ok().body(workResponseRemoved);
     }
+
+
 }

@@ -13,7 +13,6 @@ public interface UserServiceApi {
     Users deleteUser(Users deletedUser) throws UserNotFound;
     Users blockedUser(Users blockedUser) throws UserNotFound;
     List<Users>findAllUsersByStatus(StatusUser statusUser);
-
     Users findByLogin(String username) throws UserInvalidDataParemeter, UserNotFound;
     Users findByEmail(String email) throws UserInvalidDataParemeter, UserNotFound;
     Users getById(Long idUser) throws UserNotFound;

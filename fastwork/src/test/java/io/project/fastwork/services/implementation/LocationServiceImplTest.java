@@ -12,6 +12,7 @@ import io.project.fastwork.services.exception.LocationWithInvalidArgumentsExcept
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,42 +27,20 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
-@Testcontainers
-@Sql(value = "classpath:/sql/initDataBefore.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(value = "classpath:/sql/clearDataAfter.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 class LocationServiceImplTest {
 
     @Autowired
     private LocationServiceApi locationService;
 
-    @Autowired
-    private LocationRepository locationRepository;
-
     @MockBean
-    private MailServiceApi mailServiceApi;
-    @Container
-    static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:9.6.18-alpine")
-            .withDatabaseName("prop")
-            .withUsername("postgres")
-            .withPassword("postgres")
-            .withExposedPorts(5432)
-            .withInitScript("sql/initDB.sql");
-
-
-    @DynamicPropertySource
-    static void registerPgProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url",
-                () -> String.format("jdbc:postgresql://localhost:%d/prop", postgreSQLContainer.getFirstMappedPort()));
-        registry.add("spring.datasource.username", () -> "postgres");
-        registry.add("spring.datasource.password", () -> "postgres");
-    }
-
+    private LocationRepository locationRepository;
     @Test
     void SaveLocation_WithWorkId777_ReturnTrue() throws LocationWithInvalidArgumentsException, LocationNotFoundException {
         Points points_test_parameter = Points.builder()
@@ -76,8 +55,15 @@ class LocationServiceImplTest {
                 .locationWork(Work.builder().id(777L).build())
                 .locationPoints(points_test_parameter)
                 .build();
-        locationService.saveLocation(location_valid);
-        assertNotNull(locationService.getByWork(777L));
+
+        Mockito.when(locationRepository.save(location_valid)).thenReturn(location_valid);
+
+        Location locaiton_saved = locationService.saveLocation(location_valid);
+
+        Mockito.verify(locationRepository, Mockito.times(1)).save(location_valid);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(777L);
+
+        assertEquals("Test", locaiton_saved.getLocationCity());
     }
 
     @Test
@@ -94,12 +80,14 @@ class LocationServiceImplTest {
                 .locationWork(Work.builder().id(778L).build())
                 .locationPoints(points_test_parameter)
                 .build();
-
+        Mockito.when(locationRepository.getByWorkId(778L)).thenReturn(location_invalid);
         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
 
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_invalid);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(778L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Invalid data for location, or try to save second location for work, throw exception"));
     }
 
@@ -122,7 +110,8 @@ class LocationServiceImplTest {
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
-
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_invalid);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(777L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
@@ -145,7 +134,8 @@ class LocationServiceImplTest {
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
-
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_invalid);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(777L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
@@ -168,7 +158,8 @@ class LocationServiceImplTest {
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
-
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_invalid);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(777L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
@@ -191,7 +182,8 @@ class LocationServiceImplTest {
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
-
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_invalid);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(777L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
@@ -214,6 +206,8 @@ class LocationServiceImplTest {
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_invalid);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(777L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
@@ -236,6 +230,8 @@ class LocationServiceImplTest {
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_invalid);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(777L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
@@ -258,6 +254,8 @@ class LocationServiceImplTest {
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_invalid);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(777L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
@@ -280,6 +278,8 @@ class LocationServiceImplTest {
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_invalid);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(777L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
@@ -302,6 +302,8 @@ class LocationServiceImplTest {
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_invalid);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(777L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
@@ -324,6 +326,8 @@ class LocationServiceImplTest {
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_invalid);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(777L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
@@ -346,6 +350,8 @@ class LocationServiceImplTest {
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_invalid);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(777L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
@@ -368,213 +374,537 @@ class LocationServiceImplTest {
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.saveLocation(location_invalid)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_invalid);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(777L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
     void UpdateLocation_WithCorrectCity_ReturnTrue() throws LocationNotFoundException, LocationWithInvalidArgumentsException {
+        Points points_test_parameter = Points.builder()
+                .x(BigDecimal.valueOf(123L))
+                .y(BigDecimal.valueOf(87L))
+                .build();
+        Location location_by_id = Location.builder()
+                .id(778L)
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(777L).build())
+                .locationPoints(points_test_parameter)
+                .build();
+        Mockito.when(locationRepository.getReferenceById(778L)).thenReturn(location_by_id);
+        Mockito.when(locationRepository.getByWorkId(778L)).thenReturn(location_by_id);
+        Mockito.when(locationRepository.save(location_by_id)).thenReturn(location_by_id);
+
         Location location_valid = locationService.getByWork(778L);
         location_valid.setLocationCity("Minsk");
         locationService.updateLocation(location_valid);
+
+        Mockito.verify(locationRepository, Mockito.times(1)).save(location_by_id);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(778L);
+        Mockito.verify(locationRepository, Mockito.times(1)).getReferenceById(778L);
         assertEquals("Minsk", locationService.getByWork(778L).getLocationCity());
     }
+
     @Test
     void UpdateLocation_WithInCorrectCityLengthLess4_ThrowException() throws LocationNotFoundException {
+        Points points_test_parameter = Points.builder()
+                .x(BigDecimal.valueOf(123L))
+                .y(BigDecimal.valueOf(87L))
+                .build();
+        Location location_by_id = Location.builder()
+                .id(778L)
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(777L).build())
+                .locationPoints(points_test_parameter)
+                .build();
+
+        Mockito.when(locationRepository.getByWorkId(778L)).thenReturn(location_by_id);
+
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationCity("Min");
         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
+
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_by_id);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(778L);
+        Mockito.verify(locationRepository, Mockito.times(0)).getReferenceById(778L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
-     }
+    }
 
     @Test
     void UpdateLocation_WithInCorrectCityLengthMore30_ThrowException() throws LocationNotFoundException {
+        Points points_test_parameter = Points.builder()
+                .x(BigDecimal.valueOf(123L))
+                .y(BigDecimal.valueOf(87L))
+                .build();
+        Location location_by_id = Location.builder()
+                .id(778L)
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(777L).build())
+                .locationPoints(points_test_parameter)
+                .build();
+
+        Mockito.when(locationRepository.getByWorkId(778L)).thenReturn(location_by_id);
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationCity("MinskMinskMinskMinskMinskMinskMinsk");
         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
+
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_by_id);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(778L);
+        Mockito.verify(locationRepository, Mockito.times(0)).getReferenceById(778L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
 
     @Test
     void UpdateLocation_WithInCorrectCountryLengthLess4_ThrowException() throws LocationNotFoundException {
+        Points points_test_parameter = Points.builder()
+                .x(BigDecimal.valueOf(123L))
+                .y(BigDecimal.valueOf(87L))
+                .build();
+        Location location_by_id = Location.builder()
+                .id(778L)
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(777L).build())
+                .locationPoints(points_test_parameter)
+                .build();
+
+        Mockito.when(locationRepository.getByWorkId(778L)).thenReturn(location_by_id);
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationCountry("Bel");
         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_by_id);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(778L);
+        Mockito.verify(locationRepository, Mockito.times(0)).getReferenceById(778L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
+
     @Test
     void UpdateLocation_WithInCorrectCountryLengthMore30_ThrowException() throws LocationNotFoundException {
+        Points points_test_parameter = Points.builder()
+                .x(BigDecimal.valueOf(123L))
+                .y(BigDecimal.valueOf(87L))
+                .build();
+        Location location_by_id = Location.builder()
+                .id(778L)
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(777L).build())
+                .locationPoints(points_test_parameter)
+                .build();
+
+        Mockito.when(locationRepository.getByWorkId(778L)).thenReturn(location_by_id);
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationCountry("MinskMinskMinskMinskMinskMinskMinsk");
         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_by_id);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(778L);
+        Mockito.verify(locationRepository, Mockito.times(0)).getReferenceById(778L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
+
     @Test
     void UpdateLocation_WithInCorrectRegionLengthLess4_ThrowException() throws LocationNotFoundException {
+        Points points_test_parameter = Points.builder()
+                .x(BigDecimal.valueOf(123L))
+                .y(BigDecimal.valueOf(87L))
+                .build();
+        Location location_by_id = Location.builder()
+                .id(778L)
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(777L).build())
+                .locationPoints(points_test_parameter)
+                .build();
+
+        Mockito.when(locationRepository.getByWorkId(778L)).thenReturn(location_by_id);
+
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationRegion("Bel");
         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
+
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_by_id);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(778L);
+        Mockito.verify(locationRepository, Mockito.times(0)).getReferenceById(778L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
+
     @Test
     void UpdateLocation_WithInCorrectRegionLengthMore40_ThrowException() throws LocationNotFoundException {
+        Points points_test_parameter = Points.builder()
+                .x(BigDecimal.valueOf(123L))
+                .y(BigDecimal.valueOf(87L))
+                .build();
+        Location location_by_id = Location.builder()
+                .id(778L)
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(777L).build())
+                .locationPoints(points_test_parameter)
+                .build();
+
+        Mockito.when(locationRepository.getByWorkId(778L)).thenReturn(location_by_id);
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationCountry("MinskMinskMinskMinskMinskMinskMinskMinskMinsk");
         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
+
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_by_id);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(778L);
+        Mockito.verify(locationRepository, Mockito.times(0)).getReferenceById(778L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
+
     @Test
     void UpdateLocation_WithInCorrectStreetLengthLess4_ThrowException() throws LocationNotFoundException {
+        Points points_test_parameter = Points.builder()
+                .x(BigDecimal.valueOf(123L))
+                .y(BigDecimal.valueOf(87L))
+                .build();
+        Location location_by_id = Location.builder()
+                .id(778L)
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(777L).build())
+                .locationPoints(points_test_parameter)
+                .build();
+
+        Mockito.when(locationRepository.getByWorkId(778L)).thenReturn(location_by_id);
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationStreet("Bel");
         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_by_id);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(778L);
+        Mockito.verify(locationRepository, Mockito.times(0)).getReferenceById(778L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
+
     @Test
     void UpdateLocation_WithInCorrectStreetLengthMore40_ThrowException() throws LocationNotFoundException {
+        Points points_test_parameter = Points.builder()
+                .x(BigDecimal.valueOf(123L))
+                .y(BigDecimal.valueOf(87L))
+                .build();
+        Location location_by_id = Location.builder()
+                .id(778L)
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(777L).build())
+                .locationPoints(points_test_parameter)
+                .build();
+
+        Mockito.when(locationRepository.getByWorkId(778L)).thenReturn(location_by_id);
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationStreet("MinskMinskMinskMinskMinskMinskMinskMinskMinskMinsk");
         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
+
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_by_id);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(778L);
+        Mockito.verify(locationRepository, Mockito.times(0)).getReferenceById(778L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
+
     @Test
     void UpdateLocation_WithIncorrectMapCordXLess0_ThrowException() throws LocationNotFoundException {
         Points points_test_parameter = Points.builder()
                 .x(BigDecimal.valueOf(-123L))
                 .y(BigDecimal.valueOf(91L))
                 .build();
+        Location location_by_id = Location.builder()
+                .id(778L)
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(777L).build())
+                .locationPoints(points_test_parameter)
+                .build();
 
+        Mockito.when(locationRepository.getByWorkId(778L)).thenReturn(location_by_id);
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationPoints(points_test_parameter);
         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_by_id);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(778L);
+        Mockito.verify(locationRepository, Mockito.times(0)).getReferenceById(778L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
+
     @Test
     void UpdateLocation_WithIncorrectMapCordXMoreThan180_ThrowException() throws LocationNotFoundException {
         Points points_test_parameter = Points.builder()
                 .x(BigDecimal.valueOf(1223L))
                 .y(BigDecimal.valueOf(91L))
                 .build();
+        Location location_by_id = Location.builder()
+                .id(778L)
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(777L).build())
+                .locationPoints(points_test_parameter)
+                .build();
 
+        Mockito.when(locationRepository.getByWorkId(778L)).thenReturn(location_by_id);
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationPoints(points_test_parameter);
         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_by_id);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(778L);
+        Mockito.verify(locationRepository, Mockito.times(0)).getReferenceById(778L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
+
     @Test
     void UpdateLocation_WithIncorrectMapCordYLess0_ThrowException() throws LocationNotFoundException {
         Points points_test_parameter = Points.builder()
                 .x(BigDecimal.valueOf(123L))
                 .y(BigDecimal.valueOf(-91L))
                 .build();
+        Location location_by_id = Location.builder()
+                .id(778L)
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(777L).build())
+                .locationPoints(points_test_parameter)
+                .build();
 
+        Mockito.when(locationRepository.getByWorkId(778L)).thenReturn(location_by_id);
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationPoints(points_test_parameter);
         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_by_id);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(778L);
+        Mockito.verify(locationRepository, Mockito.times(0)).getReferenceById(778L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
+
     @Test
     void UpdateLocation_WithIncorrectMapCordYMoreThan90_ThrowException() throws LocationNotFoundException {
         Points points_test_parameter = Points.builder()
                 .x(BigDecimal.valueOf(123L))
                 .y(BigDecimal.valueOf(91L))
                 .build();
-
+        Location location_by_id = Location.builder()
+                .id(778L)
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(777L).build())
+                .locationPoints(points_test_parameter)
+                .build();
+        Mockito.when(locationRepository.getByWorkId(778L)).thenReturn(location_by_id);
         Location location_invalid = locationService.getByWork(778L);
         location_invalid.setLocationPoints(points_test_parameter);
         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
                 LocationWithInvalidArgumentsException.class,
                 () -> locationService.updateLocation(location_invalid)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).save(location_by_id);
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(778L);
+        Mockito.verify(locationRepository, Mockito.times(0)).getReferenceById(778L);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Check string parameters and location x and y, something was wrong"));
     }
+
     @Test
     void DeleteLocation_WithExsitsLocation_ReturnNull() throws LocationNotFoundException {
+        Points points_test_parameter = Points.builder()
+                .x(BigDecimal.valueOf(123L))
+                .y(BigDecimal.valueOf(87L))
+                .build();
+        Location location_by_id = Location.builder()
+                .id(778L)
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(778L).build())
+                .locationPoints(points_test_parameter)
+                .build();
+        Mockito.when(locationRepository.getByWorkId(778L)).thenReturn(location_by_id);
+        Mockito.when(locationRepository.findById(778L)).thenReturn(Optional.of(location_by_id));
         Location location_delete = locationService.getByWork(778L);
         locationService.deleteLocation(location_delete);
+
+        Mockito.when(locationRepository.findById(778L)).thenReturn(Optional.empty());
+
+        Mockito.verify(locationRepository, Mockito.times(1)).findById(778L);
+        Mockito.verify(locationRepository, Mockito.times(1)).delete(location_delete);
         assertNull(locationRepository.findById(location_delete.getId()).orElse(null));
     }
 
     @Test
     void DeleteLocation_WithNonExsitsLocation_ThrowException() throws LocationNotFoundException {
+        Mockito.when(locationRepository.findById(8292L)).thenReturn(Optional.empty());
+
         LocationNotFoundException locationNotFoundException = assertThrows(
                 LocationNotFoundException.class,
                 () -> locationService.deleteLocation(Location.builder().id(8292L).build())
         );
+
+        Mockito.verify(locationRepository, Mockito.times(1)).findById(8292L);
+        Mockito.verify(locationRepository, Mockito.times(0)).delete(Location.builder().id(8292L).build());
         assertTrue(locationNotFoundException.getMessage().contentEquals("Location with id - 8292 not found"));
     }
 
     @Test
     void GetWork_WIthExistsLocation_ReturnTrue() throws LocationNotFoundException {
+        Points points_test_parameter = Points.builder()
+                .x(BigDecimal.valueOf(123L))
+                .y(BigDecimal.valueOf(87L))
+                .build();
+        Location location_by_id = Location.builder()
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(778L).build())
+                .locationPoints(points_test_parameter)
+                .build();
+        Mockito.when(locationRepository.getByWorkId(778L)).thenReturn(location_by_id);
         Location location_get_by_id = locationService.getByWork(778L);
+
+        Mockito.verify(locationRepository, Mockito.times(1)).getByWorkId(778L);
         assertNotNull(location_get_by_id);
     }
+
     @Test
     void GetWork_WIthNonExistsLocation_ThrowException() throws LocationNotFoundException {
+        Points points_test_parameter = Points.builder()
+                .x(BigDecimal.valueOf(123L))
+                .y(BigDecimal.valueOf(87L))
+                .build();
+        Location location_by_id = Location.builder()
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(778L).build())
+                .locationPoints(points_test_parameter)
+                .build();
+        Mockito.when(locationRepository.getByWorkId(778L)).thenReturn(location_by_id);
         LocationNotFoundException locationNotFoundException = assertThrows(
                 LocationNotFoundException.class,
                 () -> locationService.getByWork(7782L)
         );
+
         assertTrue(locationNotFoundException.getMessage().contentEquals("Location with work id - 7782 not found"));
     }
 
     @Test
     void FindLocationByCity_WithCityTest_ReturnTrue() {
-        List<Location>locationByCity = locationService.findLocationByCity("test");
-        assertTrue(locationByCity.size()>0);
+        Points points_test_parameter = Points.builder()
+                .x(BigDecimal.valueOf(123L))
+                .y(BigDecimal.valueOf(87L))
+                .build();
+        Location location = Location.builder()
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(778L).build())
+                .locationPoints(points_test_parameter)
+                .build();
+
+        Mockito.when(locationRepository.findLocationByCity("test")).thenReturn(List.of(location));
+        List<Location> locationByCity = locationService.findLocationByCity("test");
+
+        Mockito.verify(locationRepository, Mockito.times(1)).findLocationByCity("test");
+        assertTrue(locationByCity.size() > 0);
     }
 
     @Test
     void FindLocationByCity_WithEmptyCity_ReturnTrue() {
-        List<Location>locationByCity = locationService.findLocationByCity("");
+        Mockito.when(locationRepository.findLocationByCity("")).thenReturn(Collections.emptyList());
+        List<Location> locationByCity = locationService.findLocationByCity("");
+        Mockito.verify(locationRepository, Mockito.times(0)).findLocationByCity("");
         assertTrue(locationByCity.isEmpty());
     }
 
     @Test
     @Transactional
     void FindLocationByNearby_WithMapCordsCorrect_ReturnTrue() throws LocationWithInvalidArgumentsException {
-        List<Location>location_nerby = locationService.findLocationByNearby(80,60);
+        Points points_test_parameter = Points.builder()
+                .x(BigDecimal.valueOf(70L))
+                .y(BigDecimal.valueOf(60L))
+                .build();
+        Location location = Location.builder()
+                .locationCity("Test")
+                .locationCountry("Test")
+                .locationRegion("Test")
+                .locationStreet("Test")
+                .locationWork(Work.builder().id(778L).build())
+                .locationPoints(points_test_parameter)
+                .build();
+        Mockito.when(locationRepository.findLocationByNearby(80, 60)).thenReturn(List.of(location));
+        List<Location> location_nerby = locationService.findLocationByNearby(80, 60);
+        Mockito.verify(locationRepository, Mockito.times(1)).findLocationByNearby(80, 60);
         System.out.println(location_nerby);
     }
 
     @Test
     void FindLocationByNearby_WithMapCordsXLess0_ThrowException() throws LocationWithInvalidArgumentsException {
-         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
-                 LocationWithInvalidArgumentsException.class,
-                () -> locationService.findLocationByNearby(-80,70)
+        LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
+                LocationWithInvalidArgumentsException.class,
+                () -> locationService.findLocationByNearby(-80, 70)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).findLocationByNearby(-80, 70);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Map сoordinates isn't correct!"));
     }
 
@@ -582,8 +912,9 @@ class LocationServiceImplTest {
     void FindLocationByNearby_WithMapCordsXMoreThan180_ThrowException() throws LocationWithInvalidArgumentsException {
         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
                 LocationWithInvalidArgumentsException.class,
-                () -> locationService.findLocationByNearby(800,70)
+                () -> locationService.findLocationByNearby(800, 70)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).findLocationByNearby(800, 70);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Map сoordinates isn't correct!"));
     }
 
@@ -591,8 +922,9 @@ class LocationServiceImplTest {
     void FindLocationByNearby_WithMapCordsYLess0_ThrowException() throws LocationWithInvalidArgumentsException {
         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
                 LocationWithInvalidArgumentsException.class,
-                () -> locationService.findLocationByNearby(80,-70)
+                () -> locationService.findLocationByNearby(80, -70)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).findLocationByNearby(80, -70);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Map сoordinates isn't correct!"));
     }
 
@@ -600,8 +932,9 @@ class LocationServiceImplTest {
     void FindLocationByNearby_WithMapCordsXMoreThan90_ThrowException() throws LocationWithInvalidArgumentsException {
         LocationWithInvalidArgumentsException locationWithInvalidArgumentsException = assertThrows(
                 LocationWithInvalidArgumentsException.class,
-                () -> locationService.findLocationByNearby(80,900)
+                () -> locationService.findLocationByNearby(80, 900)
         );
+        Mockito.verify(locationRepository, Mockito.times(0)).findLocationByNearby(80, 900);
         assertTrue(locationWithInvalidArgumentsException.getMessage().contentEquals("Map сoordinates isn't correct!"));
     }
 }

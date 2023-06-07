@@ -32,10 +32,10 @@ create table work
     work_status       varchar(255),
     work_hirer_id     bigint
         constraint fkqq6t8b5ops7owcedffardp1hu
-            references users,
+            references users on delete cascade ,
     work_type_id      bigint
         constraint fktbqu70by41jstmfbdmgo7a9k3
-            references type_work
+            references type_work on delete cascade
 );
 
 create table location
@@ -80,7 +80,7 @@ create table users_works
         constraint uk_bl2exwwfp6x6kthakr182g6u2
             unique
         constraint fkri6tp7xwm6ef152y02dte5v4d
-            references work
+            references work on delete cascade
 );
 
 create table notification
@@ -125,3 +125,21 @@ create sequence work_application_seq
 
 create sequence work_seq
     increment by 50;
+
+alter table work
+drop constraint fkqq6t8b5ops7owcedffardp1hu;
+
+alter table work
+    add constraint fkqq6t8b5ops7owcedffardp1hu
+        foreign key (work_hirer_id) references users
+            on update cascade on delete cascade;
+
+alter table work
+drop constraint fktbqu70by41jstmfbdmgo7a9k3;
+
+alter table work
+    add constraint fktbqu70by41jstmfbdmgo7a9k3
+        foreign key (work_type_id) references type_work
+            on update cascade on delete cascade;
+
+

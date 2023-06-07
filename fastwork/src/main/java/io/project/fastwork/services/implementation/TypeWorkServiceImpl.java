@@ -41,7 +41,12 @@ public class TypeWorkServiceImpl implements TypeWorkServiceApi {
     }
 
     @Override
-    public TypeWork updateTypeWork(TypeWork updatedTypeWork) throws TypeWorkInvalidParameterException {
+    public TypeWork updateTypeWork(TypeWork updatedTypeWork) throws TypeWorkInvalidParameterException, TypeWorkAlreadyExistsException {
+        TypeWork typeWorkAlreadyExists = typeWorkRepository.findByTypeWorkName(updatedTypeWork.getTypeWorkName());
+        if(typeWorkAlreadyExists!=null){
+            log.error("Type work with name {} already exists, throw exception in {}",updatedTypeWork.getTypeWorkName(),new Date());
+            throw new TypeWorkAlreadyExistsException();
+        }
         if (TypeWorkValidator.TypeWorkValidDataValues(updatedTypeWork)) {
             log.info("Update type work with name {} in {}",updatedTypeWork.getTypeWorkName(),new Date());
             updatedTypeWork.setTypeWorkDateCreate(typeWorkRepository.getTypeWorkById(updatedTypeWork.getId()).getTypeWorkDateCreate());

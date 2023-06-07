@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -58,7 +59,15 @@ public class WorkServiceImpl implements WorkServiceApi {
     }
 
     @Override
-    public Work updateWork(Work updatedWork) throws WorkInvalidDataValues {
+    public Work updateWork(Work updatedWork) throws WorkInvalidDataValues, WorkAlreadyExists {
+        Work check_work_exists = workRepository.findAll().stream().filter(o1 -> o1.getWorkName().equals(updatedWork.getWorkName()))
+                .findFirst().orElse(null);
+        if (check_work_exists!=null){
+            if(!Objects.equals(check_work_exists.getId(), updatedWork.getId())) {
+                log.error("UNIQ");
+                throw new WorkAlreadyExists();
+            }
+        }
         if (WorkValidator.WorkValidDataValues(updatedWork)) {
             log.info("Update work with id {} in {}", updatedWork.getId(), new Date());
             return workRepository.save(updatedWork);
@@ -99,7 +108,7 @@ public class WorkServiceImpl implements WorkServiceApi {
         Work check_work_exists = workRepository.getWorkById(work_id);
         if (check_work_exists != null) {
             log.info("Get work with id {} in {}", work_id, new Date());
-            return workRepository.getWorkById(work_id);
+            return check_work_exists;
         } else {
             log.error("Work with id {} was not found throw exception in {}", work_id, new Date());
             throw new WorkNotFound(String.format("Work with id %s not found!", work_id));

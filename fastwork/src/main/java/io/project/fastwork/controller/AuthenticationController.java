@@ -43,7 +43,7 @@ public class AuthenticationController {
     private final RefreshTokenServiceApi refreshTokenService;
     private final UserServiceApi userService;
 
-    @PostMapping("/signin")
+    @PostMapping(value = "/signin",consumes = "application/json")
     public ResponseEntity<?> authenticateUser(@RequestBody AuthenticationRequest authenticationRequest) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUserlogin(), authenticationRequest.getPassword()));

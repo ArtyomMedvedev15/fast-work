@@ -65,7 +65,7 @@ public class Users implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !userStatus.equals(StatusUser.BLOCKED);
+        return true;
     }
 
     @Override
