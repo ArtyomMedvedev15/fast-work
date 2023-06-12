@@ -11,12 +11,20 @@ import io.project.fastwork.dto.request.RegistrationRequest;
 import io.project.fastwork.dto.request.TokenRefreshRequest;
 import io.project.fastwork.dto.response.AuthenticationResponse;
 import io.project.fastwork.dto.response.MessageResponse;
+import io.project.fastwork.dto.response.TypeWorkResponse;
 import io.project.fastwork.services.api.RefreshTokenServiceApi;
 import io.project.fastwork.services.api.UserServiceApi;
 import io.project.fastwork.services.exception.UserAlreadyExisted;
 import io.project.fastwork.services.exception.UserInvalidDataParemeter;
 import io.project.fastwork.services.exception.UserNotFound;
 import io.project.fastwork.services.jwt.JwtService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +44,7 @@ import java.util.Optional;
 @RequestMapping("/api/v1/auth/")
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "Authentication", description = "Authentication request to API")
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
@@ -43,8 +52,17 @@ public class AuthenticationController {
     private final RefreshTokenServiceApi refreshTokenService;
     private final UserServiceApi userService;
 
-    @PostMapping(value = "/signin",consumes = "application/json")
-    public ResponseEntity<?> authenticateUser(@RequestBody AuthenticationRequest authenticationRequest) {
+    @Operation(
+            summary = "Authentication user",
+            description = "Allows you to authenticate.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully authenticate.", content = {@Content(schema = @Schema(implementation = AuthenticationResponse.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "400", description = "Bad credentials", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "500", description = "Error on server side.", content = {@Content(schema = @Schema())})})
+    @PostMapping(value = "/signin", consumes = "application/json")
+    public ResponseEntity<?> authenticateUser(@Parameter(name = "Credentials user", required = true,
+            description = "Credentials user for authenticate")
+                                              @RequestBody AuthenticationRequest authenticationRequest) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUserlogin(), authenticationRequest.getPassword()));
 
@@ -60,13 +78,22 @@ public class AuthenticationController {
                 .token(jwt)
                 .refreshToken(refreshToken.getToken())
                 .username(userDetails.getUsername())
-                        .type("Bearer ")
+                .type("Bearer ")
                 .email(refreshToken.getUser().getUserEmail())
                 .roles(Role.valueOf(roles.get(0))).build());
     }
 
+    @Operation(
+            summary = "Registration user",
+            description = "Allows you to registration.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully registration.", content = {@Content(schema = @Schema(), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "400", description = "Invalid parameter for registration or user with username already created", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "500", description = "Error on server side.", content = {@Content(schema = @Schema())})})
     @PostMapping("/signup")
-    public ResponseEntity<?> registrationUser(@RequestBody RegistrationRequest registrationRequest) {
+    public ResponseEntity<?> registrationUser(@Parameter(name = "Request for registration", required = true,
+            description = "User data for registration")
+                                              @RequestBody RegistrationRequest registrationRequest) {
         try {
             Users user_registraton = Users.builder()
                     .userOriginalName(registrationRequest.getUsername())
@@ -78,13 +105,20 @@ public class AuthenticationController {
                     .build();
             userService.saveUser(user_registraton);
         } catch (UserAlreadyExisted e) {
-            throw new RestUserAlreadyExistedException(String.format("User with username %s already exists!",registrationRequest.getUsername()));
+            throw new RestUserAlreadyExistedException(String.format("User with username %s already exists!", registrationRequest.getUsername()));
         } catch (UserInvalidDataParemeter e) {
             throw new RestUserInvalidDataParemeterException(e.getMessage());
         }
         return ResponseEntity.ok(MessageResponse.builder().message("User registration successfully!"));
     }
 
+    @Operation(
+            summary = "Refresh jwt token",
+            description = "Allows you to update your token.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully refreshed token.", content = {@Content(schema = @Schema(implementation = TokenRefreshRequest.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "400", description = "Missing refresh token. Please login again.", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "500", description = "Error on server side.", content = {@Content(schema = @Schema())})})
     @PostMapping("/refreshtoken")
     public ResponseEntity<?> refreshToken(@RequestBody TokenRefreshRequest tokenRefreshRequest) {
         String refreshTokenRequest = tokenRefreshRequest.getRefreshToken();
@@ -95,12 +129,12 @@ public class AuthenticationController {
                     return refreshToken;
                 })
                 .map(RefreshToken::getUser)
-                 .map(u -> jwtService.generateTokenFromUsername(u.getUsername()))
+                .map(u -> jwtService.generateTokenFromUsername(u.getUsername()))
                 .orElseThrow(() -> new TokenRefreshException(refreshTokenRequest, "Missing refresh token in database. Please login again")));
 
         return ResponseEntity.ok(AuthenticationResponse.builder()
                 .token(token.get())
-                        .type("Bearer ")
+                .type("Bearer ")
                 .refreshToken(refreshTokenRequest)
                 .username(refreshTokenfind.get().getUser().getUsername())
                 .email(refreshTokenfind.get().getUser().getUserEmail())
@@ -108,6 +142,13 @@ public class AuthenticationController {
 
     }
 
+    @Operation(
+            summary = "Logout",
+            description = "Allows you to logout.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully logout from service.", content = {@Content(schema = @Schema(implementation = TokenRefreshRequest.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404", description = "User with username not found", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "500", description = "Error on server side.", content = {@Content(schema = @Schema())})})
     @PostMapping("/signout")
     public ResponseEntity<?> logoutUser() {
         Authentication loggeg_user = SecurityContextHolder.getContext().getAuthentication();
@@ -115,11 +156,10 @@ public class AuthenticationController {
         try {
             refreshTokenService.deleteTokenByUserId(username);
         } catch (UserNotFound e) {
-           return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
+            return ResponseEntity.badRequest().body(MessageResponse.builder().message(e.getMessage()).build());
         }
         return ResponseEntity.ok(new MessageResponse("Log out successful!"));
     }
-
 
 
 }
