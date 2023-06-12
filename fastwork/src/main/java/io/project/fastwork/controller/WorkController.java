@@ -198,7 +198,9 @@ public class WorkController {
             @ApiResponse(responseCode = "500", description = "Error on server side.", content = {@Content(schema = @Schema())})})
     @PreAuthorize("hasAnyAuthority('HIRER','ADMIN')")
     @PutMapping("/update")
-    public ResponseEntity<?> updateWork(@RequestBody WorkUpdateRequest workUpdateRequest) {
+    public ResponseEntity<?> updateWork(@Parameter(name = "Request object for update work", required = true,
+            description = "Object for update work")
+                                        @RequestBody WorkUpdateRequest workUpdateRequest) {
         Work work_update = getWorkFromUpdateRequest(workUpdateRequest);
         try {
             Work work_old = workService.getWorkById(workUpdateRequest.getWorkId());
