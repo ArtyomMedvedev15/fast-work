@@ -35,14 +35,14 @@ import static io.project.fastwork.dto.util.TypeWorkDtoUtil.*;
 @RequestMapping("/api/v1/typework")
 @RequiredArgsConstructor
 @Slf4j
-@Tag(name = "Typeworks", description = "Type works request to API")
+@Tag(name = "Type of works", description = "Type works request to API")
 public class TypeWorkController {
 
     private final TypeWorkServiceApi typeWorkService;
 
     @Operation(
             summary = "Retrieve all Type works",
-            description = "Get a Type of works objects. The response is list of objects with id, name, description.")
+            description = "Get a Type of works objects. The response is object with id, name, description.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Successfully get all type of works.", content = {@Content(schema = @Schema(implementation = TypeWorkResponse.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "500", description = "Error on server side.", content = {@Content(schema = @Schema())})})
