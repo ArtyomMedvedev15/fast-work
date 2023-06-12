@@ -3,7 +3,6 @@ package io.project.fastwork.controller;
 import io.project.fastwork.controller.advice.exception.*;
 import io.project.fastwork.domains.WorkApplication;
 import io.project.fastwork.dto.request.WorkApplicationSaveRequest;
-import io.project.fastwork.dto.response.LocationResponse;
 import io.project.fastwork.dto.response.WorkApplicationResponse;
 import io.project.fastwork.dto.util.WorkApplicationDtoUtil;
 import io.project.fastwork.services.api.UserServiceApi;

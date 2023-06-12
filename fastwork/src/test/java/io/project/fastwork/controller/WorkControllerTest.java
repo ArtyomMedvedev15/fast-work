@@ -102,8 +102,8 @@ class WorkControllerTest {
     }
 
     @Test
-    public void WorkGetAllExceptionWork_thenStatus200() throws Exception {
-        mockMvc.perform(get(BASE_URL + "/exceptionwork").header("Authorization", "Bearer " + token)
+    public void WorkGetAllExpectationWork_thenStatus200() throws Exception {
+        mockMvc.perform(get(BASE_URL + "/expectationwork").header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -342,7 +342,7 @@ class WorkControllerTest {
 
     @Test
     public void WorkException_WithId777_thenStatus200() throws Exception {
-        mockMvc.perform(post(BASE_URL + "/exceptionwork/777").header("Authorization", "Bearer " + token)
+        mockMvc.perform(post(BASE_URL + "/expectationwork/777").header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -352,7 +352,7 @@ class WorkControllerTest {
 
     @Test
     public void WorkException_WithUnexistedId_thenStatus404() throws Exception {
-        mockMvc.perform(post(BASE_URL + "/exceptionwork/12312").header("Authorization", "Bearer " + token)
+        mockMvc.perform(post(BASE_URL + "/expectationwork/12312").header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
