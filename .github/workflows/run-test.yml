@@ -7,8 +7,6 @@ on:
 jobs:
   run-test:
     runs-on: ubuntu-latest
-    container:
-      image: 'postgres:9.6.18-alpine'  
     steps:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
