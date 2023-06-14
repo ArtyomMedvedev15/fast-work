@@ -34,6 +34,22 @@ class NotificationServiceImplTest {
     @Autowired
     private NotificationServiceApi notificationService;
 
+    @Container
+    static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:9.6.18-alpine")
+            .withDatabaseName("prop")
+            .withUsername("postgres")
+            .withPassword("postgres")
+            .withExposedPorts(5432)
+            .withInitScript("sql/initDB.sql");
+
+
+    @DynamicPropertySource
+    static void registerPgProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url",
+                () -> String.format("jdbc:postgresql://localhost:%d/prop", postgreSQLContainer.getFirstMappedPort()));
+        registry.add("spring.datasource.username", () -> "postgres");
+        registry.add("spring.datasource.password", () -> "postgres");
+    }
     @MockBean
     private NotificationRepository notificationRepository;
 
