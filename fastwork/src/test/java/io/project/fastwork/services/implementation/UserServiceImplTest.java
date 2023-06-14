@@ -28,6 +28,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Testcontainers
 class UserServiceImplTest {
 
     @Autowired
