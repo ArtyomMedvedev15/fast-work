@@ -6,4 +6,4 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jre-alpine
 COPY --from=builder target/*.jar fastwork-0.1.jar
 EXPOSE 8080
-CMD ["java","-jar","fastwork-0.1.jar"]
+CMD ["java","-jar -Dspring.profiles.active=prod","fastwork-0.1.jar"]
