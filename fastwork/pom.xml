@@ -13,7 +13,7 @@
     <groupId>io.project</groupId>
     <artifactId>fastwork</artifactId>
     <version>0.1</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>fastwork</name>
     <description>A project for practicing skills.</description>
